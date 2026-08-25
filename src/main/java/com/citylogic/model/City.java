@@ -1,4 +1,4 @@
 package com.citylogic.model;
+public class City{
 
-public class City {
 }
