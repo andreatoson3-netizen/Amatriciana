@@ -7,47 +7,57 @@ classDiagram
     %% ==========================================
 
     class GameController {
-        +setCell(Cell cell) void
-        +activatePolicy(CityPolicyStrategy policy) void
-        +startNewGame() void
-        +loadGame(String filePath) void
-        +advanceTime() void
+        -city : City
+        -persistencemanage : CityPersistenceManager
+        +setCell(Cell cell) : void
+        +activatePolicy(CityPolicyStrategy policy): void
+        +startNewGame() : void
+        +loadGame(String filePath) : void
+        +advanceTime() : void
+        +saveGame(String filePath): void
+        +getCity() : City
     }
 
     class CellFactory {
-        +createCell(String cellType) Cell
+        +createCell(String cellType):  Cell
     }
 
     class CityPersistenceManager {
-        +saveCity(City city, String filePath) void
-        +loadCity(String filePath) City
+        -objectMapper : ObjectMapper
+        +saveCity(City city, String filePath): void
+        +loadCity(String filePath) :City
     }
 
     class CityObserver {
         <<interface>>
-        +update(Stats currentStats) void
+        +update(Stats currentStats): void
     }
 
     class DashboardView {
-        +update(Stats currentStats) void
+        +update(Stats currentStats) :void
     }
 
     class City {
+        -cityState : CityState 
         +initCity() void
+        +getCityState():CityState
         +processTick() void
     }
     
     class CityState {
-        -CityPolicyStrategy currentPolicy
-        -Tick currTick
-        -Stats cityStats
+        -CityPolicyStrategy :currentPolicy
+        -int :currTick
+        -Stats : cityStats
+        -grid : Grid
         -List~CityObserver~ observers
-        +updateStats(Stats newStats) void
+        +updateStats(Stats newStats): void
+        +processTick(): void
+        +addObserver(CityObserver observer): void
+         +notifyObservers(): void
         +getCityStats() Stats
-        +setPolicy(CityPolicyStrategy p) void
-        +processTick() void
-        +addObserver(CityObserver o) void
-        +notifyObservers() void
+        +getGrid() :Grid
+        +setPolicy(CityPolicyStrategy p): void
+       
     }
 
     class CityPolicyStrategy {
@@ -65,8 +75,9 @@ classDiagram
 
     class Grid {
         -Cell[][] Griglia
-        +getCell(int x, int y) Cell
-        +calculateRawStats() Stats
+        +getCell(int x, int y) : Cell
+        +calculateRawStats() : Stats
+        +getGriglia():Cell[][]
     }
 
     class Cell {
@@ -75,8 +86,9 @@ classDiagram
         -boolean isOperative
         -int x
         -int y
-        +isFree() boolean
-        +returnStat() Stats
+        +isFree(): boolean
+        +returnStat(): Stats
+        
     }
 
     class Stats {
@@ -85,45 +97,48 @@ classDiagram
         -int happiness
         -int population
         -int energy
+        +add(Stats other) :void
+        +multiply(double factor):void
         +getPollution() int
         +getMoney() int
         +getHappiness() int
         +getPopulation() int
         +getEnergy() int
-        +add(Stats other) void
-        +multiply(double factor) void
-    }
+        
+   }
 
     class Infrastructure {
         <<abstract>>
+        +returnStat() : Stats
     }
     
     class Building {
         <<abstract>>
+      +returnStat():Stat
     }
 
     class PowerPlant {
-        +returnStat() Stats
+        +returnStat() : Stat
     }
     
     class Road {
-        +returnStat() Stats
+        +returnStat(): Stat
     }
     
     class Park {
-        +returnStat() Stats
+        +returnStat(): Stat
     }
 
     class Residential {
-        +returnStat() Stats
+        +returnStat(): Stat
     }
     
     class Factory {
-        +returnStat() Stats
+        +returnStat() Stat
     }
     
     class Commercial {
-        +returnStat() Stats
+        +returnStat() Stat
     }
 
     %% ==========================================
