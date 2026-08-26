@@ -47,7 +47,7 @@ classDiagram
 
     CityState "1" --> "0..1" CityPolicy : applica
 
-    Grid "1" *-- "*" Cell : contiene
+    Grid "1" *-- "0..400" Cell : contiene
 
     Cell <|-- Building
     Cell <|-- Infrastructure
