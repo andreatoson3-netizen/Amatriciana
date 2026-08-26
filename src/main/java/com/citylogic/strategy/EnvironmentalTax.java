@@ -17,7 +17,6 @@ public class EnvironmentalTax implements CityPolicyStrategy {
         //riduce l'inquinamento del 20%(fattore 0.80)
         //riduce i soldi del 5%(fattore 0.95)
         //aumenta la felicità del 10%(fattore 1.10)
-        Stats modifiedStats = rawStats.multiply(1.0);//partiamo da copia base
 
         //poichè le politiche possono avere impatti diversi per ogni variabile statistica
         //costruiamo il nuovo oggetto combinando i vari calcoli mirati
