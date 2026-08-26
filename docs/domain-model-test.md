@@ -53,7 +53,7 @@ classDiagram
     Cell <|-- Infrastructure
 
     Building <|-- Residential
-    Building <|-- Industrial
+    Building <|-- Factory
     Building <|-- Commercial
 
     Infrastructure <|-- Park
