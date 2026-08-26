@@ -9,11 +9,11 @@ classDiagram
     class GameController {
         -city : City
         -persistencemanage : CityPersistenceManager
+        +startNewGame() : void
         +setCell(Cell cell) : void
         +activatePolicy(CityPolicyStrategy policy): void
-        +startNewGame() : void
-        +loadGame(String filePath) : void
         +advanceTime() : void
+        +loadGame(String filePath) : void
         +saveGame(String filePath): void
         +getCity() : City
     }
@@ -45,9 +45,9 @@ classDiagram
     }
     
     class CityState {
-        -CityPolicyStrategy :currentPolicy
-        -int :currTick
-        -Stats : cityStats
+        -currentPolicy: CityPolicyStrategy
+        -currTick:int
+        -cityStats:Stats
         -grid : Grid
         -List~CityObserver~ observers
         +updateStats(Stats newStats): void
@@ -55,8 +55,14 @@ classDiagram
         +addObserver(CityObserver observer): void
          +notifyObservers(): void
         +getCityStats() Stats
+        +setCityStats(Stats cityStats):void
         +getGrid() :Grid
+        +setGrid(Grid grid):Grid
         +setPolicy(CityPolicyStrategy p): void
+        +getCurrTick() :int
+        +setCurrTick(): int
+        +getCurrentPolicyStrategy():CityPolicyStrategy
+        +setCurrentPolicyStrategy(CityPolicyStrategy currentPolicy):void
        
     }
 
@@ -78,6 +84,7 @@ classDiagram
         +getCell(int x, int y) : Cell
         +calculateRawStats() : Stats
         +getGriglia():Cell[][]
+        +setGriglia(Cell[][] griglia):void
     }
 
     class Cell {
@@ -88,6 +95,14 @@ classDiagram
         -int y
         +isFree(): boolean
         +returnStat(): Stats
+        +getFree() : boolean
+        +setFree(boolean free):void
+        +isOperative():boolean
+        +setOperative(boolean operative):void
+        +getX:int
+        +setX(int x)
+        +getY:int
+        +setY(int y)
         
     }
 
@@ -100,16 +115,21 @@ classDiagram
         +add(Stats other) :void
         +multiply(double factor):void
         +getPollution() int
+        +setPollution(int pollution):void
         +getMoney() int
+        +setMoney(int money):void
         +getHappiness() int
+        +setHappiness(int happiness):void
         +getPopulation() int
+        +setPopulation(int population):void
         +getEnergy() int
+        +setEnergy(int energy):void
         
    }
 
     class Infrastructure {
         <<abstract>>
-        +returnStat() : Stats
+        +returnStat() : Stat
     }
     
     class Building {
