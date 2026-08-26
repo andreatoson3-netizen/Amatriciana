@@ -51,9 +51,9 @@ public class CityState {
         this.currTick++;
         //1)ottiene le statistiche grezze interrogando la griglia(se la griglia è inizializzata)
         if( this.grid != null){
-            Stats rawStats=this.gridcalculateRawStats();
+            Stats rawStats=this.grid.calculateRawStats();
         //2)aggiorna le statistiche applicando la policy e notificando gli observer(fatto dal metodo upDate)
-            uptadeStats(rawStats);
+            updateStats(rawStats);
         }
         else{
         //se la griglia non è presente allora notifica gli osservatori del tick
