@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY,property="@class")
 
-public abstract  class Infrastructure extends Block {
+public abstract  class Infrastructure extends Cell {
 
     //costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public Infrastructure() {
@@ -19,7 +19,7 @@ public abstract  class Infrastructure extends Block {
     //metodo astratta ereditato da Block che ciascuna infrastruttura
     // (PowerPlant,Road,Park) dovrà implementare per restituire le proprie metriche
     @Override
-    public abstract Stats returnStats();
+    public abstract Stats returnStat();
 }
 
 

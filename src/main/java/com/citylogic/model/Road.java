@@ -14,10 +14,10 @@ public class Road  extends Infrastructure{
     //aiuta operatività e connessione,generando costo di manutenzione e leggero inquinamento
     //@return un oggetto Stats con i valori propri dell'infrastruttura
     @Override
-    public Stats returnStats(){
-        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia,operatività
+    public Stats returnStat(){
+        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         //ad esempio: leggero inquinamento,piccolo costo manutenzione, bonus all'operatività
-        return new Stats(2,-5,2,0,0,5);
+        return new Stats(2,-5,2,0,0);
 
     }
 }

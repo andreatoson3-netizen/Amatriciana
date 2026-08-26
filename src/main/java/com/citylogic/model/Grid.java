@@ -4,11 +4,11 @@ package com.citylogic.model;
 public class Grid {
 
     //Matrice bidimensionale che rappresenta la di gioco(righe e colonne)
-    private Block[][] griglia;
+    private Cell[][] griglia;
 
     //costruttore vuoto per Jackson ed inizializzazione di default(griglia 20x20)
     public Grid(){
-        this.griglia=new Block[20][20];
+        this.griglia=new Cell[20][20];
     }
 
 
@@ -16,8 +16,8 @@ public class Grid {
     //@param x coordinata X
     //@param y coordinata Y
     //@param il blocco in quella posizione
-    public Block getBlock(int x, int y){
-        if(x<=0 && x<griglia.length && y>=0 && y<griglia[0].length){
+    public Cell getCell(int x, int y){
+        if(x>=0 && x<griglia.length && y>=0 && y<griglia[0].length) {
             return griglia[x][y];
         }
         return null;
@@ -30,9 +30,9 @@ public class Grid {
 
         for (int x=0;x<griglia.length;x++){
             for(int y=0;y<griglia[x].length;y++){
-                Block currentBlock = griglia[x][y];
+                Cell currentBlock = griglia[x][y];
                 if(currentBlock != null && !currentBlock.isFree()){
-                    totalStats.add(currentBlock.returnStats());
+                    totalStats.add(currentBlock.returnStat());
                 }
             }
         }
@@ -40,11 +40,11 @@ public class Grid {
     }
 
     //getter e setter per consentire a Jackson la serializzazione della matrice
-    public Block[][] getGriglia(){
+    public Cell[][] getGriglia(){
         return griglia;
     }
 
-    public void setGriglia(Block[][] griglia)
+    public void setGriglia(Cell[][] griglia)
     {
         this.griglia=griglia;
     }

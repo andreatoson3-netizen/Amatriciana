@@ -12,10 +12,10 @@ public class Commercial extends Building {
     //genera una buona quantità di denaro e felicità con impatto su inquinamento e consumo energetico
     //@return un oggetto Stats con i valori propri dell'edificio
     @Override
-    public Stats returnStats(){
-        //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia,operatività)
+    public Stats returnStat(){
+        //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
         //Ad esempio:buon guadagno economico e felicità, consumo energetico moderato
-        return new Stats(10,60,10,0,-15,3);
+        return new Stats(10,60,10,0,-15);
 
     }
 }

@@ -12,9 +12,9 @@ public class Factory extends Building {
     //genera molto denaro e operatività ma alza inquinamento e abbassa felicità
     //@return un oggetto Stats con i valori propri dell'edificio
     @Override
-    public Stats returnStats(){
-        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia,operatività)
+    public Stats returnStat(){
+        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         //ad esempio: molta produzione economica ma forte inquinamento e consumo di energia
-        return new Stats(40,100,-10,0,-20,5);
+        return new Stats(40,100,-10,0,-20);
     }
 }

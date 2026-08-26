@@ -13,9 +13,9 @@ public class Residential extends Building {
     // ma richiede energia e genera inquinamento
     //@return un oggetto Stats con i valori propri dell'edificio
     @Override
-    public Stats returnStats(){
-        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia,operatività)
+    public Stats returnStat(){
+        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         // i valori negativi in energia indicano consumo
-        return new Stats(5,10,15,50,-10,1);
+        return new Stats(5,10,15,50,-10);
     }
 }
