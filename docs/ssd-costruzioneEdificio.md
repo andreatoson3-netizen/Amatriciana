@@ -1,3 +1,7 @@
+SSD: Piazzamento di una Cella (setCell)
+Questo diagramma mostra il flusso quando l'utente richiede di posizionare una cella tramite il controller, passando per la factory e la griglia.
+
+
 ```mermaid
 sequenceDiagram
     autonumber
