@@ -1,4 +1,4 @@
-
+```mermaid
 sequenceDiagram
     autonumber
     actor Utente as Utente / Dashboard
