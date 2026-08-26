@@ -1,4 +1,5 @@
 CLASSI MODIFICATE DA UN DESIGN CLASS MODEL ALL'ALTRO 
+
 [ ] Stats:Toltooperative come variabile(per seguire il design class model), aggiunto il metodo multiply
 
 [ ] Tick:classe eliminata(nel design class model non c'era), inoltre in CitYStatecambiato Tick currTick in int currTick, appunto per evitare di dover fare altra classe
