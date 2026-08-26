@@ -49,8 +49,16 @@ public class CityState {
     // e processa gli eventi periodici
     public void processTick(){
         this.currTick++;
-        //notifica gli osservatori ad ogni tick
+        //1)ottiene le statistiche grezze interrogando la griglia(se la griglia è inizializzata)
+        if( this.grid != null){
+            Stats rawStats=this.gridcalculateRawStats();
+        //2)aggiorna le statistiche applicando la policy e notificando gli observer(fatto dal metodo upDate)
+            uptadeStats(rawStats);
+        }
+        else{
+        //se la griglia non è presente allora notifica gli osservatori del tick
         notifyObservers();
+        }
     }
 
     public void addObserver(CityObserver observer){
