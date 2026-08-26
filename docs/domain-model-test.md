@@ -72,7 +72,7 @@ Rappresenta lo stato dinamico della città durante la simulazione. Mantiene le i
 
 ### Grid (Griglia / Mappa Urbana)
 
-Rappresenta la struttura spaziale della città attraverso una griglia bidimensionale. Contiene le celle che costituiscono il territorio urbano e ne determina la disposizione spaziale.
+Rappresenta la struttura spaziale della città attraverso una griglia. Contiene le celle che costituiscono il territorio urbano e ne determina la disposizione spaziale.
 
 ### Cell (Cella / Entità Territoriale)
 
@@ -104,7 +104,7 @@ Ogni città possiede un unico stato corrente che rappresenta la situazione della
 
 Lo stato della città è associato a una griglia che rappresenta la disposizione spaziale degli edifici e delle infrastrutture.
 
-### Grid (1) ---- contiene ----> (*) Cell
+### Grid (1) ---- contiene ----> (0..400) Cell
 
 La griglia è composta da celle che rappresentano le posizioni disponibili nel territorio urbano. Essendo la griglia 20×20, può contenere fino a 400 celle.
 
