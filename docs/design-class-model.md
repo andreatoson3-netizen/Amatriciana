@@ -82,9 +82,11 @@ classDiagram
     class Grid {
         -Cell[][] Griglia
         +getCell(int x, int y) : Cell
+        +hasPowerPlant : boolean
         +calculateRawStats() : Stats
         +getGriglia():Cell[][]
         +setGriglia(Cell[][] griglia):void
+        
     }
 
     class Cell {
