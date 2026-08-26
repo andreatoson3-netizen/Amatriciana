@@ -44,6 +44,7 @@ CLASSI MODIFICATE DA UN DESIGN CLASS MODEL ALL'ALTRO
 
 [ ] DashboardView nel punto in cui il programma è avviato nel main o GameController bidogna creare un istanza della dashboard e aggiungerla come osservatore allo stato della città, quindi come es. DashboardView dashboard = new DashBoardView(); e poi gameController.getCity().getCityState().addOberver(dashboard)
 
-
+-----------NEL DESIGN CLASS MODEL HO AGGIUNTO PRATICAMENTE TUTTI I METODI DELLE CLASSI,ANCHE SE IN TEORIA ALCUNI SONO PER JACKSON
+-----------FATTO DOMAIN MODEL(il problema è che non so se è troppo specifico)
 
 Io uso intellij come ide 
