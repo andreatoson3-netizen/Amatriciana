@@ -1,8 +1,9 @@
 ```mermaid
 classDiagram
+    direction LR
 
     %% =========================
-    %% DOMAIN MODEL
+    %% MAIN DOMAIN ENTITIES
     %% =========================
 
     class City
@@ -42,25 +43,20 @@ classDiagram
 
     CityState "1" *-- "1" Grid : gestisce
 
-    Grid "1" *-- "*" Cell : contiene
-
-    Cell <|-- Building
-
-    Cell <|-- Infrastructure
-
-    Building <|-- Residential
-
-    Building <|-- Factory
-
-    Building <|-- Commercial
-
-    Infrastructure <|-- Park
-
-    Infrastructure <|-- PowerPlant
-
-    Infrastructure <|-- Road
-
     CityState "1" *-- "1" Stats : mantiene/aggiorna
 
     CityState "1" --> "0..1" CityPolicy : applica
+
+    Grid "1" *-- "*" Cell : contiene
+
+    Cell <|-- Building
+    Cell <|-- Infrastructure
+
+    Building <|-- Residential
+    Building <|-- Factory
+    Building <|-- Commercial
+
+    Infrastructure <|-- Park
+    Infrastructure <|-- PowerPlant
+    Infrastructure <|-- Road
 ```
