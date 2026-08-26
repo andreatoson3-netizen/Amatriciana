@@ -42,7 +42,7 @@ classDiagram
 
     CityState "1" *-- "1" Grid : gestisce
 
-    Grid "1" *-- "0..400" Cell : contiene
+    Grid "1" *-- "*" Cell : contiene
 
     Cell <|-- Building
 
@@ -60,7 +60,7 @@ classDiagram
 
     Infrastructure <|-- Road
 
-    CityState "1" *-- "1" Stats : mantiene
+    CityState "1" *-- "1" Stats : mantiene/aggiorna
 
     CityState "1" --> "0..1" CityPolicy : applica
 ```
