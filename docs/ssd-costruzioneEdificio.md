@@ -6,9 +6,9 @@ sequenceDiagram
     participant City as City
     participant CS as CityState
 
-    Utente->>GC: setCell(x, y, cellType)
+    Utente->>GC: setCell(Cell cell)
     activate GC
-    GC->>City: setCell(x, y, cellType)
+    GC->>City: setCell(Cell cell)
     activate City
     City->>CS: updateGridAndCell(x, y, cellType)
     activate CS
