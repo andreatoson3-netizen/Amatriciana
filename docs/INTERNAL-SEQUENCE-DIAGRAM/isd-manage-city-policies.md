@@ -26,3 +26,4 @@ sequenceDiagram
         Observer->>Observer: update(currentStats)
         Controller-->>Mayor: Policy changed
     end
+```
