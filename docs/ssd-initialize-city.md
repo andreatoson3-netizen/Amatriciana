@@ -3,16 +3,11 @@ sequenceDiagram
     actor Mayor as City Mayor
     participant System as City System
 
-    Mayor->>System: Place entity(entityType, position)
+    Mayor->>System: startNewGame()
     activate System
 
-    alt Valid placement and sufficient budget
-        System-->>Mayor: Entity placed
-    else Cell occupied
-        System-->>Mayor: Invalid placement
-    else Insufficient budget
-        System-->>Mayor: Insufficient budget
-    end
+    System-->>Mayor: New city initialized
+    System-->>Mayor: Display city grid and stats
 
     deactivate System
 ```
