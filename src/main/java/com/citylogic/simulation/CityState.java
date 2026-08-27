@@ -68,9 +68,21 @@ public class CityState {
         }
     }
 
+    //rimuove osservatore dalla lista degli elementi in ascolto,
+    // in modo che smetta di ricevere notifiche quando lo stato della città cambia(tramite notifyObserver)
+    public void removeObserver(CityObserver observer){
+        if(observer != null){
+            this.observers.remove(observer);
+        }
+    }
+
     public void notifyObservers(){
-        for(CityObserver observer: this.observers){
-            observer.update(this.cityStats);
+        //controllo per evitare NullPointerException se la lista non è inizializzata
+        if(this.observers != null) {
+
+            for (CityObserver observer : this.observers) {
+                observer.update(this.cityStats);
+            }
         }
     }
 
@@ -92,11 +104,6 @@ public class CityState {
     }
 
 
-    public void setPolicy(CityPolicyStrategy p){
-        this.currentPolicy=p;
-        notifyObservers();
-    }
-
     public int getCurrTick() {
         return currTick;
     }
@@ -107,8 +114,11 @@ public class CityState {
     public CityPolicyStrategy getCurrentPolicyStrategy(){
         return currentPolicy;
     }
-    public void setCurrentPolicyStrategy(CityPolicyStrategy currentPolicy ){
-        this.currentPolicy=currentPolicy;
+
+    public void setPolicy(CityPolicyStrategy p){
+        this.currentPolicy=p;
+        notifyObservers();
     }
+
 
 }
