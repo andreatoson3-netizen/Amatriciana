@@ -62,22 +62,19 @@ public class GameController {
 
         // Se il posizionamento è riuscito
         if (placed) {
-            // 1. Ricalcoliamo subito le statistiche da tutta la griglia (popolazione, felicità, energia, ecc.)
-            com.citylogic.model.Stats newRawStats = city.getCityState().getGrid().calculateRawStats();
 
-            // 2. Aggiorniamo le metriche globali nello stato della città
-            city.getCityState().updateStats(newRawStats);
+        // Scala immediatamente il costo di costruzione
+        city.getCityState()
+                .getCityStats()
+                .setMoney(currentMoney - buildingCost);
 
-            // 3. Scaliamo il costo della costruzione dal denaro attuale in modo sicuro
-            int currentMoneyAfterBuild = city.getCityState().getCityStats().getMoney();
-            city.getCityState().getCityStats().setMoney(currentMoneyAfterBuild - buildingCost);
+        // Aggiorna la GUI
+        city.getCityState().notifyObservers();
 
-            // 4. Notifichiamo la GUI per far aggiornare subito la dashboard a schermo
-            city.getCityState().notifyObservers();
+        return true;
+    }
 
-            return true;
-        }
-        return false;
+    return false;
     }
 
 
