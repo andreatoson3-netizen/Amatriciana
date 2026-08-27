@@ -7,7 +7,7 @@ sequenceDiagram
     participant State as CityState
     participant TheGrid as Grid
 
-    Note over Mayor, TheGrid: Scenario: startNewGame()
+    
     Mayor->>Controller: startNewGame()
     Controller->>CityObj: new City() & initCity()
     CityObj->>State: new CityState()
