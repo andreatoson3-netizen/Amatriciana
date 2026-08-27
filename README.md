@@ -2,14 +2,14 @@ System Test Report:
 
 US-01 - Initialize a City & GridUser Story:
 
-As a City Mayor,
-I want to initialize a block grid,
+As a City Mayor,        
+I want to initialize a block grid,  
 so that I have a spatial canvas to develop my city and query the state of each block.
 
 Test Execution & Validation Details
 
-Scenario 1: Grid Initialization with Default State
-Verifica: È stato testato l'avvio di una nuova partita per accertarsi che il sistema generi correttamente lo spazio di gioco.
+Scenario 1: Grid Initialization with Default State  
+Verifica: È stato testato l'avvio di una nuova partita per accertarsi che il sistema  generi correttamente lo spazio di gioco.  
 Esito: OK.
 L'esame del codice della classe Grid conferma che il costruttore istanzia una matrice bidimensionale di 20x20 elementi (per un totale di 400 blocchi), i quali vengono inizializzati vuoti (null).
 
