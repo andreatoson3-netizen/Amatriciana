@@ -1,5 +1,3 @@
-SSD: Avanzamento del Tempo / Tick (advanceTime)
-Questo diagramma mostra il ciclo di simulazione in cui il GameController chiama l'avanzamento del tempo, il quale aziona il ricalcolo delle statistiche tramite la griglia, l'applicazione della policy e la notifica agli osservatori.
 
 ```mermaid
 sequenceDiagram
