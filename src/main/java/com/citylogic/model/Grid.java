@@ -33,30 +33,72 @@ public class Grid {
         return false;
     }
 
+    private boolean hasNearbyPowerPlant(int x, int y) {
+
+    for (int i = 0; i < griglia.length; i++) {
+        for (int j = 0; j < griglia[i].length; j++) {
+
+            if (griglia[i][j] instanceof PowerPlant) {
+
+                int distanceX = Math.abs(i - x);
+                int distanceY = Math.abs(j - y);
+
+                if (distanceX + distanceY <= 3) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    
+    return false;
+    }
+
+    public int countUnpoweredResidential() {
+    int count = 0;
+
+    for (int x = 0; x < griglia.length; x++) {
+        for (int y = 0; y < griglia[x].length; y++) {
+
+            Cell currentBlock = griglia[x][y];
+
+            if (currentBlock instanceof Residential &&
+                    !hasNearbyPowerPlant(x, y)) {
+
+                count++;
+            }
+        }
+    }
+
+    return count;
+    }
+
     //calcola le statistiche grezze complessive della griglia
     //@return un oggetto Stats con i valori aggregati di tutti i blocchi occupati
     public Stats calculateRawStats(){
         Stats totalStats = new Stats(0,0,0,0,0);//inizializza a zero
+        
+        for (int x = 0; x < griglia.length; x++) {
+            for (int y = 0; y < griglia[x].length; y++) {
 
-        //1)verifica preliminare:esiste almeno una centrale elettrica nella griglia?
-        boolean powerPlantExists=hasPowerPlant();//metodo di supporto booleano della classe Grid
-
-
-        for (int x=0;x<griglia.length;x++){
-            for(int y=0;y<griglia[x].length;y++){
                 Cell currentBlock = griglia[x][y];
-                if(currentBlock != null && !currentBlock.isFree()){
-                    //2)APPLICAZIONE DELLA RULE ENFORCEMENT:
-                    //Se il blocco è una zona residenziale e NON c'è alcuna PowerPlant,
-                    //saltiamo l'aggiunta delle sue statistiche(la zona non cresce)
-                    if(currentBlock instanceof Residential && !powerPlantExists){
+
+                if (currentBlock != null && !currentBlock.isFree()) {
+
+                    // RULE ENFORCEMENT:
+                    // una zona residenziale contribuisce alle metriche
+                    // solo se c'è una PowerPlant nelle vicinanze
+                    if (currentBlock instanceof Residential &&
+                            !hasNearbyPowerPlant(x, y)) {
                         continue;
                     }
-                    //3)aggiunge le statistiche del blocco corrente
+
+                    // aggiunge le statistiche del blocco corrente
                     totalStats.add(currentBlock.returnStat());
                 }
             }
         }
+
         return totalStats;
     }
 
