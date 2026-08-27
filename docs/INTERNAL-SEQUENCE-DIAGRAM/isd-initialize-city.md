@@ -9,9 +9,10 @@ sequenceDiagram
 
     
     Mayor->>Controller: startNewGame()
-    Controller->>CityObj: new City() & initCity()
+    Controller->>CityObj:  new City & initCity()
     CityObj->>State: new CityState()
-    State->>TheGrid: new Grid() (20x20 matrix)
+    Note over State:Inizializza CityState(currTick=0,stats,etc)
+    State->>TheGrid: new Grid() (20x20 matrix) & getGrid()
     TheGrid-->>State: return Grid
     State-->>CityObj: return CityState
     CityObj-->>Controller: return City initialized
