@@ -50,6 +50,9 @@ public class GameController {
         //4)se la griglia ha accettato il posizionamento, scala il budget
         if (placed) {
             city.getCityState().getCityStats().setMoney(currentMoney - buildingCost);
+
+            //notifica gli observer dello scalare del budget 
+            city.getCityState().notifyObservers();
             return true;
         }
 
