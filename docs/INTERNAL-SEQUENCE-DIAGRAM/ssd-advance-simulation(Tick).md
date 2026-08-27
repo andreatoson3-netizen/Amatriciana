@@ -35,3 +35,4 @@ sequenceDiagram
     deactivate City
     GC-->>Utente: Simulazione avanzata
     deactivate GC
+```
