@@ -15,6 +15,7 @@ public class CityState {
     private Stats cityStats;
     private Grid grid;
 
+
     //pattern observer(ignorato da Jackson durante il salvataggio JSON per evitare conflitti)
     @JsonIgnore
     private List<CityObserver> observers;

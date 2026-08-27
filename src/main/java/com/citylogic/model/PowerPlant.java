@@ -8,6 +8,9 @@ public class PowerPlant extends Infrastructure {
     //costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public PowerPlant(){
         super();
+        this.setCost(1000);//assegna il costo di costruzione della centrale
+        this.setOperative(true);
+
     }
 
     //restituisce le statistiche specifiche prodotte da una centrale elettrica
@@ -17,7 +20,7 @@ public class PowerPlant extends Infrastructure {
     public Stats returnStat(){
         //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
         //Ad esempio:inquinamento alto, costo economico negativo(spesa), emergia molto positiva
-        return new Stats(30,-40,-5,0,100);
+        return new Stats(30,-100,-5,0,100);
 
     }
 }

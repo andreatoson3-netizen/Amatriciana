@@ -7,7 +7,9 @@ public class Park extends Infrastructure {
 
     //Costruttore vuoto di default necessario per Jackson (persistenza JSON).
      public Park() {
-        super();
+
+         super();
+         this.setCost(200);//costo costruzione parchi
     }
 
      //Restituisce le statistiche specifiche prodotte da un parco.

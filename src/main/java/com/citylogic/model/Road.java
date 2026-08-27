@@ -8,6 +8,7 @@ public class Road  extends Infrastructure{
     //costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public Road(){
         super();
+        this.setCost(50);//costo costruzione strade
     }
 
     //restituisce le statistiche specifiche prodotte da una strada

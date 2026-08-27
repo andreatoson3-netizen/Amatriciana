@@ -1,3 +1,5 @@
+
+//TEST PER PRIMA USER STORY: INITIALIZE A CITY
 package com.citylogic.model;
 
 import org.junit.jupiter.api.BeforeEach;

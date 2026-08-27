@@ -11,6 +11,7 @@ public abstract class Cell {
     int y; //seconda coordinata del blocco all'interno della griglia della città
     private boolean isOperative;//indica se la struttura presente nella cella è attiva e funzionante(true)
                                 // o spenta/guasta(false)
+    private int cost;          //il costo di costruzione di un Building/Infrastructure
 
     //restituisce lo stato del blocco
     //@return true se il blocco è vuoto/disponibile, false se è occupato
@@ -22,6 +23,11 @@ public abstract class Cell {
     // Viene implementato dalle classi figlie Building o Infrastructure
     //@return un oggetto Stats contenente le metriche(denaro,inquinamento,felicità,ecc..)
     public abstract Stats returnStat();
+
+    //costruttore vuoto per Jackson
+    public Cell(){
+        this.cost=0;
+    }
 
     //Getter e setter per Jackson
     public boolean getFree(){
@@ -54,6 +60,13 @@ public abstract class Cell {
 
     public void setY(int y){
         this.y=y;
+    }
+
+    public int getCost(){
+        return cost;
+    }
+    public void setCost(int cost){
+        this.cost=cost;
     }
 
 }

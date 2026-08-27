@@ -12,7 +12,7 @@ public class Stats {
     // perchè permette di ricostruire l'oggetto durante il caricamento del file JSON
     public Stats(){
         this.pollution=0;
-        this.money=0;
+        this.money=5000;//budget iniziale di default per nuova partita
         this.happiness=0;
         this.population=0;
         this.energy=0;

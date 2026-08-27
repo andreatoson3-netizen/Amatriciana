@@ -6,6 +6,7 @@ public class Commercial extends Building {
     //costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public Commercial() {
         super();
+        this.setCost(800);//costo di costruzione Commercial
     }
 
     //restituisce le statistiche specifiche prodotte da un edificio commerciale

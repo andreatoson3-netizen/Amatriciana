@@ -6,6 +6,7 @@ public class Residential extends Building {
     // costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public Residential(){
         super();
+        this.setCost(500);//costo per costruire casa residenziale
     }
 
     //restituisce le statistiche specifiche prodotte da un edificio residenziale

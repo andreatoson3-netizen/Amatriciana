@@ -6,6 +6,7 @@ public class Factory extends Building {
     //costruttore vuoto di default necessario per Jackson(persistenza JSON)
     public Factory(){
         super();
+        this.setCost(1500);//costo costruzione di edificio tipo Factory
     }
 
     //restituisce le statistiche specifiche prodotte da una fabbrica
