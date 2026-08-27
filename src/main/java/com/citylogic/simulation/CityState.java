@@ -40,8 +40,17 @@ public class CityState {
             if(this.currentPolicy != null){
                 statsToApply=this.currentPolicy.calculateStats(newStats);
             }
+            //salviamo denaro attuale prima di aggiornare le metriche 
+            int currentMoney=0;
+            if(this.cityStats!=null){
+                currentMoney=this.cityStats.getMoney();
+            }
             //aggiorna le statistiche correnti della città
             this.cityStats=statsToApply;
+            //sommiamo il flusso di cassa del tick al denaro precedente, così il denaro accumulato non si perde
+            //ma cresce o cala in base al bilancio
+            this.cityStats.setMoney(currentMoney+statsToApply.getMoney());
+            
             notifyObservers();//notifica gli osservatori che le statistiche sono cambiate
         }
     }
