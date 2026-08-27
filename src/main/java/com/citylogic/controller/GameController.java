@@ -32,37 +32,52 @@ public class GameController {
     //prende la cella,legge le sue coordinate(x,y) e la posiziona nella mappa della città
     public boolean setCell(Cell cell) {
 
-        if (city == null || cell == null || city.getCityState() == null || city.getCityState().getCityStats() == null) {
+        if (city == null ||
+                cell == null ||
+                city.getCityState() == null ||
+                city.getCityState().getCityStats() == null) {
+
             return false;
         }
-        //1)recupera denaro attuale dalle statistiche ed il costo della cella
-        int currentMoney = city.getCityState().getCityStats().getMoney();
+
+        // Recupera il denaro attuale
+        int currentMoney =
+                city.getCityState()
+                        .getCityStats()
+                        .getMoney();
+
+        // Recupera il costo dell'edificio
         int buildingCost = cell.getCost();
 
-        //2)controllo del budget:se non ci sono abbastanza soldi, azione bloccata
+        // Controllo del budget
         if (currentMoney < buildingCost) {
             return false;
         }
 
-        //3)delega l'inserimento sicuro alla Griglia usando le coordinate già presenti nella cella(o passate)
-        boolean placed = city.getCityState().getGrid().setCell(cell, cell.getX(), cell.getY());
+        // Prova a posizionare la cella
+        boolean placed =
+                city.getCityState()
+                        .getGrid()
+                        .setCell(cell, cell.getX(), cell.getY());
 
-        //4)se la griglia ha accettato il posizionamento, aggiorniamo la città
+        // Se il posizionamento è riuscito
         if (placed) {
-            //ricalcoliamo le statistiche grezze da tutta la griglia(inclusa la nuova casa)
-            com.citylogic.model.Stats newRawStats=city.getCityState().getGrid().calculateRawStats();
-            //aggiorniamo lo stato tramite il metodo che gestisce il denaro cumulativo e le metriche
+            // 1. Ricalcoliamo subito le statistiche da tutta la griglia (popolazione, felicità, energia, ecc.)
+            com.citylogic.model.Stats newRawStats = city.getCityState().getGrid().calculateRawStats();
+
+            // 2. Aggiorniamo le metriche globali nello stato della città
             city.getCityState().updateStats(newRawStats);
 
-            //scaliamo il costo della costruzione dal denaro aggiornato
-            int updateMoney=city.getCityState().getCityStats().getMoney();
-            city.getCityState().getCityStats().setMoney(currentMoney - buildingCost);
-            //notifichiamo la Gui
+            // 3. Scaliamo il costo della costruzione dal denaro attuale in modo sicuro
+            int currentMoneyAfterBuild = city.getCityState().getCityStats().getMoney();
+            city.getCityState().getCityStats().setMoney(currentMoneyAfterBuild - buildingCost);
+
+            // 4. Notifichiamo la GUI per far aggiornare subito la dashboard a schermo
             city.getCityState().notifyObservers();
+
             return true;
         }
-
-        return false;//fallito perchè coordinate fuori dai confini o cella occupata
+        return false;
     }
 
 
@@ -107,4 +122,3 @@ public class GameController {
 
 
 }
-

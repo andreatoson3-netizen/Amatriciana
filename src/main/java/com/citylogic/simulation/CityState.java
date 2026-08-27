@@ -6,9 +6,11 @@ import com.citylogic.strategy.CityPolicyStrategy;
 import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //Gestisce lo stato corrente della città,inclusi i tick temporali
 //le statistiche aggregate e la policy strategica attiva
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CityState {
     private CityPolicyStrategy currentPolicy;
     private int currTick;//messo int per evitare di fare classe Tick

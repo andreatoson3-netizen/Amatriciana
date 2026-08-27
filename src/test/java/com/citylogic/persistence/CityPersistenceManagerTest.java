@@ -1,5 +1,3 @@
-//TEST USER STORY LOAD A SAVED CITY
-
 package com.citylogic.persistence;
 
 import com.citylogic.model.City;
@@ -8,80 +6,83 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CityPersistenceManagerTest {
 
-    // Istanza di CityPersistenceManager
-    // Deriva dal Design Class Model e gestisce la persistenza I/O (salvataggio e caricamento JSON).
     private CityPersistenceManager persistenceManager;
 
     @BeforeEach
     void setUp() {
-        // Inizializza il manager prima di ogni singolo test
+        // Arrange iniziale: istanziamo il nostro manager della persistenza
         persistenceManager = new CityPersistenceManager();
     }
 
-    // ------------------------------------------------------------------------
-    // Scenario 1: Load a valid saved city (User Story: Load a saved City)
-    // ------------------------------------------------------------------------
     @Test
-    void testSaveAndLoadValidCity(@TempDir Path tempDir) throws IOException {
-        // @TempDir di JUnit 5 crea una cartella temporanea isolata per il test,
-        // evitando di sporcare il workspace con file di salvataggio fittizi.
-        File tempFile = tempDir.resolve("test_city_save.json").toFile();
+    void testSaveAndLoadCity_HappyPath(@TempDir Path tempDir) {
+        // Arrange
+        // Creiamo un oggetto City di test e inizializziamo il budget
+        City originalCity = new City();
+        originalCity.initCity();
+        originalCity.initNewGameBudget(); // Imposta il budget iniziale (es. 5000)
+
+        // Creiamo un percorso file temporaneo sicuro per il test
+        File tempFile = tempDir.resolve("test_city.json").toFile();
         String filePath = tempFile.getAbsolutePath();
 
-        // 1. Creiamo un oggetto City valido basato sulla classe di produzione
-        City originalCity = new City();
-
-        // Inizializziamo lo stato interno (richiamando initCity() come visto nel codice della classe City,
-        // così che cityState non sia null e contenga dati strutturali validi da serializzare).
-        originalCity.initCity();
-
-        // 2. Salviamo la città su file JSON usando il metodo saveCity()
+        // Act
+        // 1. Salviamo la città su file JSON
         persistenceManager.saveCity(originalCity, filePath);
 
-        // Verifica strutturale: il file di salvataggio deve essere stato creato correttamente su disco
-        assertTrue(tempFile.exists(), "Il file di salvataggio JSON deve essere creato con successo.");
+        // Verifichiamo che il file sia stato effettivamente creato
+        assertTrue(tempFile.exists(), "Il file JSON della città deve essere stato creato");
 
-        // 3. Ricarichiamo la città dal file appena salvato usando loadCity()
+        // 2. Carichiamo la città dal file JSON appena creato
         City loadedCity = persistenceManager.loadCity(filePath);
 
-        // 4. Asserzioni finali (Scenario 1 della User Story)
-        assertNotNull(loadedCity, "La città caricata non deve essere null.");
+        // Assert
+        // Verifichiamo che la città caricata non sia nulla e mantenga lo stato corretto
+        assertNotNull(loadedCity, "La città caricata non deve essere null");
+        assertNotNull(loadedCity.getCityState(), "Lo stato interno della città caricata non deve essere null");
+        assertNotNull(loadedCity.getCityState().getCityStats(), "Le statistiche della città caricata non devono essere null");
 
-        // Verifichiamo che il caricamento abbia ripristinato correttamente anche lo stato interno (CityState)
-        assertNotNull(loadedCity.getCityState(), "Lo stato interno (CityState) della città deve essere ripristinato dal file JSON.");
+        // Verifichiamo che il budget sia stato preservato correttamente attraverso la serializzazione JSON
+        assertEquals(originalCity.getCityState().getCityStats().getMoney(),
+                loadedCity.getCityState().getCityStats().getMoney(),
+                "Il budget della città caricata deve corrispondere a quello salvato");
     }
 
-    // ------------------------------------------------------------------------
-    // Scenario 2: Invalid or unreadable save file (User Story: Load a saved City)
-    // ------------------------------------------------------------------------
     @Test
-    void testLoadNonExistentOrInvalidFile() {
-        // Simuliamo il tentativo del Sindaco di caricare un file che non esiste nel percorso specificato.
-        String nonExistentPath = "file_che_non_esiste_123456.json";
+    void testLoadCity_FileNotExists() {
+        // Arrange
+        String nonExistentPath = "file_che_non_esiste_abc123.json";
 
-        // Dal codice di CityPersistenceManager sappiamo che se il file non esiste,
-        // il metodo intercetta il controllo e restituisce esplicitamente 'null'.
+        // Act
         City loadedCity = persistenceManager.loadCity(nonExistentPath);
 
-        // Verifichiamo che il sistema rifiuti il caricamento non valido restituendo null (stato invariato)
-        assertNull(loadedCity, "Il sistema deve restituire null se il file non esiste o non è leggibile.");
+        // Assert
+        // Verifichiamo che se il file non esiste, il metodo gestisca la cosa restituendo null in sicurezza
+        assertNull(loadedCity, "Caricare un file inesistente deve restituire null");
     }
 
-    // Test di robustezza per parametri nulli
     @Test
-    void testSaveOrLoadWithNullParameters() {
-        // Verifica che passare argomenti nulli ai metodi non provochi crash imprevisti dell'applicazione
-        assertDoesNotThrow(() -> {
-            persistenceManager.saveCity(null, null);
-            City result = persistenceManager.loadCity(null);
-            assertNull(result, "Il caricamento con un percorso nullo deve restituire null in sicurezza.");
-        }, "I metodi di persistenza devono gestire in modo difensivo i parametri nulli.");
+    void testSaveCity_NullParameters() {
+        // Act & Assert
+        // Verifichiamo che passare parametri null non lanci eccezioni impreviste (gestione difensiva)
+        assertDoesNotThrow(() -> persistenceManager.saveCity(null, "path.json"),
+                "Salvare una città null non deve generare eccezioni");
+        assertDoesNotThrow(() -> persistenceManager.saveCity(new City(), null),
+                "Salvare con un filePath null non deve generare eccezioni");
+    }
+
+    @Test
+    void testLoadCity_NullPath() {
+        // Act
+        City loadedCity = persistenceManager.loadCity(null);
+
+        // Assert
+        assertNull(loadedCity, "Passare un path null al caricamento deve restituire null");
     }
 }
