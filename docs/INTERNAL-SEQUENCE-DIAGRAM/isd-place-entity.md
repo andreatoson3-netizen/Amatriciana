@@ -25,3 +25,4 @@ sequenceDiagram
     else Insufficient budget
         Controller-->>Mayor: Insufficient budget
     end
+```
