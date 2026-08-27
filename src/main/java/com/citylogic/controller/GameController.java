@@ -4,12 +4,13 @@ import com.citylogic.model.Cell;
 import com.citylogic.model.City;
 import com.citylogic.strategy.CityPolicyStrategy;
 import com.citylogic.persistence.CityPersistenceManager;
-import com.citylogic.simulation.CityState;
+
 
 //gestisce la logica di business e fa da tramite tra i comandi dell'utente e il mototre di gioco
 //protegge lo stato interno della città evitando accessi non controllati
 
 public class GameController {
+
     private City city;//lo stato attuale della città gestita dal controller
     private CityPersistenceManager persistenceManager;//gestore per salvataggio e caricamento dei file
 
@@ -24,39 +25,37 @@ public class GameController {
     public void startNewGame(){
         this.city = new City();
         this.city.initCity();
+        this.city.initNewGameBudget();//metodo della classe City che serve ad inizializzare il budget a 5000
     }
 
     //gestisce l'azione dell'utente di piazzare una cella/struttura sulla griglia
     //prende la cella,legge le sue coordinate(x,y) e la posiziona nella mappa della città
     public boolean setCell(Cell cell) {
-        if (city != null && cell != null && city.getCityState() != null && city.getCityState().getCityStats() != null) {
-            //1)recupera denaro attuale dalle statistiche ed il costo della cella
-            int currentMoney = city.getCityState().getCityStats().getMoney();
-            int buildingCost = cell.getCost();
 
-            //2)controllo del budget:se non ci sono abbastanza soldi, azione bloccata
-            if (currentMoney < buildingCost) {
-                return false;
-            }
-
-            int x = cell.getX();
-            int y = cell.getY();
-
-            //verifica che la griglia esista e che le coordinate siano dentro i confini della griglia
-            if (city.getCityState().getGrid() != null) {
-                Cell[][] matrix = city.getCityState().getGrid().getGriglia();
-                if (x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length) {
-                    //3)scala il costo di costruzione dal denaro corrente aggiornando Stats
-                    city.getCityState().getCityStats().setMoney(currentMoney - buildingCost);
-
-                    matrix[x][y] = cell;//posiziona effettivamente la cella nella matrice
-
-                    return true;
-                }
-            }
+        if (city == null || cell == null || city.getCityState() == null || city.getCityState().getCityStats() == null) {
+            return false;
         }
-        return false;
+        //1)recupera denaro attuale dalle statistiche ed il costo della cella
+        int currentMoney = city.getCityState().getCityStats().getMoney();
+        int buildingCost = cell.getCost();
+
+        //2)controllo del budget:se non ci sono abbastanza soldi, azione bloccata
+        if (currentMoney < buildingCost) {
+            return false;
+        }
+
+        //3)delega l'inserimento sicuro alla Griglia usando le coordinate già presenti nella cella(o passate)
+        boolean placed = city.getCityState().getGrid().setCell(cell, cell.getX(), cell.getY());
+
+        //4)se la griglia ha accettato il posizionamento, scala il budget
+        if (placed) {
+            city.getCityState().getCityStats().setMoney(currentMoney - buildingCost);
+            return true;
+        }
+
+        return false;//fallito perchè coordinate fuori dai confini o cella occupata
     }
+
 
     //attiva una politica cittadina(Strategy pattern) modificando lo stato della città
     public void activatePolicy(CityPolicyStrategy policy){

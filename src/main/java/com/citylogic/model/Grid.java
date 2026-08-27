@@ -61,6 +61,22 @@ public class Grid {
     }
 
 
+    //posiziona una cella nella griglia verificandone i confini
+    public boolean setCell(Cell cell,int x, int y){
+        if(x>=0 && x<griglia.length && y>=0 && y<griglia[0].length){
+            //verifica se la cella è già occupata o meno
+            if(griglia[x][y]==null || griglia[x][y].isFree()) {
+                griglia[x][y] = cell;
+                //se necessario, aggiorna le coordinate interne alla cella
+                cell.setX(x);
+                cell.setY(y);
+                return true;//posiziona cella
+            }
+        }
+
+        return false;//posizione non valida oppure cella occupata
+    }
+
 
 
     //getter e setter per consentire a Jackson la serializzazione della matrice
