@@ -1,29 +1,27 @@
-SSD: Piazzamento di una Cella (setCell)
-Questo diagramma mostra il flusso quando l'utente richiede di posizionare una cella tramite il controller, passando per la factory e la griglia.
-
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Utente as Utente / Dashboard
-    participant GC as GameController
-    participant City as City
-    participant CS as CityState
-    participant Grid as Grid
+    actor Mayor as City Mayor
+    participant Controller as GameController
+    participant CityObj as City
+    participant State as CityState
+    participant TheGrid as Grid
 
-    Utente->>GC: setCell(cell)
-    activate GC
-    GC->>City: setCell(cell)
-    activate City
-    City->>CS: getGrid()
-    activate CS
-    CS-->>City: grid
-    deactivate CS
-    City->>Grid: setCell / aggiorna cella
-    activate Grid
-    Grid-->>City: Conferma
-    deactivate Grid
-    City-->>GC: Completato
-    deactivate City
-    GC-->>Utente: Cella posizionata
-    deactivate GC
+    Mayor->>Controller: placeEntity(entityType, position)
+    
+    alt Valid placement and sufficient budget
+        Controller->>Controller: setCell(cell)
+        Controller->>CityObj: getCityState()
+        CityObj-->>Controller: return CityState
+        Controller->>State: getGrid()
+        State-->>Controller: return Grid
+        Controller->>TheGrid: getGriglia()
+        TheGrid-->>Controller: return matrix[][]
+        Note over Controller: Verifica confini (x, y) e assegna matrix[x][y] = cell
+        Controller-->>Mayor: Entity placed
+    else Cell occupied
+        Controller-->>Mayor: Invalid placement
+    else Insufficient budget
+        Controller-->>Mayor: Insufficient budget
+    end
