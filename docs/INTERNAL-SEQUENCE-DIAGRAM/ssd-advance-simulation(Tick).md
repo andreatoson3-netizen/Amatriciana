@@ -2,7 +2,7 @@
 ```mermaid
 sequenceDiagram
     autonumber
-    actor City Major 
+    actor Utente as City Major 
     participant GC as GameController
     participant City as City
     participant CS as CityState
