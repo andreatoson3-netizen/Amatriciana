@@ -31,3 +31,4 @@ sequenceDiagram
     Observer->>Observer: update(cityStats)
     State-->>Controller: Tick completato
     Controller-->>System: Simulazione aggiornata
+```
