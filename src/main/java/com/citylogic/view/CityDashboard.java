@@ -28,6 +28,11 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private String selectedBuilding = null;
 
+    // Pulsanti delle policy
+    private JButton noPolicyButton;
+    private JButton environmentalButton;
+    private JButton industrialButton;
+
     public CityDashboard(GameController controller) {
 
         this.controller = controller;
@@ -48,7 +53,10 @@ public class CityDashboard extends JFrame implements CityObserver {
                         .getCityState()
                         .getCityStats()
         );
+
+        updatePolicyButtons();
     }
+
 
     private void initializeWindow() {
 
@@ -58,9 +66,11 @@ public class CityDashboard extends JFrame implements CityObserver {
         setLocationRelativeTo(null);
     }
 
+
     private void createGUI() {
 
         setLayout(new BorderLayout());
+
 
         // =========================
         // TOP: CITY STATUS
@@ -159,10 +169,13 @@ public class CityDashboard extends JFrame implements CityObserver {
         // POLICY BUTTONS
         // =========================
 
-        JButton environmentalButton =
+        noPolicyButton =
+                new JButton("No Policy");
+
+        environmentalButton =
                 new JButton("Environmental Tax");
 
-        JButton industrialButton =
+        industrialButton =
                 new JButton("Industrial Expansion");
 
 
@@ -207,17 +220,32 @@ public class CityDashboard extends JFrame implements CityObserver {
         // POLICY ACTIONS
         // =========================
 
-        environmentalButton.addActionListener(e ->
-                controller.activatePolicy(
-                        new EnvironmentalTax()
-                )
-        );
+        noPolicyButton.addActionListener(e -> {
 
-        industrialButton.addActionListener(e ->
-                controller.activatePolicy(
-                        new IndustrialExpansion()
-                )
-        );
+            controller.activatePolicy(null);
+
+            updatePolicyButtons();
+        });
+
+
+        environmentalButton.addActionListener(e -> {
+
+            controller.activatePolicy(
+                    new EnvironmentalTax()
+            );
+
+            updatePolicyButtons();
+        });
+
+
+        industrialButton.addActionListener(e -> {
+
+            controller.activatePolicy(
+                    new IndustrialExpansion()
+            );
+
+            updatePolicyButtons();
+        });
 
 
         // =========================
@@ -267,43 +295,44 @@ public class CityDashboard extends JFrame implements CityObserver {
 
 
         // =========================
-        // SEPARATOR
+        // POLICY SECTION
         // =========================
 
         commandsPanel.add(
                 Box.createVerticalStrut(20)
         );
 
+        JLabel policyLabel =
+                new JLabel("POLICY");
 
-        // =========================
-        // ADD POLICY BUTTONS
-        // =========================
+        commandsPanel.add(policyLabel);
 
         commandsPanel.add(
-                environmentalButton
+                Box.createVerticalStrut(5)
         );
+
+        commandsPanel.add(noPolicyButton);
 
         commandsPanel.add(
                 Box.createVerticalStrut(10)
         );
 
-        commandsPanel.add(
-                industrialButton
-        );
-
-
-        // =========================
-        // SEPARATOR
-        // =========================
+        commandsPanel.add(environmentalButton);
 
         commandsPanel.add(
-                Box.createVerticalStrut(20)
+                Box.createVerticalStrut(10)
         );
+
+        commandsPanel.add(industrialButton);
 
 
         // =========================
         // NEXT TICK
         // =========================
+
+        commandsPanel.add(
+                Box.createVerticalStrut(20)
+        );
 
         commandsPanel.add(tickButton);
 
@@ -312,6 +341,90 @@ public class CityDashboard extends JFrame implements CityObserver {
                 commandsPanel,
                 BorderLayout.EAST
         );
+    }
+
+
+    // =========================
+    // POLICY BUTTON UPDATE
+    // =========================
+
+    private void updatePolicyButtons() {
+
+        if (noPolicyButton == null ||
+                environmentalButton == null ||
+                industrialButton == null) {
+            return;
+        }
+
+        // Recupera la policy attualmente attiva
+        Object currentPolicy =
+                controller.getCity()
+                        .getCityState()
+                        .getCurrentPolicyStrategy();
+
+
+        // =========================
+        // NO POLICY
+        // =========================
+
+        if (currentPolicy == null) {
+
+            noPolicyButton.setText(
+                    "✓ No Policy"
+            );
+
+            environmentalButton.setText(
+                    "Environmental Tax"
+            );
+
+            industrialButton.setText(
+                    "Industrial Expansion"
+            );
+        }
+
+
+        // =========================
+        // ENVIRONMENTAL TAX
+        // =========================
+
+        else if (
+                currentPolicy instanceof EnvironmentalTax
+        ) {
+
+            noPolicyButton.setText(
+                    "No Policy"
+            );
+
+            environmentalButton.setText(
+                    "✓ Environmental Tax"
+            );
+
+            industrialButton.setText(
+                    "Industrial Expansion"
+            );
+        }
+
+
+        // =========================
+        // INDUSTRIAL EXPANSION
+        // =========================
+
+        else if (
+                currentPolicy instanceof IndustrialExpansion
+        ) {
+
+            noPolicyButton.setText(
+                    "No Policy"
+            );
+
+            environmentalButton.setText(
+                    "Environmental Tax"
+            );
+
+            industrialButton.setText(
+                    "✓ Industrial Expansion"
+            );
+        }
     }
 
 
@@ -330,6 +443,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
             return;
         }
+
 
         Cell cell;
 
@@ -512,6 +626,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
             refreshStats(currentStats);
             refreshGrid();
+            updatePolicyButtons();
 
         });
     }
