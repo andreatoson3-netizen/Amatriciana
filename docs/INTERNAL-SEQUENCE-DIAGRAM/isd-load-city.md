@@ -15,3 +15,4 @@ sequenceDiagram
         Persistence-->>Controller: return null (load failed)
         Controller-->>Mayor: Load failed
     end
+```
