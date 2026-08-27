@@ -32,15 +32,18 @@ class CellTest {
     void testCellDefaultState_HappyPath() {
         // Act & Assert
         // Verifichiamo i valori di default di Java all'istanza dell'oggetto.
-        // I boolean in Java nascono a 'false' se non inizializzati diversamente.
 
         /*
          > [Nota A: Perchè testare i default?]
          > Ci assicuriamo che una cella appena creata non sia erroneamente dichiarata
-         > già operativa o libera per sbaglio da future modifiche al costruttore.
+         > già operativa, libera o con coordinate/costi fantasma per sbaglio.
          */
         assertFalse(cell.isFree(), "Una cella appena creata deve nascere con free = false");
+        assertFalse(cell.getFree(), "Il getter getFree() deve essere coerente e restituire false");
         assertFalse(cell.isOperative(), "Una cella appena creata deve nascere con isOperative = false");
+        assertEquals(0, cell.getCost(), "Una cella generica appena creata deve avere un costo di default pari a 0");
+        assertEquals(0, cell.getX(), "La coordinata X di default deve essere 0");
+        assertEquals(0, cell.getY(), "La coordinata Y di default deve essere 0");
     }
 
     @Test
@@ -57,6 +60,37 @@ class CellTest {
          > correttamente il cambio di stato, essenziale per la logica della Grid.
          */
         assertTrue(cell.isFree(), "La cella non ha registrato il cambio di stato a 'libera'");
+        assertTrue(cell.getFree(), "Il getter getFree() non ha registrato il cambio di stato");
         assertTrue(cell.isOperative(), "La cella non ha registrato il cambio di stato a 'operativa'");
+    }
+
+    @Test
+    void testSetAndGetCost() {
+        // Act
+        int testCost = 350;
+        cell.setCost(testCost);
+
+        // Assert
+        /*
+         > [Nota C: Validazione Finanziaria Base]
+         > Verifichiamo l'incapsulamento del parametro cost integrato in Cell.
+         */
+        assertEquals(testCost, cell.getCost(), "Il getter del costo non restituisce il valore assegnato dal setter");
+    }
+
+    @Test
+    void testSetAndGetCoordinates() {
+        // Act
+        cell.setX(12);
+        cell.setY(8);
+
+        // Assert
+        /*
+         > [Nota D: Validazione Posizionamento Spaziale]
+         > Assicuriamo che le coordinate vengano immagazzinate correttamente
+         > per la serializzazione JSON e le logiche della Grid.
+         */
+        assertEquals(12, cell.getX(), "Il setter della coordinata X ha fallito");
+        assertEquals(8, cell.getY(), "Il setter della coordinata Y ha fallito");
     }
 }

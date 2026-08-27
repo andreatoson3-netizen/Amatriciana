@@ -33,7 +33,7 @@ class CityTest {
     @Test
     void testProcessTick_WhenCityStateIsNull_DoesNotCrash() {
         // Act & Assert
-        // Verifica che la guard clause impedisca un NullPointerException se il gioco non è inizializzato
+        // Verifica che la guard clause impedisca un NullPointerException
         assertDoesNotThrow(() -> city.processTick(),
                 "Invocare processTick() con cityState null non deve lanciare eccezioni");
     }
@@ -47,5 +47,31 @@ class CityTest {
         // Verifica la corretta delegazione a CityState
         assertDoesNotThrow(() -> city.processTick(),
                 "Invocare processTick() con cityState inizializzato deve completarsi con successo");
+    }
+
+    // ------------------------------------------------------------------------
+    // NUOVI TEST: Inizializzazione Budget
+    // ------------------------------------------------------------------------
+
+    @Test
+    void testInitNewGameBudget_WhenCityStateIsNull_DoesNotCrash() {
+        // Act & Assert (Sad Path)
+        // City non è ancora inizializzata (cityState è null)
+        assertDoesNotThrow(() -> city.initNewGameBudget(),
+                "Invocare initNewGameBudget() prima di initCity() non deve causare crash");
+    }
+
+    @Test
+    void testInitNewGameBudget_SetsMoneyTo5000() {
+        // Arrange (Happy Path)
+        city.initCity(); // 1. Creiamo lo stato della città
+
+        // Act
+        city.initNewGameBudget(); // 2. Applichiamo il budget
+
+        // Assert
+        // Andiamo a pescare il valore profondo per verificare l'assegnazione
+        int actualMoney = city.getCityState().getCityStats().getMoney();
+        assertEquals(5000, actualMoney, "Il metodo deve forzare il budget iniziale esattamente a 5000");
     }
 }
