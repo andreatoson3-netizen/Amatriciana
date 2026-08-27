@@ -19,10 +19,12 @@ Verifica: Si è verificata la possibilità di interrogare lo stato di un blocco 
 Esito: OK.
 Il metodo grid.getCell(x, y) restituisce in modo puntuale e corretto lo stato della cella richiesta (mostrando se è vuota o quale struttura vi è posizionata sopra).
 
-Scenario 3: Handling Grid Boundaries (Edge Case)
-Verifica: È stato testato il comportamento del sistema nel caso in cui un utente tenti di interagire con coordinate esterne ai confini della griglia.
-Esito: OK.
-I controlli di validazione implementati nei metodi di Grid intercettano correttamente i tentativi fuori dai confini (valori negativi o superiori a 19), rifiutando l'operazione e prevenendo eccezioni o corse di memoria
+
+Scenario 3:Handling Grid Boundaries(Edge Case)
+Verifica:E' stato testato il comportamento del sistema nel caso in cui un utente tenti di interagire con coordinate esterne ai confini della griglia.
+Esito:OK.
+I controlli di validazione implementati nei metodi di Grid intercettano correttamente  i tentativi fuori dai confini(valori negativi o superiori a 19), rifiutando l'operrazione e prevenendo eccezzioni o corse di memoria
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-02 - City monitoring and interaction
 
