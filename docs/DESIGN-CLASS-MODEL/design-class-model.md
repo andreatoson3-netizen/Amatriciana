@@ -10,7 +10,7 @@ classDiagram
         -city : City
         -persistencemanage : CityPersistenceManager
         +startNewGame() : void
-        +setCell(Cell cell) : void
+        +setCell(Cell cell) : boolean
         +activatePolicy(CityPolicyStrategy policy): void
         +advanceTime() : void
         +loadGame(String filePath) : void
@@ -95,16 +95,19 @@ classDiagram
         -boolean isOperative
         -int x
         -int y
+        -int cost
         +isFree(): boolean
         +returnStat(): Stats
         +getFree() : boolean
         +setFree(boolean free):void
         +isOperative():boolean
         +setOperative(boolean operative):void
-        +getX:int
-        +setX(int x)
-        +getY:int
-        +setY(int y)
+        +getX():int
+        +setX(int x):void
+        +getY():int
+        +setY(int y):void
+        +getCost():int
+        +setCost(int cost):void
         
     }
 
