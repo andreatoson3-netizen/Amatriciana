@@ -5,12 +5,20 @@ import com.citylogic.model.Cell;
 import com.citylogic.model.CellFactory;
 import com.citylogic.model.Grid;
 import com.citylogic.model.Stats;
+import com.citylogic.model.Residential;
+import com.citylogic.model.Factory;
+import com.citylogic.model.Commercial;
+import com.citylogic.model.Park;
+import com.citylogic.model.Road;
+import com.citylogic.model.PowerPlant;
 import com.citylogic.simulation.CityObserver;
 import com.citylogic.strategy.EnvironmentalTax;
 import com.citylogic.strategy.IndustrialExpansion;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.File;
 
 public class CityDashboard extends JFrame implements CityObserver {
 
@@ -19,6 +27,10 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private final JButton[][] gridButtons = new JButton[20][20];
 
+    // =========================
+    // CITY STATS
+    // =========================
+
     private JLabel moneyLabel;
     private JLabel pollutionLabel;
     private JLabel happinessLabel;
@@ -26,12 +38,23 @@ public class CityDashboard extends JFrame implements CityObserver {
     private JLabel energyLabel;
     private JLabel tickLabel;
 
+    // =========================
+    // BUILDING
+    // =========================
+
     private String selectedBuilding = null;
 
-    // Pulsanti delle policy
+    // =========================
+    // POLICY
+    // =========================
+
     private JButton noPolicyButton;
     private JButton environmentalButton;
     private JButton industrialButton;
+
+    // =========================
+    // CONSTRUCTOR
+    // =========================
 
     public CityDashboard(GameController controller) {
 
@@ -57,33 +80,93 @@ public class CityDashboard extends JFrame implements CityObserver {
         updatePolicyButtons();
     }
 
+    // =========================
+    // WINDOW
+    // =========================
 
     private void initializeWindow() {
 
-        setTitle("CityLogic");
-        setSize(1000, 700);
+        setTitle("SimCity Lite");
+
+        setSize(1200, 750);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setLocationRelativeTo(null);
     }
 
+    // =========================
+    // GUI
+    // =========================
 
     private void createGUI() {
 
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
+        // =====================================================
+        // TITLE
+        // =====================================================
 
-        // =========================
-        // TOP: CITY STATUS
-        // =========================
+        JLabel titleLabel =
+                new JLabel("SimCity Lite", SwingConstants.CENTER);
 
-        JPanel statsPanel = new JPanel(new GridLayout(2, 3));
+        titleLabel.setFont(
+                new Font("Arial", Font.BOLD, 28)
+        );
 
-        moneyLabel = new JLabel("Money: 0");
-        pollutionLabel = new JLabel("Pollution: 0");
-        happinessLabel = new JLabel("Happiness: 0");
-        populationLabel = new JLabel("Population: 0");
-        energyLabel = new JLabel("Energy: 0");
-        tickLabel = new JLabel("Tick: 0");
+        JPanel titlePanel =
+                new JPanel(new BorderLayout());
+
+        titlePanel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        10, 10, 5, 10
+                )
+        );
+
+        titlePanel.add(
+                titleLabel,
+                BorderLayout.CENTER
+        );
+
+        add(
+                titlePanel,
+                BorderLayout.NORTH
+        );
+
+        // =====================================================
+        // CITY STATS
+        // =====================================================
+
+        JPanel statsPanel =
+                new JPanel(new GridLayout(2, 3, 10, 5));
+
+        statsPanel.setBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(Color.GRAY),
+                        "CITY STATS",
+                        TitledBorder.CENTER,
+                        TitledBorder.TOP,
+                        new Font("Arial", Font.BOLD, 14)
+                )
+        );
+
+        moneyLabel =
+                new JLabel("Money: 0");
+
+        pollutionLabel =
+                new JLabel("Pollution: 0");
+
+        happinessLabel =
+                new JLabel("Happiness: 0");
+
+        populationLabel =
+                new JLabel("Population: 0");
+
+        energyLabel =
+                new JLabel("Energy: 0");
+
+        tickLabel =
+                new JLabel("Tick: 0");
 
         statsPanel.add(moneyLabel);
         statsPanel.add(pollutionLabel);
@@ -92,15 +175,41 @@ public class CityDashboard extends JFrame implements CityObserver {
         statsPanel.add(energyLabel);
         statsPanel.add(tickLabel);
 
-        add(statsPanel, BorderLayout.NORTH);
+        JPanel statsContainer =
+                new JPanel(new BorderLayout());
 
+        statsContainer.setBorder(
+                BorderFactory.createEmptyBorder(
+                        0, 10, 5, 10
+                )
+        );
 
-        // =========================
-        // CENTER: CITY GRID
-        // =========================
+        statsContainer.add(
+                statsPanel,
+                BorderLayout.CENTER
+        );
 
-        JPanel gridPanel = new JPanel(
-                new GridLayout(20, 20)
+        // =====================================================
+        // CENTER AREA
+        // =====================================================
+
+        JPanel centerPanel =
+                new JPanel(new BorderLayout());
+
+        centerPanel.add(
+                statsContainer,
+                BorderLayout.NORTH
+        );
+
+        // =====================================================
+        // CITY GRID
+        // =====================================================
+
+        JPanel gridPanel =
+                new JPanel(new GridLayout(20, 20));
+
+        gridPanel.setBorder(
+                BorderFactory.createLineBorder(Color.DARK_GRAY)
         );
 
         for (int x = 0; x < 20; x++) {
@@ -117,22 +226,34 @@ public class CityDashboard extends JFrame implements CityObserver {
                 );
 
                 button.addActionListener(e ->
-                        buildOnCell(finalX, finalY)
+                        buildOnCell(
+                                finalX,
+                                finalY
+                        )
                 );
 
                 gridButtons[x][y] = button;
+
                 gridPanel.add(button);
             }
         }
 
-        add(gridPanel, BorderLayout.CENTER);
+        centerPanel.add(
+                gridPanel,
+                BorderLayout.CENTER
+        );
 
+        add(
+                centerPanel,
+                BorderLayout.CENTER
+        );
 
-        // =========================
-        // RIGHT: COMMANDS
-        // =========================
+        // =====================================================
+        // RIGHT COMMAND PANEL
+        // =====================================================
 
-        JPanel commandsPanel = new JPanel();
+        JPanel commandsPanel =
+                new JPanel();
 
         commandsPanel.setLayout(
                 new BoxLayout(
@@ -141,10 +262,78 @@ public class CityDashboard extends JFrame implements CityObserver {
                 )
         );
 
+        commandsPanel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        10, 5, 10, 10
+                )
+        );
 
-        // =========================
-        // BUILDING BUTTONS
-        // =========================
+        // =====================================================
+        // NEXT TICK
+        // =====================================================
+
+        JButton tickButton =
+                new JButton("Next Tick");
+
+        tickButton.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        tickButton.addActionListener(e -> {
+
+            controller.advanceTime();
+
+            int unpoweredResidential =
+                    controller.getCity()
+                            .getCityState()
+                            .getGrid()
+                            .countUnpoweredResidential();
+
+            if (unpoweredResidential > 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Attention!\n" +
+                        unpoweredResidential +
+                        " residential zone(s) do not have " +
+                        "a nearby Power Plant.\n" +
+                        "They did not contribute to the " +
+                        "city's metrics during this tick.",
+                        "Residential zones without power",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
+        });
+
+        commandsPanel.add(tickButton);
+
+        // =====================================================
+        // BUILD SECTION
+        // =====================================================
+
+        commandsPanel.add(
+                Box.createVerticalStrut(15)
+        );
+
+        JPanel buildPanel =
+                new JPanel();
+
+        buildPanel.setLayout(
+                new BoxLayout(
+                        buildPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        buildPanel.setBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(Color.GRAY),
+                        "BUILD",
+                        TitledBorder.CENTER,
+                        TitledBorder.TOP,
+                        new Font("Arial", Font.BOLD, 14)
+                )
+        );
 
         JButton houseButton =
                 new JButton("Build House");
@@ -164,32 +353,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         JButton powerPlantButton =
                 new JButton("Build Power Plant");
 
-
-        // =========================
-        // POLICY BUTTONS
-        // =========================
-
-        noPolicyButton =
-                new JButton("No Policy");
-
-        environmentalButton =
-                new JButton("Environmental Tax");
-
-        industrialButton =
-                new JButton("Industrial Expansion");
-
-
-        // =========================
-        // TIME BUTTON
-        // =========================
-
-        JButton tickButton =
-                new JButton("Next Tick");
-
-
-        // =========================
-        // BUILDING ACTIONS
-        // =========================
+        // Building actions
 
         houseButton.addActionListener(e ->
                 selectedBuilding = "residential"
@@ -215,10 +379,78 @@ public class CityDashboard extends JFrame implements CityObserver {
                 selectedBuilding = "powerplant"
         );
 
+        buildPanel.add(houseButton);
 
-        // =========================
-        // POLICY ACTIONS
-        // =========================
+        buildPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        buildPanel.add(factoryButton);
+
+        buildPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        buildPanel.add(commercialButton);
+
+        buildPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        buildPanel.add(parkButton);
+
+        buildPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        buildPanel.add(roadButton);
+
+        buildPanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        buildPanel.add(powerPlantButton);
+
+        commandsPanel.add(buildPanel);
+
+        // =====================================================
+        // POLICY SECTION
+        // =====================================================
+
+        commandsPanel.add(
+                Box.createVerticalStrut(15)
+        );
+
+        JPanel policyPanel =
+                new JPanel();
+
+        policyPanel.setLayout(
+                new BoxLayout(
+                        policyPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+        policyPanel.setBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(Color.GRAY),
+                        "POLICY",
+                        TitledBorder.CENTER,
+                        TitledBorder.TOP,
+                        new Font("Arial", Font.BOLD, 14)
+                )
+        );
+
+        noPolicyButton =
+                new JButton("No Policy");
+
+        environmentalButton =
+                new JButton("Environmental Tax");
+
+        industrialButton =
+                new JButton("Industrial Expansion");
+
+        // Policy actions
 
         noPolicyButton.addActionListener(e -> {
 
@@ -226,7 +458,6 @@ public class CityDashboard extends JFrame implements CityObserver {
 
             updatePolicyButtons();
         });
-
 
         environmentalButton.addActionListener(e -> {
 
@@ -237,7 +468,6 @@ public class CityDashboard extends JFrame implements CityObserver {
             updatePolicyButtons();
         });
 
-
         industrialButton.addActionListener(e -> {
 
             controller.activatePolicy(
@@ -247,95 +477,216 @@ public class CityDashboard extends JFrame implements CityObserver {
             updatePolicyButtons();
         });
 
+        policyPanel.add(noPolicyButton);
 
-        // =========================
-        // TIME ACTION
-        // =========================
-
-        tickButton.addActionListener(e ->
-                controller.advanceTime()
-        );
-
-
-        // =========================
-        // ADD BUILDING BUTTONS
-        // =========================
-
-        commandsPanel.add(houseButton);
-
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
-        );
-
-        commandsPanel.add(factoryButton);
-
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
-        );
-
-        commandsPanel.add(commercialButton);
-
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
-        );
-
-        commandsPanel.add(parkButton);
-
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
-        );
-
-        commandsPanel.add(roadButton);
-
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
-        );
-
-        commandsPanel.add(powerPlantButton);
-
-
-        // =========================
-        // POLICY SECTION
-        // =========================
-
-        commandsPanel.add(
-                Box.createVerticalStrut(20)
-        );
-
-        JLabel policyLabel =
-                new JLabel("POLICY");
-
-        commandsPanel.add(policyLabel);
-
-        commandsPanel.add(
+        policyPanel.add(
                 Box.createVerticalStrut(5)
         );
 
-        commandsPanel.add(noPolicyButton);
+        policyPanel.add(environmentalButton);
 
-        commandsPanel.add(
-                Box.createVerticalStrut(10)
+        policyPanel.add(
+                Box.createVerticalStrut(5)
         );
 
-        commandsPanel.add(environmentalButton);
+        policyPanel.add(industrialButton);
+
+        commandsPanel.add(policyPanel);
+
+        // =====================================================
+        // GAME SECTION
+        // =====================================================
 
         commandsPanel.add(
-                Box.createVerticalStrut(10)
+                Box.createVerticalStrut(15)
         );
 
-        commandsPanel.add(industrialButton);
+        JPanel gamePanel =
+                new JPanel();
 
-
-        // =========================
-        // NEXT TICK
-        // =========================
-
-        commandsPanel.add(
-                Box.createVerticalStrut(20)
+        gamePanel.setLayout(
+                new BoxLayout(
+                        gamePanel,
+                        BoxLayout.Y_AXIS
+                )
         );
 
-        commandsPanel.add(tickButton);
+        gamePanel.setBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(Color.GRAY),
+                        "GAME",
+                        TitledBorder.CENTER,
+                        TitledBorder.TOP,
+                        new Font("Arial", Font.BOLD, 14)
+                )
+        );
 
+        JButton newGameButton =
+                new JButton("New Game");
+
+        JButton saveGameButton =
+                new JButton("Save Game");
+
+        JButton loadGameButton =
+                new JButton("Load Game");
+
+        // =====================================================
+        // NEW GAME
+        // =====================================================
+
+        newGameButton.addActionListener(e -> {
+
+            int answer =
+                    JOptionPane.showConfirmDialog(
+                            this,
+                            "Are you sure you want to start a new game?",
+                            "New Game",
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (answer != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            controller.startNewGame();
+
+            controller.getCity()
+                    .getCityState()
+                    .addObserver(this);
+
+            selectedBuilding = null;
+
+            refreshGrid();
+
+            refreshStats(
+                    controller.getCity()
+                            .getCityState()
+                            .getCityStats()
+            );
+
+            updatePolicyButtons();
+        });
+
+        // =====================================================
+        // SAVE GAME
+        // =====================================================
+
+        saveGameButton.addActionListener(e -> {
+
+            JFileChooser fileChooser =
+                    new JFileChooser();
+
+            fileChooser.setDialogTitle(
+                    "Save Game"
+            );
+
+            int result =
+                    fileChooser.showSaveDialog(this);
+
+            if (result != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            File file =
+                    fileChooser.getSelectedFile();
+
+            String path =
+                    file.getAbsolutePath();
+
+            if (!path.toLowerCase().endsWith(".json")) {
+                path += ".json";
+            }
+
+            controller.saveGame(path);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Game saved successfully.",
+                    "Save Game",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
+        // =====================================================
+        // LOAD GAME
+        // =====================================================
+
+        loadGameButton.addActionListener(e -> {
+
+            JFileChooser fileChooser =
+                    new JFileChooser();
+
+            fileChooser.setDialogTitle(
+                    "Load Game"
+            );
+
+            int result =
+                    fileChooser.showOpenDialog(this);
+
+            if (result != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            File file =
+                    fileChooser.getSelectedFile();
+
+            controller.loadGame(
+                    file.getAbsolutePath()
+            );
+
+            if (controller.getCity() == null) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unable to load the selected game.",
+                        "Load Game",
+                        JOptionPane.ERROR_MESSAGE
+                );
+
+                return;
+            }
+
+            controller.getCity()
+                    .getCityState()
+                    .addObserver(this);
+
+            selectedBuilding = null;
+
+            refreshGrid();
+
+            refreshStats(
+                    controller.getCity()
+                            .getCityState()
+                            .getCityStats()
+            );
+
+            updatePolicyButtons();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Game loaded successfully.",
+                    "Load Game",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
+        // Add game buttons
+
+        gamePanel.add(newGameButton);
+
+        gamePanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        gamePanel.add(saveGameButton);
+
+        gamePanel.add(
+                Box.createVerticalStrut(5)
+        );
+
+        gamePanel.add(loadGameButton);
+
+        commandsPanel.add(gamePanel);
 
         add(
                 commandsPanel,
@@ -343,10 +694,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         );
     }
 
-
-    // =========================
+    // =========================================================
     // POLICY BUTTON UPDATE
-    // =========================
+    // =========================================================
 
     private void updatePolicyButtons() {
 
@@ -356,81 +706,76 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-        // Recupera la policy attualmente attiva
         Object currentPolicy =
                 controller.getCity()
                         .getCityState()
                         .getCurrentPolicyStrategy();
 
-
-        // =========================
+        // =====================================================
         // NO POLICY
-        // =========================
+        // =====================================================
 
         if (currentPolicy == null) {
 
             noPolicyButton.setText(
-                    "✓ No Policy"
+                    "No Policy - ACTIVE"
             );
 
             environmentalButton.setText(
-                    "Environmental Tax"
+                    "Environmental Tax - INACTIVE"
             );
 
             industrialButton.setText(
-                    "Industrial Expansion"
+                    "Industrial Expansion - INACTIVE"
             );
+
+            return;
         }
 
-
-        // =========================
+        // =====================================================
         // ENVIRONMENTAL TAX
-        // =========================
+        // =====================================================
 
-        else if (
-                currentPolicy instanceof EnvironmentalTax
-        ) {
+        if (currentPolicy instanceof EnvironmentalTax) {
 
             noPolicyButton.setText(
-                    "No Policy"
+                    "No Policy - INACTIVE"
             );
 
             environmentalButton.setText(
-                    "✓ Environmental Tax"
+                    "Environmental Tax - ACTIVE"
             );
 
             industrialButton.setText(
-                    "Industrial Expansion"
+                    "Industrial Expansion - INACTIVE"
             );
+
+            return;
         }
 
-
-        // =========================
+        // =====================================================
         // INDUSTRIAL EXPANSION
-        // =========================
+        // =====================================================
 
-        else if (
-                currentPolicy instanceof IndustrialExpansion
-        ) {
+        if (currentPolicy instanceof IndustrialExpansion) {
 
             noPolicyButton.setText(
-                    "No Policy"
+                    "No Policy - INACTIVE"
             );
 
             environmentalButton.setText(
-                    "Environmental Tax"
+                    "Environmental Tax - INACTIVE"
             );
 
             industrialButton.setText(
-                    "✓ Industrial Expansion"
+                    "Industrial Expansion - ACTIVE"
             );
         }
     }
 
-
-    // =========================
+    // =========================================================
     // BUILD
-    // =========================
+    // =========================================================
 
     private void buildOnCell(int x, int y) {
 
@@ -443,7 +788,6 @@ public class CityDashboard extends JFrame implements CityObserver {
 
             return;
         }
-
 
         Cell cell;
 
@@ -464,14 +808,11 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-
         cell.setX(x);
         cell.setY(y);
 
-
         boolean success =
                 controller.setCell(cell);
-
 
         if (!success) {
 
@@ -487,16 +828,14 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-
         refreshGrid();
 
         selectedBuilding = null;
     }
 
-
-    // =========================
+    // =========================================================
     // GRID UPDATE
-    // =========================
+    // =========================================================
 
     private void refreshGrid() {
 
@@ -504,7 +843,6 @@ public class CityDashboard extends JFrame implements CityObserver {
                 controller.getCity()
                         .getCityState()
                         .getGrid();
-
 
         for (int x = 0; x < 20; x++) {
 
@@ -516,43 +854,42 @@ public class CityDashboard extends JFrame implements CityObserver {
                 JButton button =
                         gridButtons[x][y];
 
-
                 if (cell == null) {
 
                     button.setText("");
 
                 } else if (
-                        cell instanceof com.citylogic.model.Residential
+                        cell instanceof Residential
                 ) {
 
                     button.setText("H");
 
                 } else if (
-                        cell instanceof com.citylogic.model.Factory
+                        cell instanceof Factory
                 ) {
 
                     button.setText("F");
 
                 } else if (
-                        cell instanceof com.citylogic.model.Commercial
+                        cell instanceof Commercial
                 ) {
 
                     button.setText("C");
 
                 } else if (
-                        cell instanceof com.citylogic.model.Park
+                        cell instanceof Park
                 ) {
 
                     button.setText("P");
 
                 } else if (
-                        cell instanceof com.citylogic.model.Road
+                        cell instanceof Road
                 ) {
 
                     button.setText("R");
 
                 } else if (
-                        cell instanceof com.citylogic.model.PowerPlant
+                        cell instanceof PowerPlant
                 ) {
 
                     button.setText("PP");
@@ -561,10 +898,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
     }
 
-
-    // =========================
+    // =========================================================
     // STATS UPDATE
-    // =========================
+    // =========================================================
 
     private void refreshStats(Stats stats) {
 
@@ -572,36 +908,30 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-
         moneyLabel.setText(
                 "Money: " +
                 stats.getMoney()
         );
-
 
         pollutionLabel.setText(
                 "Pollution: " +
                 stats.getPollution()
         );
 
-
         happinessLabel.setText(
                 "Happiness: " +
                 stats.getHappiness()
         );
-
 
         populationLabel.setText(
                 "Population: " +
                 stats.getPopulation()
         );
 
-
         energyLabel.setText(
                 "Energy: " +
                 stats.getEnergy()
         );
-
 
         tickLabel.setText(
                 "Tick: " +
@@ -611,23 +941,20 @@ public class CityDashboard extends JFrame implements CityObserver {
         );
     }
 
-
-    // =========================
+    // =========================================================
     // OBSERVER
-    // =========================
+    // =========================================================
 
     @Override
     public void update(Stats currentStats) {
 
-        // La modifica arriva dal Model.
-        // Aggiorniamo la GUI sull'Event Dispatch Thread.
-
         SwingUtilities.invokeLater(() -> {
 
             refreshStats(currentStats);
-            refreshGrid();
-            updatePolicyButtons();
 
+            refreshGrid();
+
+            updatePolicyButtons();
         });
     }
 }
