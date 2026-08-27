@@ -16,3 +16,4 @@ sequenceDiagram
     State-->>CityObj: return CityState
     CityObj-->>Controller: return City initialized
     Controller-->>Mayor: New city initialized & Display city grid and stats
+```
