@@ -23,3 +23,4 @@ sequenceDiagram
     else city == null
         Controller-->>Mayor: Save failed (No active city)
     end
+```
