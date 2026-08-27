@@ -7,7 +7,7 @@ public class CellFactory {
 
     //crea e restituisce un'istanza concreta di Cell in base al tipo specificato
      //@param cellType stringa che identifica il tipo di cella da creare
-     //@return un oggetto che estende Cell, oppure null se il tipo non è riconosciuto
+     //@return un oggetto che estende Cell, null, oppure un'eccezione se il tipo non è riconosciuto
 
     public Cell createCell(String cellType) {
         if (cellType == null) {

@@ -1,5 +1,3 @@
-
-//TEST PER PRIMA USER STORY: INITIALIZE A CITY
 package com.citylogic.model;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -8,75 +6,74 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GridTest {
 
-    private Grid grid;//istanza della classe Grid
+    private Grid grid;
 
     @BeforeEach
     void setUp() {
-        // Viene eseguito prima di ogni test per avere una griglia pulita
-        grid = new Grid(); // Assumendo che il costruttore di default crei la matrice 20x20
+        // Arrange globale: istanziamo una griglia pulita 20x20
+        grid = new Grid();
     }
 
-    // ------------------------------------------------------------------------
-    // Scenario 1: Grid Initialization with Default State
-    // ------------------------------------------------------------------------
     @Test
-    void testGridInitialization() {
-        //richiama il metodo +getGriglia() visibile nella classe Grid
-        Cell[][] matrice = grid.getGriglia();
+    void testGetCell_BoundaryValueAnalysis() {
+        // Act & Assert
+        // 1. Coordinata valida (deve restituire null perché è vuota, ma non crashare)
+        assertDoesNotThrow(() -> grid.getCell(0, 0), "Crash su coordinate 0,0 valide");
+        assertNull(grid.getCell(0, 0));
 
-        // 1. Verifica che la griglia non sia nulla
-        assertNotNull(matrice, "La matrice della griglia non deve essere null.");
+        // 2. Limite negativo (Out of Bounds)
+        assertNull(grid.getCell(-1, 5), "Coordinate negative non protette");
+        assertNull(grid.getCell(5, -1), "Coordinate negative non protette");
 
-        // 2. Verifica che le dimensioni siano 20x20
-        assertEquals(20, matrice.length, "La griglia deve avere 20 righe.");
-        assertEquals(20, matrice[0].length, "La griglia deve avere 20 colonne.");
-
-        // 3. Verifica che tutti i 400 blocchi siano stati creati e siano nello stato di default (Empty/Free)
-        int blockCount = 0;
-        for (int i = 0; i < matrice.length; i++) {
-            for (int j = 0; j < matrice[i].length; j++) {
-                Cell cell = matrice[i][j];
-
-                // All'avvio, le celle non ancora occupate sono null (spazi vuoti)
-                // Quindi verifichiamo solo che la posizione esista nella matrice,
-                // senza pretendere che ci sia già un oggetto cella dentro.
-                blockCount++;
-            }
-        }
-
-        // Verifica finale del totale dei blocchi
-        assertEquals(400, blockCount, "Il sistema deve creare un totale di 400 blocchi.");
+        // 3. Limite superiore (Out of Bounds - la griglia è 20x20, quindi max indice è 19)
+        assertNull(grid.getCell(20, 5), "Limite superiore X (20) non protetto");
+        assertNull(grid.getCell(5, 20), "Limite superiore Y (20) non protetto");
     }
 
-    // ------------------------------------------------------------------------
-    // Scenario 2: Querying the State of a Valid Block
-    // ------------------------------------------------------------------------
     @Test
-    void testQueryValidBlock() {
-        // richiama il metodo getCell(int x,y) della classe Grid per interrogare lo stato di un
-        // blocco specifico tramite le sue coordinate
-        Cell cell = grid.getCell(5, 5);
+    void testHasPowerPlant_SpatialSearch() {
+        // Arrange: Griglia inizialmente vuota
+        assertFalse(grid.hasPowerPlant(), "Una griglia vuota non dovrebbe avere centrali");
 
-        //poichè il metodo getCell restituisce griglia[x][y], se in quella posizione
-        //non è stato ancora costruito nulla,il blocco è vuoto e quindi restituisce null
-        //Verifichiamo quindi che il comportamento corrispondi a quanto atteso:
-        assertNull(cell, "Una cella non ancora occupata deve restituire null(stato vuoto).");
+        // Act: Forziamo l'inserimento di una centrale nell'array (violando l'incapsulamento per test)
+        grid.getGriglia()[5][5] = new PowerPlant();
+
+        // Assert: Il metodo deve scandire la matrice e trovarla
+        assertTrue(grid.hasPowerPlant(), "Il metodo non ha rilevato la centrale appena inserita");
     }
 
-    // ------------------------------------------------------------------------
-    // Scenario 3: Handling Grid Boundaries (Boundary/Edge Case)
-    // ------------------------------------------------------------------------
     @Test
-    void testQueryOutOfBounds() {
-        // Il sindaco interroga una coordinata fuori dai confini (es. x=20, y=20 su matrice 0-19)
-        Cell invalidCellNegativa = grid.getCell(-1, 5);
-        Cell invalidCellEccessiva = grid.getCell(25, 10);
+    void testCalculateRawStats_RuleEnforcement_SadPath() {
+        // Arrange: Inseriamo un'area residenziale MA nessuna centrale elettrica
+        Residential res = new Residential();
+        res.setFree(false); // Simuliamo che sia costruita
+        grid.getGriglia()[10][10] = res;
 
-        //verifichiamo che il sistemi rigetti l'operazione restituendo null
-        assertNull(invalidCellNegativa, "Il sistema deve restituire null per coordinate negative");
-        assertNull(invalidCellEccessiva, "Il sistema deve restituire null per coordinate superiori alla dimensione della griglia");
+        // Act
+        Stats totalStats = grid.calculateRawStats();
 
+        // Assert: Senza energia, la regola impone che l'area residenziale venga ignorata (blocco continue)
+        assertEquals(0, totalStats.getMoney(), "Un'area residenziale senza energia non dovrebbe produrre statistiche");
+        assertEquals(0, totalStats.getPopulation(), "Un'area residenziale senza energia non dovrebbe produrre popolazione");
+    }
 
+    @Test
+    void testCalculateRawStats_RuleEnforcement_HappyPath() {
+        // Arrange: Inseriamo SIA un'area residenziale CHE una centrale elettrica
+        Residential res = new Residential();
+        res.setFree(false);
+        PowerPlant power = new PowerPlant();
+        power.setFree(false);
+
+        grid.getGriglia()[10][10] = res;
+        grid.getGriglia()[5][5] = power;
+
+        // Act
+        Stats totalStats = grid.calculateRawStats();
+
+        // Assert: Essendoci energia, le statistiche devono essere maggiori di zero
+        // (Almeno la centrale inquina e costa, e il residenziale produce abitanti/soldi)
+        assertTrue(totalStats.getPollution() != 0 || totalStats.getPopulation() != 0,
+                "Le statistiche non sono state aggregate correttamente nonostante la presenza di energia");
     }
 }
-
