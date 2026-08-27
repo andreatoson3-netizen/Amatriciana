@@ -28,3 +28,4 @@ sequenceDiagram
     Mayor->>TheGrid: getCell(x, y)
     TheGrid-->>Mayor: return Cell (Block state)
     Note over Mayor: Display selected block state
+```
