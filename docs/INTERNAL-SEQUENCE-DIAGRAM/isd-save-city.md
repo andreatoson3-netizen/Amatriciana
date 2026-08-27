@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     autonumber
     actor Mayor as City Mayor
