@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Mayor as City Mayor
     participant System as City System
@@ -14,3 +15,4 @@ sequenceDiagram
     end
 
     deactivate System
+```
