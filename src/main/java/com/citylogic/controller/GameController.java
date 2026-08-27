@@ -47,9 +47,18 @@ public class GameController {
         //3)delega l'inserimento sicuro alla Griglia usando le coordinate già presenti nella cella(o passate)
         boolean placed = city.getCityState().getGrid().setCell(cell, cell.getX(), cell.getY());
 
-        //4)se la griglia ha accettato il posizionamento, scala il budget
+        //4)se la griglia ha accettato il posizionamento, aggiorniamo la città
         if (placed) {
+            //ricalcoliamo le statistiche grezze da tutta la griglia(inclusa la nuova casa)
+            com.citylogic.model.Stats newRawStats=city.getCityState().getGrid().calculateRawStats();
+            //aggiorniamo lo stato tramite il metodo che gestisce il denaro cumulativo e le metriche
+            city.getCityState().updateStats(newRawStats);
+
+            //scaliamo il costo della costruzione dal denaro aggiornato
+            int updateMoney=city.getCityState().getCityStats().getMoney();
             city.getCityState().getCityStats().setMoney(currentMoney - buildingCost);
+            //notifichiamo la Gui
+            city.getCityState().notifyObservers();
             return true;
         }
 
