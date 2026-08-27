@@ -1,50 +1,23 @@
-CLASSI MODIFICATE DA UN DESIGN CLASS MODEL ALL'ALTRO 
+System Test Report: 
+US-01 - Initialize a City & GridUser Story:
+As a City Mayor,
+I want to initialize a block grid,
+so that I have a spatial canvas to develop my city and query the state of each block.
 
-[ ] Stats:Toltooperative come variabile(per seguire il design class model), aggiunto il metodo multiply
+Test Execution & Validation Details
 
-[ ] Tick:classe eliminata(nel design class model non c'era), inoltre in CitYStatecambiato Tick currTick in int currTick, appunto per evitare di dover fare altra classe
+Scenario 1: Grid Initialization with Default State
+Verifica: È stato testato l'avvio di una nuova partita per accertarsi che il sistema generi correttamente lo spazio di gioco.
+Esito: OK.
+L'esame del codice della classe Grid conferma che il costruttore istanzia una matrice bidimensionale di 20x20 elementi (per un totale di 400 blocchi), i quali vengono inizializzati vuoti (null).
 
-[ ] CityState: indicato currTick come int currTick, e messo una nuova variabile private Grid grid per avere il metodo getter utile a Jackson
 
-[ ] City: implementata con i metodi del design class model ed aggiunto il metodo getCityState per restituire lo stato della città
+Scenario 2: Querying the State of a Valid Block
+Verifica: Si è verificata la possibilità di interrogare lo stato di un blocco specifico all'interno dei limiti della mappa.
+Esito: OK.
+Il metodo grid.getCell(x, y) restituisce in modo puntuale e corretto lo stato della cella richiesta (mostrando se è vuota o quale struttura vi è posizionata sopra).
 
-[ ] GameController:la vecchia CityMajor, tutti i metodi implementati, aggiunto saveGame e getCity. Se ok, bisogna modificare il design class model
-
-[ ] Grid: ok, sistemato problema di getCell, dove nell'if c'era "if(x<=0 &&..." al posto di "if(x>=0 &&...."
-
-[ ] Cell:sistemata con aggiunta di un nuovo metodo isOperative, come nel design class model e rinominata da Block a Cell
-
-[ ] Building:sistemata, cambiato di nuovo Block e Cell
-
-[ ] Infrastructure:ok, sistemata come Building 
-
-[ ] Residential:tolta variabile operative, sistemata e adattata alla nuova Building e al nuovo design class model
-
-[ ] Commercial:come Residential
-
-[ ] Factory come Residential
-
-[ ] PowerPlant come sopra
-
-[ ] Park come sopra
-
-[ ] Road come sopra
-
-[ ] CellFactory: classe totalmente nuova e aggiunta nel codice 
-
-[ ] CityPersistenceManager: implementata con i suoi metodi del design class model
-
-[ ] CityPolicyStrategy ok, modificata
-
-[ ] EnvironmentalTax ok, scritta per la prima volta e coerente con la sua interfaccia CityPolicyStrategy
-
-[ ] IndustrialExpansion ok, scritta per la prima volta e coerente con la sua interfaccia 
-
-[ ] CityObserver ok, scritta per l prima volta sotto forma di interfaccia 
-
-[ ] DashboardView nel punto in cui il programma è avviato nel main o GameController bidogna creare un istanza della dashboard e aggiungerla come osservatore allo stato della città, quindi come es. DashboardView dashboard = new DashBoardView(); e poi gameController.getCity().getCityState().addOberver(dashboard)
-
------------NEL DESIGN CLASS MODEL HO AGGIUNTO PRATICAMENTE TUTTI I METODI DELLE CLASSI,ANCHE SE IN TEORIA ALCUNI SONO PER JACKSON
------------FATTO DOMAIN MODEL(il problema è che non so se è troppo specifico)
-
-Io uso intellij come ide 
+Scenario 3: Handling Grid Boundaries (Edge Case)
+Verifica: È stato testato il comportamento del sistema nel caso in cui un utente tenti di interagire con coordinate esterne ai confini della griglia.
+Esito: OK.
+I controlli di validazione implementati nei metodi di Grid intercettano correttamente i tentativi fuori dai confini (valori negativi o superiori a 19), rifiutando l'operazione e prevenendo eccezioni o corse di memoria
