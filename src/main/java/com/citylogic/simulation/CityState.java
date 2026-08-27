@@ -26,6 +26,7 @@ public class CityState {
         this.cityStats= new Stats(0,0,0,0,0);
         this.currentPolicy=null; //Nessuna policy attiva all'avvio
         this.observers = new ArrayList<>();
+        this.grid = new Grid();
 
     }
 
