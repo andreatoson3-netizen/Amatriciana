@@ -1,5 +1,7 @@
 System Test Report: 
+
 US-01 - Initialize a City & GridUser Story:
+
 As a City Mayor,
 I want to initialize a block grid,
 so that I have a spatial canvas to develop my city and query the state of each block.
