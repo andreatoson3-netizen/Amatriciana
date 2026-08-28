@@ -216,4 +216,8 @@ public class GameController {
     public int getUnpoweredCount() {
         return city != null ? city.getCityState().getUnpoweredCount() : 0;
     }
+
+    public int getBlackoutCount() {
+    return city != null ? city.getCityState().getBlackoutCount() : 0;
+}
 }
