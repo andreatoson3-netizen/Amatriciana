@@ -59,6 +59,56 @@ classDiagram
     }
 
 
+    class CityDashboard {
+        -GameController controller
+        -JButton[][] gridButtons
+        -JLabel moneyLabel
+        -JLabel pollutionLabel
+        -JLabel happinessLabel
+        -JLabel populationLabel
+        -JLabel energyLabel
+        -JLabel tickLabel
+        -String selectedBuilding
+        -JButton noPolicyButton
+        -JButton environmentalButton
+        -JButton industrialButton
+        -JButton houseButton
+        -JButton factoryButton
+        -JButton commercialButton
+        -JButton parkButton
+        -JButton roadButton
+        -JButton powerPlantButton
+        -JButton tickButton
+        -JButton demolishButton
+        +CityDashboard(GameController controller)
+        -initializeWindow() void
+        -createGUI() void
+        -createTitlePanel() JPanel
+        -createStatsPanel() JPanel
+        -createGridPanel() JPanel
+        -createCommandsPanel() JPanel
+        -buildOnCell(int x, int y) void
+        -handleNewGame() void
+        -handleSaveGame() void
+        -handleLoadGame() void
+        -updatePolicyButtons() void
+        -refreshGrid() void
+        -refreshStats(Stats stats) void
+        -setGameControlsEnabled(boolean enabled) void
+        +update(Stats currentStats) void
+    }
+
+   
+
+    class JFrame {
+        <<Java Swing>>
+    }
+
+    JFrame <|-- CityDashboard : extends
+    CityObserver <|.. CityDashboard : implements
+    CityDashboard --> GameController : uses
+
+
     class City {
         -CityState cityState
         +initCity() void
@@ -214,6 +264,11 @@ classDiagram
     
     %% Observer Pattern
     CityState o-- "*" CityObserver : notifica
+
+    JFrame <|-- CityDashboard : estende
+    CityObserver <|.. CityDashboard : implementa
+    CityDashboard --> GameController : usa
+
     
     %% CityState possiede le statistiche attuali della città
     CityState "1" *-- "1" Stats : contiene
