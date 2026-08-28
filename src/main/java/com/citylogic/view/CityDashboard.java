@@ -3,8 +3,7 @@ package com.citylogic.view;
 import com.citylogic.controller.GameController;
 import com.citylogic.model.*;
 import com.citylogic.simulation.CityObserver;
-//import com.citylogic.strategy.EnvironmentalTax;
-//import com.citylogic.strategy.IndustrialExpansion;
+
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
