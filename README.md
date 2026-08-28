@@ -52,11 +52,7 @@ Verifica: Si è verificato che le metriche mostrate reagiscano dinamicamente all
 Esito: OK.
 Attraverso il metodo updateStats() in CityState, ogni variazione calcolata (sia essa derivante da un nuovo inserimento sulla griglia, dall'avanzamento temporale di un tick o dall'applicazione di una policy) innesca automaticamente il flusso di notifica (notifyObservers()), aggiornando in tempo reale le metriche visibili.
 
-Scenario 4: Grid Interaction
 
-Verifica: Si è testata la possibilità di interrogare i singoli blocchi della griglia.
-Esito: OK.
-Il metodo grid.getCell(x, y) consente l'accesso puntuale alle coordinate (verificando preventivamente i confini), restituendo l'oggetto Cell specifico e permettendo di leggerne lo stato operativo, i costi e le statistiche locali associate.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-03 - Load a saved City
 
