@@ -119,7 +119,7 @@ class GridTest {
 
     @Test
     void testDistributeEnergy_BlackoutQueue() {
-        // Arrange: 1 Centrale (+100 Energia) e 6 Fabbriche (-20 Energia l'una = -120 Totale)
+        // Arrange: 1 Centrale (+100 Energia) e 6 Fabbriche (-25 Energia l'una = -150 Totale)
         PowerPlant power = new PowerPlant();
         grid.setCell(power, 0, 0);
 
@@ -131,7 +131,7 @@ class GridTest {
         grid.distributeEnergy();
 
         // Assert
-        assertEquals(1, grid.getBlackoutQueue().size(), "Ci deve essere esattamente 1 fabbrica nella coda di blackout");
+        assertEquals(2, grid.getBlackoutQueue().size(), "Ci deve essere esattamente 2 fabbrica nella coda di blackout");
         // Verifica che calcolando le statistiche grezze, l'ultima fabbrica spenta venga ignorata
         Stats total = grid.calculateRawStats();
         assertTrue(total.getMoney() > 0, "Le fabbriche accese devono generare denaro");

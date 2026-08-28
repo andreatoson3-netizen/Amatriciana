@@ -263,7 +263,7 @@ classDiagram
     Grid --> Cell : composta da
     
     %% Observer Pattern
-    CityState o-- "*" CityObserver : notifica
+    CityState -- "*" CityObserver : notifica
 
     JFrame <|-- CityDashboard : estende
     CityObserver <|.. CityDashboard : implementa

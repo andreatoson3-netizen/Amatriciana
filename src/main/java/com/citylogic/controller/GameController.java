@@ -10,6 +10,7 @@ import com.citylogic.persistence.CityPersistenceManager;
 import com.citylogic.simulation.CityObserver;
 import com.citylogic.strategy.EnvironmentalTax;
 import com.citylogic.strategy.IndustrialExpansion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //gestisce la logica di business e fa da tramite tra i comandi dell'utente e il mototre di gioco
 //protegge lo stato interno della città evitando accessi non controllati
@@ -216,7 +217,7 @@ public class GameController {
     public int getUnpoweredCount() {
         return city != null ? city.getCityState().getUnpoweredCount() : 0;
     }
-
+     @JsonIgnore
     public int getBlackoutCount() {
     return city != null ? city.getCityState().getBlackoutCount() : 0;
 }

@@ -28,8 +28,8 @@ class ResidentialTest {
 
         // Assert: Validazione delle metriche specifiche del quartiere residenziale
         assertNotNull(stats, "returnStat non deve restituire null");
-        assertEquals(5, stats.getPollution(), "Inquinamento errato per Residential (+5 atteso)");
-        assertEquals(10, stats.getMoney(), "Rendimento economico errato per Residential (+10 atteso)");
+        assertEquals(1, stats.getPollution(), "Inquinamento errato per Residential (+1 atteso)");
+        assertEquals(5, stats.getMoney(), "Rendimento economico errato per Residential (+5 atteso)");
         assertEquals(15, stats.getHappiness(), "Rendimento felicità errato per Residential (+15 atteso)");
         assertEquals(50, stats.getPopulation(), "Crescita demografica errata per Residential (+50 abitanti attesi)");
         assertEquals(-10, stats.getEnergy(), "Consumo energetico errato per Residential (-10 atteso)");

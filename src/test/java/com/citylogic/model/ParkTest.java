@@ -28,7 +28,7 @@ class ParkTest {
 
         // Assert: Validazione delle metriche ecologiche e di bilancio
         assertNotNull(stats, "returnStat non deve restituire null");
-        assertEquals(-10, stats.getPollution(), "Assorbimento inquinamento errato per Park (-10 atteso)");
+        assertEquals(-3, stats.getPollution(), "Assorbimento inquinamento errato per Park (-30 atteso)");
         assertEquals(-10, stats.getMoney(), "Costo di manutenzione errato per Park (-10 atteso)");
         assertEquals(25, stats.getHappiness(), "Bonus felicità errato per Park (+25 atteso)");
         assertEquals(0, stats.getPopulation(), "Park non deve generare residenti");

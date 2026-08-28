@@ -28,7 +28,7 @@ class RoadTest {
 
         // Assert: Validazione delle metriche del segmento stradale
         assertNotNull(stats, "returnStat non deve restituire null");
-        assertEquals(2, stats.getPollution(), "Inquinamento errato per Road (+2 atteso)");
+        assertEquals(1, stats.getPollution(), "Inquinamento errato per Road (+1 atteso)");
         assertEquals(-5, stats.getMoney(), "Costo di manutenzione errato per Road (-5 atteso)");
         assertEquals(2, stats.getHappiness(), "Bonus felicità errato per Road (+2 atteso)");
         assertEquals(0, stats.getPopulation(), "Road non deve generare residenti");

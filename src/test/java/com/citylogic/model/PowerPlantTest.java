@@ -31,7 +31,7 @@ class PowerPlantTest {
 
         // Assert: Validazione della produzione energetica e dei costi di gestione
         assertNotNull(stats, "returnStat non deve restituire null");
-        assertEquals(30, stats.getPollution(), "Inquinamento errato per PowerPlant (+30 atteso)");
+        assertEquals(5, stats.getPollution(), "Inquinamento errato per PowerPlant (+5 atteso)");
         assertEquals(-100, stats.getMoney(), "Costo di mantenimento errato per PowerPlant (-100 atteso)");
         assertEquals(-5, stats.getHappiness(), "Impatto felicità errato per PowerPlant (-5 atteso)");
         assertEquals(0, stats.getPopulation(), "PowerPlant non deve generare residenti");

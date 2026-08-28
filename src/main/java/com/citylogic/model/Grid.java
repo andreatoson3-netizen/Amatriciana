@@ -85,7 +85,7 @@ public class Grid {
 
         return count;
     }
-
+    @JsonIgnore
     public int getBlackoutCount() {
         return blackoutQueue.size();
     }
