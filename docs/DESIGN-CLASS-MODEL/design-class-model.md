@@ -33,9 +33,6 @@ classDiagram
         +update(Stats currentStats): void
     }
 
-    class DashboardView {
-        +update(Stats currentStats) :void
-    }
 
     class City {
         -CityState cityState
