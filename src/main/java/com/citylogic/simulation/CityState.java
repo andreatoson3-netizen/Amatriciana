@@ -35,7 +35,7 @@ public class CityState {
     //aggiorna le statistiche della città.Se è applicata una policy(Strategy pattern),
     //la applica prima di memorizzare o sommare i valori
     //@param newStats le statistiche grezze calcolate dalla griglia
-    public void updateStats(Stats newStats){
+    /*public void updateStats(Stats newStats){
         if (newStats != null){
             Stats statsToApply = newStats;
             //Se c'è una politica attiva,applica la strategia di calcolo
@@ -56,6 +56,50 @@ public class CityState {
 
             //4)notifica agli observer della GUI per aggiornare dashboard
             notifyObservers();
+        }
+    }*/
+
+    public void updateStats(Stats newStats) {
+    if (newStats != null) {
+
+        Stats statsToApply = newStats;
+
+        // Se c'è una policy attiva, applica la strategia
+        if (this.currentPolicy != null) {
+            statsToApply = this.currentPolicy.calculateStats(newStats);
+        }
+
+        // Recuperiamo le statistiche precedenti
+        int currentMoney = 0;
+        int currentPollution = 0;
+
+        if (this.cityStats != null) {
+            currentMoney = this.cityStats.getMoney();
+            currentPollution = this.cityStats.getPollution();
+        }
+
+        // Population e Happiness sono valori di stato:
+        // vengono sostituiti con quelli calcolati per il tick corrente.
+        //
+        // Money e Pollution sono invece valori dinamici:
+        // la variazione prodotta dagli edifici viene aggiunta
+        // al valore accumulato nei tick precedenti.
+        //
+        // Energy viene ricalcolata per il tick corrente.
+
+        Stats updatedStats = new Stats(
+                currentPollution + statsToApply.getPollution(),
+                currentMoney + statsToApply.getMoney(),
+                statsToApply.getHappiness(),
+                statsToApply.getPopulation(),
+                statsToApply.getEnergy()
+        );
+
+        this.cityStats = updatedStats;
+
+        // Notifica gli observer, quindi la Dashboard aggiorna
+        // automaticamente i valori visualizzati.
+        notifyObservers();
         }
     }
 
