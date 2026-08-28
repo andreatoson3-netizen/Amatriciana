@@ -32,33 +32,7 @@ public class CityState {
 
     }
 
-    //aggiorna le statistiche della città.Se è applicata una policy(Strategy pattern),
-    //la applica prima di memorizzare o sommare i valori
-    //@param newStats le statistiche grezze calcolate dalla griglia
-    /*public void updateStats(Stats newStats){
-        if (newStats != null){
-            Stats statsToApply = newStats;
-            //Se c'è una politica attiva,applica la strategia di calcolo
-            if(this.currentPolicy != null){
-                statsToApply=this.currentPolicy.calculateStats(newStats);
-            }
-            //1)salviamo denaro attuale prima di aggiornare le metriche
-            int currentMoney=0;
-            if(this.cityStats!=null){
-                currentMoney=this.cityStats.getMoney();
-            }
-            //2)Sostituiamo l'oggetto con le nuove statistiche calcolate dalla griglia
-            //questo aggiorna correttamente popolazione,felicità,inquinamento ed energia
-            this.cityStats=statsToApply;
-
-            //3)Ripristiniamo il denaro sommandolo al flusso di cassa di questo turno
-            this.cityStats.setMoney(currentMoney+statsToApply.getMoney());
-
-            //4)notifica agli observer della GUI per aggiornare dashboard
-            notifyObservers();
-        }
-    }*/
-
+   
     public void updateStats(Stats newStats) {
     if (newStats != null) {
 
