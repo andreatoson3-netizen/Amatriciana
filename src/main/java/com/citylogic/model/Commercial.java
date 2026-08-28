@@ -16,7 +16,7 @@ public class Commercial extends Building {
     public Stats returnStat(){
         //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
         //Ad esempio:buon guadagno economico e felicità, consumo energetico moderato
-        return new Stats(2,40,8,0,-15);
+        return new Stats(1,40,8,0,-15);
 
     }
 }
