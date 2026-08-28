@@ -2,6 +2,7 @@ package com.citylogic.model;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import com.fasterxml.jackson.annotation.JsonIgnore; // gestione test blackout
 
 //Gestisce la mappa logica della città sotto forma di matrice bidimensionale(griglia)
 public class Grid {
@@ -10,6 +11,7 @@ public class Grid {
     private Cell[][] griglia;
 
     // Coda per memorizzare le strutture che consumano più energia di quella disponibile
+    @JsonIgnore
     private final Queue<Cell> blackoutQueue = new LinkedList<>();
 
     //costruttore vuoto per Jackson ed inizializzazione di default(griglia 20x20)

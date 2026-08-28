@@ -31,16 +31,12 @@ class CellTest {
     @Test
     void testCellDefaultState_HappyPath() {
         // Act & Assert
-        // Verifichiamo i valori di default di Java all'istanza dell'oggetto.
-
-        /*
-         > [Nota A: Perchè testare i default?]
-         > Ci assicuriamo che una cella appena creata non sia erroneamente dichiarata
-         > già operativa, libera o con coordinate/costi fantasma per sbaglio.
-         */
         assertFalse(cell.isFree(), "Una cella appena creata deve nascere con free = false");
         assertFalse(cell.getFree(), "Il getter getFree() deve essere coerente e restituire false");
-        assertFalse(cell.isOperative(), "Una cella appena creata deve nascere con isOperative = false");
+
+        // MODIFICA: Ora la cella nasce operativa di default per la GUI
+        assertTrue(cell.isOperative(), "Una cella appena creata deve nascere con isOperative = true");
+
         assertEquals(0, cell.getCost(), "Una cella generica appena creata deve avere un costo di default pari a 0");
         assertEquals(0, cell.getX(), "La coordinata X di default deve essere 0");
         assertEquals(0, cell.getY(), "La coordinata Y di default deve essere 0");

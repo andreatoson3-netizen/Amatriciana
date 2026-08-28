@@ -94,5 +94,39 @@ import static org.junit.jupiter.api.Assertions.*;
                 f.delete();
             }
         }
+        @Test
+        void testDemolishBuilding_SuccessAndRefund() {
+            controller.startNewGame();
+            int initialMoney = controller.getMoney();
+
+            // Costruiamo (spesa -500)
+            controller.placeBuilding("residential", 5, 5);
+            assertTrue(controller.getMoney() < initialMoney, "Il denaro deve scendere dopo la costruzione");
+
+            // Demoliamo (rimborso +500)
+            boolean demolished = controller.demolishBuilding(5, 5);
+
+            // Assert
+            assertTrue(demolished, "La demolizione deve avere successo su una cella occupata");
+            assertEquals(initialMoney, controller.getMoney(), "Il budget deve tornare esattamente al valore iniziale dopo il rimborso");
+        }
+
+        @Test
+        void testIsRevolt_FailState() {
+            controller.startNewGame();
+
+            // Simuliamo una felicità sicura
+            controller.getCityStats().setHappiness(50);
+            assertFalse(controller.isRevolt(), "Non ci deve essere rivolta con felicità positiva");
+
+            // Forziamo il limite critico
+            controller.getCityStats().setHappiness(-100);
+            assertTrue(controller.isRevolt(), "La rivolta deve scattare esattamente a -100 di felicità");
+
+            // Oltre il limite
+            controller.getCityStats().setHappiness(-150);
+            assertTrue(controller.isRevolt(), "La rivolta deve rimanere attiva sotto i -100");
+        }
+
     }
 

@@ -73,17 +73,18 @@ class GridTest {
         res.setFree(false);
         grid.setCell(res, 10, 10);
 
-        // Act
+        // Act: Il nuovo motore richiede l'esecuzione a due passaggi
+        grid.distributeEnergy(); // <-- PASSO MANCANTE: spegne la casa senza energia
         Stats totalStats = grid.calculateRawStats();
 
-        // Assert: Senza energia, l'area residenziale viene ignorata
+        // Assert: Essendo ibernata, i suoi introiti e abitanti devono essere ignorati
         assertEquals(0, totalStats.getMoney(), "Un'area residenziale senza energia non deve produrre introiti");
         assertEquals(0, totalStats.getPopulation(), "Un'area residenziale senza energia non deve produrre popolazione");
     }
 
     @Test
     void testCalculateRawStats_RuleEnforcement_HappyPath() {
-        // Arrange: Inseriamo SIA un'area residenziale CHE una centrale elettrica
+        // Arrange: Inseriamo SIA un'area residenziale CHE una centrale elettrica vicina
         Residential res = new Residential();
         res.setFree(false);
         grid.setCell(res, 10, 10);
@@ -92,11 +93,48 @@ class GridTest {
         power.setFree(false);
         grid.setCell(power, 9, 8);
 
-        // Act
+        // Act: Il nuovo motore a due passaggi
+        grid.distributeEnergy(); // <-- Riempie il serbatoio e accende la casa
         Stats totalStats = grid.calculateRawStats();
 
         // Assert: Essendoci energia, le statistiche devono essersi sommate regolarmente
         assertTrue(totalStats.getPollution() != 0 && totalStats.getPopulation() != 0,
                 "Le statistiche non sono state aggregate correttamente nonostante la presenza di energia");
     }
+
+    @Test
+    void testRemoveCell_HappyPath() {
+        // Arrange
+        Residential res = new Residential();
+        grid.setCell(res, 5, 5);
+
+        // Act
+        Cell removed = grid.removeCell(5, 5);
+
+        // Assert
+        assertNotNull(removed, "La cella rimossa non deve essere null");
+        assertEquals(500, removed.getCost(), "La cella rimossa deve preservare il suo costo originale");
+        assertNull(grid.getCell(5, 5), "La griglia deve risultare vuota alle coordinate 5,5");
+    }
+
+    @Test
+    void testDistributeEnergy_BlackoutQueue() {
+        // Arrange: 1 Centrale (+100 Energia) e 6 Fabbriche (-20 Energia l'una = -120 Totale)
+        PowerPlant power = new PowerPlant();
+        grid.setCell(power, 0, 0);
+
+        for(int i = 1; i <= 6; i++) {
+            grid.setCell(new Factory(), 0, i);
+        }
+
+        // Act
+        grid.distributeEnergy();
+
+        // Assert
+        assertEquals(1, grid.getBlackoutQueue().size(), "Ci deve essere esattamente 1 fabbrica nella coda di blackout");
+        // Verifica che calcolando le statistiche grezze, l'ultima fabbrica spenta venga ignorata
+        Stats total = grid.calculateRawStats();
+        assertTrue(total.getMoney() > 0, "Le fabbriche accese devono generare denaro");
+    }
+
 }
