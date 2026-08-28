@@ -1,5 +1,5 @@
-```mermaid
-## User story 4
+# System test
+## User story 1
 
 ### As a City Mayor, I want to select and place different types of buildings and infrastructure on the urban grid, so that I can develop my city's layout.
 
@@ -39,4 +39,3 @@
   - Result: __________________
   - Comment: __________________
   - Date: __________________
-```
