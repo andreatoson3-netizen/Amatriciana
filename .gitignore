@@ -1,7 +1,12 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!target/
+target/*
+!target/surefire-reports/
+!target/surefire-reports/**
+
+!.mvn/wrapper/maven-wrapper.jar 
+!**/src/main/**/target/ 
+!**/src/test/**/target/ 
 .kotlin
 
 ### IntelliJ IDEA ###
