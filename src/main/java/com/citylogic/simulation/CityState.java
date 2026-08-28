@@ -125,6 +125,11 @@ public class CityState {
         this.currTick=currTick;
     }
 
+    public CityPolicyStrategy getPolicy(){
+    return currentPolicy;
+    }
+    
+    @JsonIgnore
     public CityPolicyStrategy getCurrentPolicyStrategy(){
         return currentPolicy;
     }
