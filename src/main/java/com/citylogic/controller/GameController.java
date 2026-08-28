@@ -84,6 +84,27 @@ public class GameController {
         return BuildResult.INVALID_POSITION;
     }
 
+
+    // Gestisce la demolizione e il rimborso delle risorse
+    public boolean demolishBuilding(int x, int y) {
+        if (city == null || city.getCityState() == null) return false;
+
+        // Tenta di estrarre la cella dalla griglia
+        Cell removedCell = city.getCityState().getGrid().removeCell(x, y);
+
+        if (removedCell != null) {
+            int currentMoney = getMoney();
+            // Rimborso del 100% del costo dell'edificio demolito
+            city.getCityState().getCityStats().setMoney(currentMoney + removedCell.getCost());
+
+            // Notifica la grafica dell'avvenuta demolizione e del nuovo budget
+            city.getCityState().notifyObservers();
+            return true;
+        }
+
+        return false; // Casella già vuota o coordinate non valide
+    }
+
     //attiva una politica cittadina(Strategy pattern) modificando lo stato della città
     public void activatePolicy(String policyName) {
         // Controlla che esistano una città e il relativo stato prima di modificare la policy attiva

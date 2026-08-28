@@ -168,6 +168,18 @@ public class Grid {
     }
 
 
+    // Rimuove la cella e la restituisce per poterne leggere il costo
+    public Cell removeCell(int x, int y) {
+        if (x >= 0 && x < griglia.length && y >= 0 && y < griglia[0].length) {
+            Cell cell = griglia[x][y];
+            if (cell != null && !cell.isFree()) {
+                griglia[x][y] = null; // Svuota la casella
+                return cell; // Restituisce l'oggetto per permettere il rimborso
+            }
+        }
+        return null;
+    }
+
     //posiziona una cella nella griglia verificandone i confini
     public boolean setCell(Cell cell,int x, int y){
         if(x>=0 && x<griglia.length && y>=0 && y<griglia[0].length){

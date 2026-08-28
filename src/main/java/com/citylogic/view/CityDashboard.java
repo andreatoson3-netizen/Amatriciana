@@ -24,7 +24,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private JButton noPolicyButton, environmentalButton, industrialButton;
     private JButton houseButton, factoryButton, commercialButton, parkButton, roadButton, powerPlantButton;
-    private JButton tickButton;
+    private JButton tickButton,  demolishButton;
 
     // CONSTRUCTOR
     public CityDashboard(GameController controller) {
@@ -162,6 +162,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         parkButton = new JButton("Build Park");
         roadButton = new JButton("Build Road");
         powerPlantButton = new JButton("Build Power Plant");
+        demolishButton = new JButton("Demolish 💣");
 
         // Logica Toggle (Pennello)
         java.awt.event.ActionListener selettoreStrumento = e -> {
@@ -180,6 +181,7 @@ public class CityDashboard extends JFrame implements CityObserver {
             parkButton.setBackground(null);
             roadButton.setBackground(null);
             powerPlantButton.setBackground(null);
+            demolishButton.setBackground(null);
 
             if (selectedBuilding != null) {
                 bottoneCliccato.setBackground(Color.LIGHT_GRAY);
@@ -192,6 +194,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         parkButton.setActionCommand("park");
         roadButton.setActionCommand("road");
         powerPlantButton.setActionCommand("powerplant");
+        demolishButton.setActionCommand("demolish");
 
         houseButton.addActionListener(selettoreStrumento);
         factoryButton.addActionListener(selettoreStrumento);
@@ -199,6 +202,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         parkButton.addActionListener(selettoreStrumento);
         roadButton.addActionListener(selettoreStrumento);
         powerPlantButton.addActionListener(selettoreStrumento);
+        demolishButton.addActionListener(selettoreStrumento);
 
         buildPanel.add(houseButton);
         buildPanel.add(Box.createVerticalStrut(5));
@@ -211,6 +215,8 @@ public class CityDashboard extends JFrame implements CityObserver {
         buildPanel.add(roadButton);
         buildPanel.add(Box.createVerticalStrut(5));
         buildPanel.add(powerPlantButton);
+        buildPanel.add(Box.createVerticalStrut(5));
+        buildPanel.add(demolishButton);
 
         commandsPanel.add(buildPanel);
         commandsPanel.add(Box.createVerticalStrut(15));
@@ -275,32 +281,20 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-        // La View delega totalmente la logica di controllo e posizionamento al GameController
-        GameController.BuildResult result = controller.placeBuilding(selectedBuilding, x, y);
-
-        // La View traduce l'esito in output visivo per l'umano
-        switch (result) {
-            case NO_FUNDS:
-                JOptionPane.showMessageDialog(this,
-                        "Fondi non sufficienti per completare la costruzione.",
-                        "Transazione Negata", JOptionPane.WARNING_MESSAGE);
-                break;
-            case INVALID_POSITION:
-                JOptionPane.showMessageDialog(this, """
-                    Cannot build here.
-                    Possible reasons:
-                    - cell already occupied
-                    - out of bounds
-                    """);
-                break;
-            case UNKNOWN_TYPE:
-                JOptionPane.showMessageDialog(this, "Tipo di edificio sconosciuto.");
-                break;
-            case SUCCESS:
-                // La griglia si aggiorna da sola grazie all'Observer
-                break;
+        // 1. Intercetta lo strumento demolizione e blocca l'esecuzione
+        if (selectedBuilding.equals("demolish")) {
+            boolean success = controller.demolishBuilding(x, y);
+            if (!success) {
+                // Opzionale: un piccolo feedback se provi a demolire l'aria vuota
+                System.out.println("Nessun edificio da demolire qui.");
+            }
+            return; // Esce dal metodo senza proseguire
         }
+
+        // 2. La View delega totalmente la logica di controllo e posizionamento al GameController
+        GameController.BuildResult result = controller.placeBuilding(selectedBuilding, x, y);
     }
+        // ... [il resto dello switch(result) rimane identico a prima] ...
 
     private void handleNewGame() {
         int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to start a new game?", "New Game", JOptionPane.YES_NO_OPTION);
