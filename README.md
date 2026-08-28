@@ -72,6 +72,8 @@ Scenario 2: Invalid or unreadable save file
 Verifica: Si è verificato il comportamento del sistema nel caso in cui venga selezionato un file di salvataggio inesistente, illeggibile o corrotto.
 Esito: OK.
 La gestione delle eccezioni (IOException) e i controlli preliminari sull'esistenza del file (!file.exists() o filePath == null) implementati in CityPersistenceManager intercettano l'errore, impedendo crash dell'applicazione, rifiutando il file e restituendo null. Di conseguenza, nel GameController, la città corrente non viene sovrascritta, mantenendo intatto lo stato attuale della sessione di gioco.
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-04 - Build buildings and infrastructure
 
