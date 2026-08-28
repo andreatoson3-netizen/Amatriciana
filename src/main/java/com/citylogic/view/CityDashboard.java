@@ -4,13 +4,16 @@ import com.citylogic.controller.GameController;
 import com.citylogic.model.*;
 import com.citylogic.simulation.CityObserver;
 
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.File;
 
-// Finestra principale del gioco. Si aggiorna da sola in automatico quando i dati cambiano.
+/**
+ * Finestra principale del gioco (View nel pattern MVC).
+ * Implementa CityObserver per aggiornarsi automaticamente in ascolto dei cambiamenti del Model,
+ * delegando ogni calcolo o logica di business al GameController.
+ */
 public class CityDashboard extends JFrame implements CityObserver {
 
     private final GameController controller;
@@ -24,9 +27,13 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private JButton noPolicyButton, environmentalButton, industrialButton;
     private JButton houseButton, factoryButton, commercialButton, parkButton, roadButton, powerPlantButton;
-    private JButton tickButton,  demolishButton;
+    private JButton tickButton, demolishButton;
 
-    // CONSTRUCTOR
+    /**
+     * Costruttore della dashboard della città. Inizializza l'interfaccia e si registra come osservatore.
+     *
+     * @param controller Il GameController a cui delegare le azioni dell'utente e da cui leggere i dati.
+     */
     public CityDashboard(GameController controller) {
         this.controller = controller;
 
@@ -42,6 +49,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         updatePolicyButtons();
     }
 
+    /**
+     * Inizializza i parametri fondamentali della finestra di sistema (titolo, dimensioni, chiusura).
+     */
     private void initializeWindow() {
         setTitle("SimCity Lite");
         setSize(1200, 750);
@@ -49,7 +59,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         setLocationRelativeTo(null);
     }
 
-    // GUI ASSEMBLY
+    /**
+     * Assembla la struttura principale dell'interfaccia grafica dividendo le aree funzionali.
+     */
     private void createGUI() {
         setLayout(new BorderLayout(10, 10));
 
@@ -63,6 +75,11 @@ public class CityDashboard extends JFrame implements CityObserver {
         add(createCommandsPanel(), BorderLayout.EAST);
     }
 
+    /**
+     * Crea il pannello superiore contenente il titolo del gioco.
+     *
+     * @return Il JPanel contenente l'intestazione grafica.
+     */
     private JPanel createTitlePanel() {
         JLabel titleLabel = new JLabel("SimCity Lite", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
@@ -73,6 +90,11 @@ public class CityDashboard extends JFrame implements CityObserver {
         return titlePanel;
     }
 
+    /**
+     * Crea il pannello dei contatori per visualizzare le metriche cittadine (denaro, inquinamento, ecc.).
+     *
+     * @return Il JPanel contenente le etichette delle statistiche di gioco.
+     */
     private JPanel createStatsPanel() {
         JPanel statsPanel = new JPanel(new GridLayout(2, 3, 10, 5));
         statsPanel.setBorder(BorderFactory.createTitledBorder(
@@ -99,6 +121,11 @@ public class CityDashboard extends JFrame implements CityObserver {
         return statsContainer;
     }
 
+    /**
+     * Crea la griglia di gioco 20x20 istanziando i bottoni fisici e agganciandoli al listener di costruzione.
+     *
+     * @return Il JPanel contenente la matrice dei blocchi interattivi.
+     */
     private JPanel createGridPanel() {
         JPanel gridPanel = new JPanel(new GridLayout(20, 20));
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
@@ -112,7 +139,7 @@ public class CityDashboard extends JFrame implements CityObserver {
                 button.setMargin(new Insets(8, 0, 0, 0));
                 button.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 24));
 
-                // Delega il click alla nuova funzione disaccoppiata
+                // Delega il click alla funzione disaccoppiata
                 button.addActionListener(e -> buildOnCell(finalX, finalY));
 
                 gridButtons[x][y] = button;
@@ -122,6 +149,12 @@ public class CityDashboard extends JFrame implements CityObserver {
         return gridPanel;
     }
 
+    /**
+     * Crea il pannello laterale destro contenente i comandi per avanzare di turno, costruire,
+     * gestire le policy e salvare/caricare la partita.
+     *
+     * @return Il JPanel laterale contenente tutti gli strumenti di controllo del giocatore.
+     */
     private JPanel createCommandsPanel() {
         JPanel commandsPanel = new JPanel();
         commandsPanel.setLayout(new BoxLayout(commandsPanel, BoxLayout.Y_AXIS));
@@ -132,11 +165,10 @@ public class CityDashboard extends JFrame implements CityObserver {
         tickButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         tickButton.addActionListener(e -> {
-            // Avanza di un turno
             controller.advanceTime();
 
-            // Report di fine turno: mostra i blackout solo se la città NON è in bancarotta
-            if (!controller.isBankrupt()) {
+            // Report di fine turno: mostra i blackout solo se la città NON è in Game Over
+            if (!controller.isBankrupt() && !controller.isRevolt()) {
                 int unpowered = controller.getUnpoweredCount();
                 if (unpowered > 0) {
                     JOptionPane.showMessageDialog(this,
@@ -275,6 +307,13 @@ public class CityDashboard extends JFrame implements CityObserver {
     // GAME LOGIC HANDLERS
     // =========================================================
 
+    /**
+     * Gestisce il click dell'utente su una specifica cella della griglia delegando l'azione
+     * di costruzione o demolizione al GameController e fornendo feedback visivi.
+     *
+     * @param x La coordinata X (riga) della cella cliccata.
+     * @param y La coordinata Y (colonna) della cella cliccata.
+     */
     private void buildOnCell(int x, int y) {
         if (selectedBuilding == null) {
             JOptionPane.showMessageDialog(this, "Select a building first.");
@@ -285,17 +324,35 @@ public class CityDashboard extends JFrame implements CityObserver {
         if (selectedBuilding.equals("demolish")) {
             boolean success = controller.demolishBuilding(x, y);
             if (!success) {
-                // Opzionale: un piccolo feedback se provi a demolire l'aria vuota
-                System.out.println("Nessun edificio da demolire qui.");
+                System.out.println("No building to demolish here");
             }
             return; // Esce dal metodo senza proseguire
         }
 
         // 2. La View delega totalmente la logica di controllo e posizionamento al GameController
         GameController.BuildResult result = controller.placeBuilding(selectedBuilding, x, y);
-    }
-        // ... [il resto dello switch(result) rimane identico a prima] ...
 
+        switch (result) {
+            case NO_FUNDS:
+                JOptionPane.showMessageDialog(this,
+                        "Fondi non sufficienti per completare la costruzione.",
+                        "Transazione Negata", JOptionPane.WARNING_MESSAGE);
+                break;
+            case INVALID_POSITION:
+                JOptionPane.showMessageDialog(this, "Cannot build here.\nPossible reasons:\n- cell already occupied\n- out of bounds");
+                break;
+            case UNKNOWN_TYPE:
+                JOptionPane.showMessageDialog(this, "Tipo di edificio sconosciuto.");
+                break;
+            case SUCCESS:
+                // La griglia si aggiorna da sola grazie all'Observer
+                break;
+        }
+    }
+
+    /**
+     * Innesca la creazione di una nuova partita chiedendo conferma all'utente.
+     */
     private void handleNewGame() {
         int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to start a new game?", "New Game", JOptionPane.YES_NO_OPTION);
         if (answer != JOptionPane.YES_OPTION) return;
@@ -312,6 +369,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         updatePolicyButtons();
     }
 
+    /**
+     * Apre il file manager di sistema per salvare lo stato della partita corrente in un file JSON.
+     */
     private void handleSaveGame() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Game");
@@ -328,6 +388,9 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
     }
 
+    /**
+     * Apre il file manager di sistema per caricare una partita precedentemente salvata.
+     */
     private void handleLoadGame() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load Game");
@@ -354,6 +417,9 @@ public class CityDashboard extends JFrame implements CityObserver {
     // UI UPDATERS E OBSERVER
     // =========================================================
 
+    /**
+     * Aggiorna il testo e lo stato visivo dei bottoni delle Policy in base a quale politica risulta attiva.
+     */
     private void updatePolicyButtons() {
         if (noPolicyButton == null || environmentalButton == null || industrialButton == null) return;
         String currentPolicy = controller.getCurrentPolicyName();
@@ -401,6 +467,12 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
     }
 
+    /**
+     * Sostituisce il testo delle etichette dei contatori (denaro, inquinamento, felicità)
+     * con i valori attuali delle statistiche aggiornate.
+     *
+     * @param stats L'oggetto Stats contenente i valori correnti da visualizzare.
+     */
     private void refreshStats(Stats stats) {
         if (stats == null) return;
         moneyLabel.setText("Money: " + stats.getMoney());
@@ -411,7 +483,12 @@ public class CityDashboard extends JFrame implements CityObserver {
         tickLabel.setText("Tick: " + controller.getCurrentTick());
     }
 
-    // Blocca o sblocca fisicamente tutti i bottoni del gioco
+    /**
+     * Blocca o sblocca fisicamente tutti i bottoni interattivi del gioco, impedendo all'utente
+     * di compiere azioni durante determinati stati (es. Game Over).
+     *
+     * @param enabled Se true, sblocca l'interfaccia; se false, disabilita tutti i comandi.
+     */
     private void setGameControlsEnabled(boolean enabled) {
         if (tickButton != null) tickButton.setEnabled(enabled);
         houseButton.setEnabled(enabled);
@@ -432,6 +509,12 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
     }
 
+    /**
+     * Metodo callback richiesto dall'interfaccia CityObserver.
+     * Viene chiamato dal Model (attraverso il Controller) ogni volta che cambia un parametro vitale della città.
+     *
+     * @param currentStats L'oggetto Stats con le metriche calcolate dopo l'ultimo turno.
+     */
     @Override
     public void update(Stats currentStats) {
         SwingUtilities.invokeLater(() -> {
