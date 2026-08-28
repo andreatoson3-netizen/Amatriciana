@@ -17,6 +17,6 @@ public class Residential extends Building {
     public Stats returnStat(){
         //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         // i valori negativi in energia indicano consumo
-        return new Stats(2,15,10,50,-10);
+        return new Stats(1,15,10,50,-10);
     }
 }
