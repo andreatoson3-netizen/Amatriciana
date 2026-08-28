@@ -19,7 +19,7 @@ sequenceDiagram
     Note over CS: Incrementa currTick
     CS->>Grid: calculateRawStats()
     activate Grid
-    Grid-->>CS: Stats grezze
+    Grid-->>CS: totalStats
     deactivate Grid
     
     Note over CS: Applica eventuale Policy (Strategy)
