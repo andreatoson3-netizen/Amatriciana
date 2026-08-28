@@ -177,9 +177,18 @@ public class GameController {
         return false;
     }
 
-    // Espone lo stato di bancarotta alla View
+    // innesca un game over se si va in bancarotta
     public boolean isBankrupt() {
         return city != null && city.getCityState().isBankrupt();
+    }
+
+    // innesca un game over se la felicità dei cittadini è troppo bassa
+    public boolean isRevolt() {
+        if (city != null && city.getCityState() != null && city.getCityState().getCityStats() != null) {
+            // Game Over se la felicità scende a -100 o peggio
+            return city.getCityState().getCityStats().getHappiness() <= -100;
+        }
+        return false;
     }
 
     // Espone il numero di case senza energia alla View

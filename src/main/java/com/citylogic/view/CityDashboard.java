@@ -445,20 +445,27 @@ public class CityDashboard extends JFrame implements CityObserver {
             refreshGrid();
             updatePolicyButtons();
 
-            // 2. Lettura dello stato di fine partita
+            // 2. Lettura dello stato di fine partita (GAME OVER)
             if (controller.isBankrupt()) {
 
-                // Sigilla l'interfaccia
+                // Sigilla l'interfaccia per Bancarotta
                 setGameControlsEnabled(false);
-
-                JOptionPane.showMessageDialog(
-                        this,
+                JOptionPane.showMessageDialog(this,
                         "GAME OVER - BANCAROTTA!\n\n" +
                                 "Non hai abbastanza fondi per sostenere i costi di gestione.\n" +
                                 "Inizia una nuova partita o carica un salvataggio.",
-                        "Bancarotta",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                        "Bancarotta", JOptionPane.ERROR_MESSAGE);
+
+            } else if (controller.isRevolt()) {
+
+                // Sigilla l'interfaccia per Rivolta Cittadina
+                setGameControlsEnabled(false);
+                JOptionPane.showMessageDialog(this,
+                        "GAME OVER - RIVOLTA CITTADINA!\n\n" +
+                                "La felicità è precipitata a " + currentStats.getHappiness() + ".\n" +
+                                "I cittadini infuriati hanno preso d'assalto il municipio e ti hanno deposto.\n" +
+                                "Inizia una nuova partita o carica un salvataggio.",
+                        "Rivolta", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
