@@ -19,6 +19,6 @@ public class Park extends Infrastructure {
      public Stats returnStat() {
           // Parametri di esempio: (inquinamento, denaro, felicità, popolazione, energia)
          // Ad esempio: assorbe inquinamento (-10), costo di manutenzione (-8), grande bonus di felicità (+25).
-         return new Stats(-10, -8, 15, 0, 0);
+         return new Stats(-3, -8, 15, 0, 0);
     }
 }
