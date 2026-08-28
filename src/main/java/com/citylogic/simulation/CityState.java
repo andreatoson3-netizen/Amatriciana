@@ -60,8 +60,7 @@ public class CityState {
     }
 
 
-    //avanza il contatore dei tick temporali della simulazione
-    // e processa gli eventi periodici
+    //avanza il contatore dei tick temporali della simulazione e processa gli eventi periodici
     public void processTick(){
         this.currTick++;
         //1)ottiene le statistiche grezze interrogando la griglia(se la griglia è inizializzata)
@@ -141,7 +140,7 @@ public class CityState {
         return this.cityStats != null && this.cityStats.getMoney() < 0;
     }
 
-    // Interroga la griglia per contare i blackout (Regola di Business)
+   // Interroga la griglia per contare i blackout (Regola di Business)
     public int getUnpoweredCount() {
         if (this.grid != null) {
             return this.grid.countUnpoweredResidential();

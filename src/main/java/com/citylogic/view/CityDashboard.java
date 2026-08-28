@@ -172,8 +172,10 @@ public class CityDashboard extends JFrame implements CityObserver {
                 int unpowered = controller.getUnpoweredCount();
                 if (unpowered > 0) {
                     JOptionPane.showMessageDialog(this,
-                            "Attention!\n" + unpowered + " residential zone(s) do not have a nearby Power Plant.\nThey did not contribute to the city's metrics during this tick.",
-                            "Residential zones without power", JOptionPane.WARNING_MESSAGE);
+                            "ATTENZIONE!\n" + unpowered + " edifici sono attualmente senza corrente ❌.\n" +
+                                    "Non hanno prodotto risorse o denaro in questo turno.\n" +
+                                    "Costruisci una nuova Power Plant o demolisci gli edifici in eccesso.",
+                            "Blackout di Rete", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });

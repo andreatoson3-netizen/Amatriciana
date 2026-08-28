@@ -42,6 +42,7 @@ public class Grid {
         return false;
     }
 
+    //scannerizza l'intorno di [x,y] alla ricerca di generatori
     private boolean hasNearbyPowerPlant(int x, int y) {
 
         for (int i = 0; i < griglia.length; i++) {
@@ -64,7 +65,9 @@ public class Grid {
         return false;
     }
 
-    public int countUnpoweredResidential() {
+    //conta e segnala il numero di case che non hanno una fonte di energia nelle vicinanze
+    //@return numero intero di case senza corrente
+   public int countUnpoweredResidential() {
         int count = 0;
 
         for (int x = 0; x < griglia.length; x++) {
@@ -82,6 +85,8 @@ public class Grid {
 
         return count;
     }
+
+
 
     // Accende e spegne le celle in base alla disponibilità di corrente e gestisce la coda di blackout
     public void distributeEnergy() {
@@ -171,6 +176,7 @@ public class Grid {
 
 
     // Rimuove la cella e la restituisce per poterne leggere il costo
+    //@return cella rimossa per il conteggio del rimborso
     public Cell removeCell(int x, int y) {
         if (x >= 0 && x < griglia.length && y >= 0 && y < griglia[0].length) {
             Cell cell = griglia[x][y];
@@ -183,6 +189,7 @@ public class Grid {
     }
 
     //posiziona una cella nella griglia verificandone i confini
+    //@return ritorna l'esito dell'operazione
     public boolean setCell(Cell cell,int x, int y){
         if(x>=0 && x<griglia.length && y>=0 && y<griglia[0].length){
             //verifica se la cella è già occupata o meno

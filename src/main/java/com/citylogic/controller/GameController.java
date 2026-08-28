@@ -1,15 +1,15 @@
 package com.citylogic.controller;
 
 import com.citylogic.model.Cell;
-import com.citylogic.model.CellFactory; // Aggiunto import
+import com.citylogic.model.CellFactory;
 import com.citylogic.model.City;
 import com.citylogic.model.Grid;
 import com.citylogic.model.Stats;
 import com.citylogic.strategy.CityPolicyStrategy;
 import com.citylogic.persistence.CityPersistenceManager;
-import com.citylogic.simulation.CityObserver; //Aggiunto import
-import com.citylogic.strategy.EnvironmentalTax; //Aggiunto import
-import com.citylogic.strategy.IndustrialExpansion; //Aggiunto import
+import com.citylogic.simulation.CityObserver;
+import com.citylogic.strategy.EnvironmentalTax;
+import com.citylogic.strategy.IndustrialExpansion;
 
 //gestisce la logica di business e fa da tramite tra i comandi dell'utente e il mototre di gioco
 //protegge lo stato interno della città evitando accessi non controllati
