@@ -3,8 +3,8 @@ package com.citylogic.view;
 import com.citylogic.controller.GameController;
 import com.citylogic.model.*;
 import com.citylogic.simulation.CityObserver;
-import com.citylogic.strategy.EnvironmentalTax;
-import com.citylogic.strategy.IndustrialExpansion;
+//import com.citylogic.strategy.EnvironmentalTax;
+//import com.citylogic.strategy.IndustrialExpansion;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -32,7 +32,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         this.controller = controller;
 
         // Collega l'interfaccia ai dati: la dashboard "ascolta" i cambiamenti
-        controller.getCity().getCityState().addObserver(this);
+        controller.addObserver(this);
 
         initializeWindow();
         createGUI();
@@ -228,8 +228,8 @@ public class CityDashboard extends JFrame implements CityObserver {
         industrialButton = new JButton("Industrial Expansion");
 
         noPolicyButton.addActionListener(e -> { controller.activatePolicy(null); updatePolicyButtons(); });
-        environmentalButton.addActionListener(e -> { controller.activatePolicy(new EnvironmentalTax()); updatePolicyButtons(); });
-        industrialButton.addActionListener(e -> { controller.activatePolicy(new IndustrialExpansion()); updatePolicyButtons(); });
+        environmentalButton.addActionListener(e -> { controller.activatePolicy("environmental"); updatePolicyButtons(); });
+        industrialButton.addActionListener(e -> { controller.activatePolicy("industrial"); updatePolicyButtons(); });
 
         policyPanel.add(noPolicyButton);
         policyPanel.add(Box.createVerticalStrut(5));
@@ -308,7 +308,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         if (answer != JOptionPane.YES_OPTION) return;
 
         controller.startNewGame();
-        controller.getCity().getCityState().addObserver(this);
+        controller.addObserver(this);
 
         // Sblocca i controlli se la partita precedente era in Game Over
         setGameControlsEnabled(true);
@@ -345,7 +345,7 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-        controller.getCity().getCityState().addObserver(this);
+        controller.addObserver(this);
 
         // Sblocca i controlli in caso si ricarichi una partita mentre si è in Game Over
         setGameControlsEnabled(true);
@@ -363,11 +363,11 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private void updatePolicyButtons() {
         if (noPolicyButton == null || environmentalButton == null || industrialButton == null) return;
-        Object currentPolicy = controller.getCurrentPolicy();
+        String currentPolicy = controller.getCurrentPolicyName();
 
         noPolicyButton.setText(currentPolicy == null ? "No Policy - ACTIVE" : "No Policy - INACTIVE");
-        environmentalButton.setText(currentPolicy instanceof EnvironmentalTax ? "Environmental Tax - ACTIVE" : "Environmental Tax - INACTIVE");
-        industrialButton.setText(currentPolicy instanceof IndustrialExpansion ? "Industrial Expansion - ACTIVE" : "Industrial Expansion - INACTIVE");
+        environmentalButton.setText("EnvironmentalTax".equals(currentPolicy) ? "Environmental Tax - ACTIVE" : "Environmental Tax - INACTIVE");
+        industrialButton.setText("IndustrialExpansion".equals(currentPolicy) ? "Industrial Expansion - ACTIVE" : "Industrial Expansion - INACTIVE");
     }
 
     private void refreshGrid() {
