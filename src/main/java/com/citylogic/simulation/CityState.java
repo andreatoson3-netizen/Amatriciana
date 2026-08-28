@@ -130,5 +130,18 @@ public class CityState {
         notifyObservers();
     }
 
+    //verifica se la città è andata in bancarotta a causa di un bilancio negativo
+    //@return true se i fondi attuali sono minori di zero, false altrimenti
+    // Verifica se la città è andata in bancarotta (Regola di Business)
+    public boolean isBankrupt() {
+        return this.cityStats != null && this.cityStats.getMoney() < 0;
+    }
 
+    // Interroga la griglia per contare i blackout (Regola di Business)
+    public int getUnpoweredCount() {
+        if (this.grid != null) {
+            return this.grid.countUnpoweredResidential();
+        }
+        return 0;
+    }
 }

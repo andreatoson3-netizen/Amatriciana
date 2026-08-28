@@ -1,24 +1,29 @@
 package com.citylogic.controller;
 
 import com.citylogic.model.Cell;
+import com.citylogic.model.CellFactory; // Aggiunto import
 import com.citylogic.model.City;
 import com.citylogic.model.Grid;
 import com.citylogic.model.Stats;
 import com.citylogic.strategy.CityPolicyStrategy;
 import com.citylogic.persistence.CityPersistenceManager;
 
-
 //gestisce la logica di business e fa da tramite tra i comandi dell'utente e il mototre di gioco
 //protegge lo stato interno della città evitando accessi non controllati
-
 public class GameController {
 
-    private City city;//lo stato attuale della città gestita dal controller
-    private final CityPersistenceManager persistenceManager;//gestore per salvataggio e caricamento dei file
+    private City city; //lo stato attuale della città gestita dal controller
+    private final CityPersistenceManager persistenceManager; //gestore per salvataggio e caricamento dei file
 
+    // La fabbrica appartiene al Controller, non alla View
+    private final CellFactory cellFactory;
+
+    // Protocollo di risposta per la GUI
+    public enum BuildResult { SUCCESS, NO_FUNDS, INVALID_POSITION, UNKNOWN_TYPE }
 
     public GameController() {
         this.persistenceManager = new CityPersistenceManager();
+        this.cellFactory = new CellFactory(); // Inizializzazione fabbrica
         //appena avviato il controller parte una nuova partita di default
         startNewGame();
     }
@@ -30,55 +35,45 @@ public class GameController {
         this.city.initNewGameBudget();//metodo della classe City che serve ad inizializzare il budget a 5000
     }
 
-    //gestisce l'azione dell'utente di piazzare una cella/struttura sulla griglia
-    //prende la cella,legge le sue coordinate(x,y) e la posiziona nella mappa della città
-    public boolean setCell(Cell cell) {
+    // Gestisce l'intera transazione edilizia e finanziaria, isolando la GUI dalla logica
+    public BuildResult placeBuilding(String buildingType, int x, int y) {
 
-        if (city == null ||
-                cell == null ||
-                city.getCityState() == null ||
-                city.getCityState().getCityStats() == null) {
+        if (city == null || city.getCityState() == null) {
+            return BuildResult.INVALID_POSITION;
+        }
 
-            return false;
+        Cell cell;
+        try {
+            // Delega la creazione alla factory
+            cell = cellFactory.createCell(buildingType);
+        } catch (IllegalArgumentException e) {
+            return BuildResult.UNKNOWN_TYPE;
         }
 
         // Recupera il denaro attuale
-        int currentMoney =
-                city.getCityState()
-                        .getCityStats()
-                        .getMoney();
-
-        // Recupera il costo dell'edificio
-        int buildingCost = cell.getCost();
+        int currentMoney = getMoney();
 
         // Controllo del budget
-        if (currentMoney < buildingCost) {
-            return false;
+        if (currentMoney < cell.getCost()) {
+            return BuildResult.NO_FUNDS;
         }
 
-        // Prova a posizionare la cella
-        boolean placed =
-                city.getCityState()
-                        .getGrid()
-                        .setCell(cell, cell.getX(), cell.getY());
+        // Prova a posizionare
+        cell.setX(x);
+        cell.setY(y);
+        boolean placed = city.getCityState().getGrid().setCell(cell, x, y);
 
-        // Se il posizionamento è riuscito
         if (placed) {
+            // Se posizionata, scala i soldi
+            city.getCityState().getCityStats().setMoney(currentMoney - cell.getCost());
 
-        // Scala immediatamente il costo di costruzione
-        city.getCityState()
-                .getCityStats()
-                .setMoney(currentMoney - buildingCost);
+            // Notifica la grafica tramite Observer
+            city.getCityState().notifyObservers();
+            return BuildResult.SUCCESS;
+        }
 
-        // Aggiorna la GUI
-        city.getCityState().notifyObservers();
-
-        return true;
+        return BuildResult.INVALID_POSITION;
     }
-
-    return false;
-    }
-
 
     //attiva una politica cittadina(Strategy pattern) modificando lo stato della città
     public void activatePolicy(CityPolicyStrategy policy){
@@ -93,68 +88,64 @@ public class GameController {
         if(city != null) {
             city.processTick();
         }
-
     }
-
 
     //carica una partita salvata da file delegando il lavoro al PersistenceManager
     //sostituendo la città corrente con quella caricata
     public boolean loadGame(String filePath) {
-
-    City loadedCity = persistenceManager.loadCity(filePath);
-
-    if (loadedCity != null) {
-        this.city = loadedCity;
-        return true;
-    }
-
-    return false;
+        City loadedCity = persistenceManager.loadCity(filePath);
+        if (loadedCity != null) {
+            this.city = loadedCity;
+            return true;
+        }
+        return false;
     }
 
     //restituisce le statistiche globali della città
-    //@return l'oggetto Stats contenente i valori di denaro,inquinamento,felicità,...
     public Stats getCityStats() {
         return city.getCityState().getCityStats();
     }
 
     //restituisce la griglia del gioco attuale
-    //@return l'oggetto grid che modella la mappa e la posizione delle strutture
     public Grid getGrid() {
         return city.getCityState().getGrid();
     }
 
     //restituisce il numero di tick corrente della simulazione
-    //@return il valore intero del tick attuale
     public int getCurrentTick() {
         return city.getCityState().getCurrTick();
     }
 
     //restituisce  il budget disponibile
-    //@return il valore intero del denaro attuale della città
     public int getMoney() {
         return city.getCityState().getCityStats().getMoney();
     }
 
     //restituisce la strategia di politica cittadina attualmente attiva
-    //@return l'istanza di CityPolicyStrategy(EnviromentalTax oppure IndustrialExpansion)
     public CityPolicyStrategy getCurrentPolicy() {
         return city.getCityState().getCurrentPolicyStrategy();
     }
 
-
     //salva lo stato corrente della città su file tramite PersistenceManager
     public boolean saveGame(String filePath){
-    if(city != null){
-        return persistenceManager.saveCity(city, filePath);
+        if(city != null){
+            return persistenceManager.saveCity(city, filePath);
+        }
+        return false;
     }
 
-    return false;
-    }
-
-    //restituisce l'oggetto City(utile ad esempio per la view
+    //restituisce l'oggetto City(utile ad esempio per la view)
     public City getCity(){
         return city;
     }
 
+    // Espone lo stato di bancarotta alla View
+    public boolean isBankrupt() {
+        return city != null && city.getCityState().isBankrupt();
+    }
 
+    // Espone il numero di case senza energia alla View
+    public int getUnpoweredCount() {
+        return city != null ? city.getCityState().getUnpoweredCount() : 0;
+    }
 }

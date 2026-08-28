@@ -15,26 +15,23 @@ import java.io.File;
 public class CityDashboard extends JFrame implements CityObserver {
 
     private final GameController controller;
-    private final CellFactory cellFactory;
+
     // Matrice che contiene i 400 bottoni fisici cliccabili della mappa
     private final JButton[][] gridButtons = new JButton[20][20];
 
     // UI COMPONENTS
-
-    // Etichette dei contatori numerici in alto
     private JLabel moneyLabel, pollutionLabel, happinessLabel, populationLabel, energyLabel, tickLabel;
-    // Memorizza cosa l'utente ha in mano e vuole costruire (es. "residential" o "road")
     private String selectedBuilding = null;
 
     private JButton noPolicyButton, environmentalButton, industrialButton;
     private JButton houseButton, factoryButton, commercialButton, parkButton, roadButton, powerPlantButton;
+    private JButton tickButton;
 
     // CONSTRUCTOR
     public CityDashboard(GameController controller) {
         this.controller = controller;
-        this.cellFactory = new CellFactory();
 
-        // Collega l'interfaccia ai dati: in questo modo la dashboard "ascolta" i cambiamenti
+        // Collega l'interfaccia ai dati: la dashboard "ascolta" i cambiamenti
         controller.getCity().getCityState().addObserver(this);
 
         initializeWindow();
@@ -46,7 +43,6 @@ public class CityDashboard extends JFrame implements CityObserver {
         updatePolicyButtons();
     }
 
-    // Imposta dimensioni, posizione centrale e chiusura della finestra
     private void initializeWindow() {
         setTitle("SimCity Lite");
         setSize(1200, 750);
@@ -54,10 +50,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         setLocationRelativeTo(null);
     }
 
-
     // GUI ASSEMBLY
-
-    // Divide lo schermo nelle varie zone: titolo, mappa e pannello laterale
     private void createGUI() {
         setLayout(new BorderLayout(10, 10));
 
@@ -71,7 +64,6 @@ public class CityDashboard extends JFrame implements CityObserver {
         add(createCommandsPanel(), BorderLayout.EAST);
     }
 
-    // Disegna la scritta del titolo in alto
     private JPanel createTitlePanel() {
         JLabel titleLabel = new JLabel("SimCity Lite", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
@@ -82,7 +74,6 @@ public class CityDashboard extends JFrame implements CityObserver {
         return titlePanel;
     }
 
-    // Disegna il riquadro con i valori di bilancio (soldi, inquinamento, ecc.)
     private JPanel createStatsPanel() {
         JPanel statsPanel = new JPanel(new GridLayout(2, 3, 10, 5));
         statsPanel.setBorder(BorderFactory.createTitledBorder(
@@ -109,7 +100,6 @@ public class CityDashboard extends JFrame implements CityObserver {
         return statsContainer;
     }
 
-    // Disegna la griglia di gioco 20x20
     private JPanel createGridPanel() {
         JPanel gridPanel = new JPanel(new GridLayout(20, 20));
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
@@ -120,10 +110,10 @@ public class CityDashboard extends JFrame implements CityObserver {
                 final int finalY = y;
 
                 JButton button = new JButton();
-                button.setMargin(new Insets(8, 0, 0, 0)); // Correzione offset baseline
+                button.setMargin(new Insets(8, 0, 0, 0));
                 button.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 24));
 
-                // Quando l'utente clicca un bottone, innesca la funzione di costruzione passandogli le coordinate x, y
+                // Delega il click alla nuova funzione disaccoppiata
                 button.addActionListener(e -> buildOnCell(finalX, finalY));
 
                 gridButtons[x][y] = button;
@@ -139,17 +129,24 @@ public class CityDashboard extends JFrame implements CityObserver {
         commandsPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 10));
 
         // --- TICK BUTTON ---
-        JButton tickButton = new JButton("Next Tick");
+        tickButton = new JButton("Next Tick");
         tickButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         tickButton.addActionListener(e -> {
+            // Avanza di un turno
             controller.advanceTime();
-            int unpowered = controller.getGrid().countUnpoweredResidential();
-            if (unpowered > 0) {
-                JOptionPane.showMessageDialog(this,
-                        "Attention!\n" + unpowered + " residential zone(s) do not have a nearby Power Plant.\nThey did not contribute to the city's metrics during this tick.",
-                        "Residential zones without power", JOptionPane.WARNING_MESSAGE);
+
+            // Report di fine turno: mostra i blackout solo se la città NON è in bancarotta
+            if (!controller.isBankrupt()) {
+                int unpowered = controller.getUnpoweredCount();
+                if (unpowered > 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "Attention!\n" + unpowered + " residential zone(s) do not have a nearby Power Plant.\nThey did not contribute to the city's metrics during this tick.",
+                            "Residential zones without power", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
+
         commandsPanel.add(tickButton);
         commandsPanel.add(Box.createVerticalStrut(15));
 
@@ -167,7 +164,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         roadButton = new JButton("Build Road");
         powerPlantButton = new JButton("Build Power Plant");
 
-        // Logica Toggle per la selezione persistente
+        // Logica Toggle (Pennello)
         java.awt.event.ActionListener selettoreStrumento = e -> {
             JButton bottoneCliccato = (JButton) e.getSource();
             String strumentoScelto = e.getActionCommand();
@@ -279,38 +276,31 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-        Cell cell;
-        try {
-            cell = cellFactory.createCell(selectedBuilding);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "Unknown building type.");
-            return;
-        }
+        // La View delega totalmente la logica di controllo e posizionamento al GameController
+        GameController.BuildResult result = controller.placeBuilding(selectedBuilding, x, y);
 
-        // Controllo budget PRIMA di chiamare il controller
-        int currentMoney = controller.getMoney();
-        if (currentMoney < cell.getCost()) {
-            JOptionPane.showMessageDialog(this,
-                    "Fondi non sufficienti!\nCosto struttura: " + cell.getCost() + " $\nSaldo attuale: " + currentMoney + " $",
-                    "Transazione Negata", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        cell.setX(x);
-        cell.setY(y);
-
-        boolean success = controller.setCell(cell);
-        if (!success) {
-            // Uso dei Text Block come richiesto dall'IDE
-            JOptionPane.showMessageDialog(this, """
+        // La View traduce l'esito in output visivo per l'umano
+        switch (result) {
+            case NO_FUNDS:
+                JOptionPane.showMessageDialog(this,
+                        "Fondi non sufficienti per completare la costruzione.",
+                        "Transazione Negata", JOptionPane.WARNING_MESSAGE);
+                break;
+            case INVALID_POSITION:
+                JOptionPane.showMessageDialog(this, """
                     Cannot build here.
                     Possible reasons:
                     - cell already occupied
-                    - invalid position
+                    - out of bounds
                     """);
-            return;
+                break;
+            case UNKNOWN_TYPE:
+                JOptionPane.showMessageDialog(this, "Tipo di edificio sconosciuto.");
+                break;
+            case SUCCESS:
+                // La griglia si aggiorna da sola grazie all'Observer
+                break;
         }
-        refreshGrid();
     }
 
     private void handleNewGame() {
@@ -319,6 +309,10 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         controller.startNewGame();
         controller.getCity().getCityState().addObserver(this);
+
+        // Sblocca i controlli se la partita precedente era in Game Over
+        setGameControlsEnabled(true);
+
         selectedBuilding = null;
         refreshGrid();
         refreshStats(controller.getCityStats());
@@ -352,6 +346,10 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
 
         controller.getCity().getCityState().addObserver(this);
+
+        // Sblocca i controlli in caso si ricarichi una partita mentre si è in Game Over
+        setGameControlsEnabled(true);
+
         selectedBuilding = null;
         refreshGrid();
         refreshStats(controller.getCityStats());
@@ -360,7 +358,7 @@ public class CityDashboard extends JFrame implements CityObserver {
     }
 
     // =========================================================
-    // UI UPDATERS
+    // UI UPDATERS E OBSERVER
     // =========================================================
 
     private void updatePolicyButtons() {
@@ -399,12 +397,49 @@ public class CityDashboard extends JFrame implements CityObserver {
         tickLabel.setText("Tick: " + controller.getCurrentTick());
     }
 
+    // Blocca o sblocca fisicamente tutti i bottoni del gioco
+    private void setGameControlsEnabled(boolean enabled) {
+        if (tickButton != null) tickButton.setEnabled(enabled);
+        houseButton.setEnabled(enabled);
+        factoryButton.setEnabled(enabled);
+        commercialButton.setEnabled(enabled);
+        parkButton.setEnabled(enabled);
+        roadButton.setEnabled(enabled);
+        powerPlantButton.setEnabled(enabled);
+        noPolicyButton.setEnabled(enabled);
+        environmentalButton.setEnabled(enabled);
+        industrialButton.setEnabled(enabled);
+        for (int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+                gridButtons[x][y].setEnabled(enabled);
+            }
+        }
+    }
+
     @Override
     public void update(Stats currentStats) {
         SwingUtilities.invokeLater(() -> {
+
+            // 1. Aggiornamento standard dei dati visivi
             refreshStats(currentStats);
             refreshGrid();
             updatePolicyButtons();
+
+            // 2. Lettura dello stato di fine partita
+            if (controller.isBankrupt()) {
+
+                // Sigilla l'interfaccia
+                setGameControlsEnabled(false);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "GAME OVER - BANCAROTTA!\n\n" +
+                                "Non hai abbastanza fondi per sostenere i costi di gestione.\n" +
+                                "Inizia una nuova partita o carica un salvataggio.",
+                        "Bancarotta",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         });
     }
 }
