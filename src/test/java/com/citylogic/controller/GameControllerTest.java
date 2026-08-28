@@ -1,9 +1,6 @@
 
     package com.citylogic.controller;
 
-//import com.citylogic.model.Residential;
-//import com.citylogic.model.Factory;
-//import com.citylogic.strategy.EnvironmentalTax;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
