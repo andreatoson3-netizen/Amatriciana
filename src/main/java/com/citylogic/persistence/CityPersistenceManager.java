@@ -23,16 +23,19 @@ public class CityPersistenceManager {
     //salva lo stato corrente della città su un file JSON
     //@param city come oggetto City da salvare
     //@param filePath come percorso del file di destinazione
-    public void saveCity(City city, String filePath){
-        if(city==null || filePath==null){
-            return;
-        }
-        try{
-            objectMapper.writeValue(new File(filePath),city);
-        } catch (IOException e){
-            e.printStackTrace();//stampa errore nella console
+    public boolean saveCity(City city, String filePath){
+    if(city == null || filePath == null){
+        return false;
+    }
 
-        }
+    try{
+        objectMapper.writeValue(new File(filePath), city);
+        return true;
+
+    } catch (IOException e){
+        e.printStackTrace();
+        return false;
+    }
     }
 
     //carica lo stato della città da un file JSON esistente
