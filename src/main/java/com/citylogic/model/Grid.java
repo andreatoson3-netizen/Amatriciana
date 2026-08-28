@@ -86,6 +86,10 @@ public class Grid {
         return count;
     }
 
+    public int getBlackoutCount() {
+        return blackoutQueue.size();
+    }
+
 
 
     // Accende e spegne le celle in base alla disponibilità di corrente e gestisce la coda di blackout
