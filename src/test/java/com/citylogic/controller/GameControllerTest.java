@@ -57,7 +57,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
             controller.activatePolicy("environmental");
 
-            assertNotNull(controller.getCurrentPolicy(), "La policy deve essere attivata correttamente");
+            assertEquals("EnvironmentalTax", controller.getCurrentPolicyName(), "La Environmental Tax deve essere attivata correttamente");
         }
 
         @Test
