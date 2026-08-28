@@ -66,6 +66,10 @@ public class CityState {
         this.currTick++;
         //1)ottiene le statistiche grezze interrogando la griglia(se la griglia è inizializzata)
         if( this.grid != null){
+
+            // 1) AZIONE: Distribuisce le risorse e iberna chi resta senza energia
+            this.grid.distributeEnergy();
+
             Stats rawStats=this.grid.calculateRawStats();
         //2)aggiorna le statistiche applicando la policy e notificando gli observer(fatto dal metodo upDate)
             updateStats(rawStats);

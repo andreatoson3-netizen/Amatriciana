@@ -369,19 +369,40 @@ public class CityDashboard extends JFrame implements CityObserver {
         industrialButton.setText("IndustrialExpansion".equals(currentPolicy) ? "Industrial Expansion - ACTIVE" : "Industrial Expansion - INACTIVE");
     }
 
+    /**
+     * Aggiorna lo stato visivo della matrice di pulsanti della griglia di gioco.
+     * Itera su tutte le celle (20x20) leggendo lo stato dal modello; assegna a ciascun
+     * edificio la relativa icona emoji e sostituisce l'icona con una croce rossa (❌)
+     * nel caso in cui la struttura risulti non operativa a causa di un blackout o mancata alimentazione.
+     */
     private void refreshGrid() {
         Grid grid = controller.getGrid();
         for (int x = 0; x < 20; x++) {
             for (int y = 0; y < 20; y++) {
                 Cell cell = grid.getCell(x, y);
                 JButton button = gridButtons[x][y];
-                if (cell == null) button.setText("");
-                else if (cell instanceof Residential) button.setText("🏠");
-                else if (cell instanceof Factory) button.setText("🏭");
-                else if (cell instanceof Commercial) button.setText("🏪");
-                else if (cell instanceof Park) button.setText("🌲");
-                else if (cell instanceof Road) button.setText("🛣️");
-                else if (cell instanceof PowerPlant) button.setText("⚡");
+
+                if (cell == null) {
+                    button.setText("");
+                    button.setBackground(null);
+                } else {
+                    String icon = "";
+                    if (cell instanceof Residential) icon = "🏠";
+                    else if (cell instanceof Factory) icon = "🏭";
+                    else if (cell instanceof Commercial) icon = "🏪";
+                    else if (cell instanceof Park) icon = "🌲";
+                    else if (cell instanceof Road) icon = "🛣️";
+                    else if (cell instanceof PowerPlant) icon = "⚡";
+
+                    // Se la struttura consuma energia ed è spenta (in blackout / ibernata)
+                    if (!cell.isOperative() && !cell.isFree()) {
+                        button.setText("❌"); // Mostra la X rossa sopra la casella
+                        button.setToolTipText(icon + " (Senza Corrente)");
+                    } else {
+                        button.setText(icon);
+                        button.setToolTipText(null);
+                    }
+                }
             }
         }
     }

@@ -9,7 +9,7 @@ public abstract class Cell {
     boolean free;//indica se la cella della griglia è libera oppure occupata da una struttura
     int x; //prima coordinata del blocco all'interno della griglia della città
     int y; //seconda coordinata del blocco all'interno della griglia della città
-    private boolean isOperative;//indica se la struttura presente nella cella è attiva e funzionante(true)
+    private boolean isOperative = true;//indica se la struttura presente nella cella è attiva e funzionante(true)
                                 // o spenta/guasta(false)
     private int cost;          //il costo di costruzione di un Building/Infrastructure
 
