@@ -19,7 +19,7 @@ public class PowerPlant extends Infrastructure {
     @Override
     public Stats returnStat(){
         //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
-        //Ad esempio:inquinamento alto, costo economico negativo(spesa), emergia molto positiva
+        //Ad esempio:inquinamento alto, costo economico negativo(spesa), energia molto positiva
         return new Stats(30,-100,-5,0,100);
 
     }
