@@ -2,6 +2,8 @@ package com.citylogic.controller;
 
 import com.citylogic.model.Cell;
 import com.citylogic.model.City;
+import com.citylogic.model.Grid;
+import com.citylogic.model.Stats;
 import com.citylogic.strategy.CityPolicyStrategy;
 import com.citylogic.persistence.CityPersistenceManager;
 
@@ -107,6 +109,36 @@ public class GameController {
     }
 
     return false;
+    }
+
+    //restituisce le statistiche globali della città
+    //@return l'oggetto Stats contenente i valori di denaro,inquinamento,felicità,...
+    public Stats getCityStats() {
+        return city.getCityState().getCityStats();
+    }
+
+    //restituisce la griglia del gioco attuale
+    //@return l'oggetto grid che modella la mappa e la posizione delle strutture
+    public Grid getGrid() {
+        return city.getCityState().getGrid();
+    }
+
+    //restituisce il numero di tick corrente della simulazione
+    //@return il valore intero del tick attuale
+    public int getCurrentTick() {
+        return city.getCityState().getCurrTick();
+    }
+
+    //restituisce  il budget disponibile
+    //@return il valore intero del denaro attuale della città
+    public int getMoney() {
+        return city.getCityState().getCityStats().getMoney();
+    }
+
+    //restituisce la strategia di politica cittadina attualmente attiva
+    //@return l'istanza di CityPolicyStrategy(EnviromentalTax oppure IndustrialExpansion)
+    public CityPolicyStrategy getCurrentPolicy() {
+        return city.getCityState().getCurrentPolicyStrategy();
     }
 
 

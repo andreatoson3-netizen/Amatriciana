@@ -42,7 +42,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         // Primo caricamento visivo della griglia all'avvio del gioco
         refreshGrid();
-        refreshStats(controller.getCity().getCityState().getCityStats());
+        refreshStats(controller.getCityStats());
         updatePolicyButtons();
     }
 
@@ -143,7 +143,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         tickButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         tickButton.addActionListener(e -> {
             controller.advanceTime();
-            int unpowered = controller.getCity().getCityState().getGrid().countUnpoweredResidential();
+            int unpowered = controller.getGrid().countUnpoweredResidential();
             if (unpowered > 0) {
                 JOptionPane.showMessageDialog(this,
                         "Attention!\n" + unpowered + " residential zone(s) do not have a nearby Power Plant.\nThey did not contribute to the city's metrics during this tick.",
@@ -288,7 +288,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         }
 
         // Controllo budget PRIMA di chiamare il controller
-        int currentMoney = controller.getCity().getCityState().getCityStats().getMoney();
+        int currentMoney = controller.getMoney();
         if (currentMoney < cell.getCost()) {
             JOptionPane.showMessageDialog(this,
                     "Fondi non sufficienti!\nCosto struttura: " + cell.getCost() + " $\nSaldo attuale: " + currentMoney + " $",
@@ -321,7 +321,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         controller.getCity().getCityState().addObserver(this);
         selectedBuilding = null;
         refreshGrid();
-        refreshStats(controller.getCity().getCityState().getCityStats());
+        refreshStats(controller.getCityStats());
         updatePolicyButtons();
     }
 
@@ -354,7 +354,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         controller.getCity().getCityState().addObserver(this);
         selectedBuilding = null;
         refreshGrid();
-        refreshStats(controller.getCity().getCityState().getCityStats());
+        refreshStats(controller.getCityStats());
         updatePolicyButtons();
         JOptionPane.showMessageDialog(this, "Game loaded successfully.", "Load Game", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -365,7 +365,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
     private void updatePolicyButtons() {
         if (noPolicyButton == null || environmentalButton == null || industrialButton == null) return;
-        Object currentPolicy = controller.getCity().getCityState().getCurrentPolicyStrategy();
+        Object currentPolicy = controller.getCurrentPolicy();
 
         noPolicyButton.setText(currentPolicy == null ? "No Policy - ACTIVE" : "No Policy - INACTIVE");
         environmentalButton.setText(currentPolicy instanceof EnvironmentalTax ? "Environmental Tax - ACTIVE" : "Environmental Tax - INACTIVE");
@@ -373,7 +373,7 @@ public class CityDashboard extends JFrame implements CityObserver {
     }
 
     private void refreshGrid() {
-        Grid grid = controller.getCity().getCityState().getGrid();
+        Grid grid = controller.getGrid();
         for (int x = 0; x < 20; x++) {
             for (int y = 0; y < 20; y++) {
                 Cell cell = grid.getCell(x, y);
@@ -396,7 +396,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         happinessLabel.setText("Happiness: " + stats.getHappiness());
         populationLabel.setText("Population: " + stats.getPopulation());
         energyLabel.setText("Energy: " + stats.getEnergy());
-        tickLabel.setText("Tick: " + controller.getCity().getCityState().getCurrTick());
+        tickLabel.setText("Tick: " + controller.getCurrentTick());
     }
 
     @Override
