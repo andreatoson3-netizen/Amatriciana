@@ -147,4 +147,11 @@ public class CityState {
         }
         return 0;
     }
+
+    public int getBlackoutCount() {
+        if (this.grid != null) {
+            return this.grid.getBlackoutCount();
+        }
+        return 0;
+    }
 }
