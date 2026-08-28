@@ -48,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 controller.placeBuilding("factory", 0, 0);
 
             assertEquals(GameController.BuildResult.NO_FUNDS, result, "Il piazzamento deve fallire se i fondi non sono sufficienti");
-            assertEquals(100, controller.getCity().getCityState().getCityStats().getMoney(), "Il budget non deve essere modificato in caso di fallimento");
+            assertEquals(100, controller.getMoney(), "Il budget non deve essere modificato in caso di fallimento");
         }
 
         @Test
