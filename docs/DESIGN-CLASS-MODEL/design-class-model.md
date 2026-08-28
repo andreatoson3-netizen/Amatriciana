@@ -9,13 +9,26 @@ classDiagram
     class GameController {
         -City city
         -CityPersistenceManager persistenceManager
+        -CellFactory cellFactory
+        +enum BuildResult
         +startNewGame() : void
-        +setCell(Cell cell) : boolean
-        +activatePolicy(CityPolicyStrategy policy): void
+        +placeBuilding(String buildingType,int x,int y):BuildResult
+        +demolishBuilding(int x,int y):boolean
+        +activatePolicy(String policyName): void
         +advanceTime() : void
         +loadGame(String filePath) : boolean
-        +saveGame(String filePath): boolean
-        +getCity() : City
+        +getCityStats():Stats
+        +getGrid():Grid
+        +getCurrentTick(): int
+        +getMoney():int
+        +setMoney(int money):void
+        +getCurrentPolicy():CityPolicyStrategy
+        +getCurrentPolicyName:String
+        +addObserver(CityObserver observer):void
+        +saveGame(String filePath):boolean
+        +isBankrupt():boolean
+        +isRevolt():boolean
+        +getUnpoweredCount():int
     }
 
     class CellFactory {
@@ -53,39 +66,43 @@ classDiagram
         +addObserver(CityObserver observer): void
         +removeObserver(CityObserver observer):void
          +notifyObservers(): void
-        +getCityStats() Stats
-        +setCityStats(Stats cityStats):void
+        +getCityStats() :Stats
         +getGrid() :Grid
         +setGrid(Grid grid):Grid
         +getCurrTick() :int
-        +setCurrTick(): int
+        +setCurrTick(): void
         +getCurrentPolicyStrategy():CityPolicyStrategy
          +setPolicy(CityPolicyStrategy p): void
-        
+        +isBankrupt():boolean
+        +getUnpoweredCount():int
        
     }
 
     class CityPolicyStrategy {
         <<interface>>
-        +calculateStats(Stats rawStats) Stats
+        +calculateStats(Stats rawStats): Stats
     }
 
     class EnvironmentalTax {
-        +calculateStats(Stats rawStats) Stats
+        +calculateStats(Stats rawStats): Stats
     }
 
     class IndustrialExpansion {
-        +calculateStats(Stats rawStats) Stats
+        +calculateStats(Stats rawStats): Stats
     }
 
     class Grid {
         -Cell[][] griglia
+        --Queue~Cell~ blackoutQueue
         +getCell(int x, int y) : Cell
         +hasPowerPlant : boolean
         +hasNearbyPowerPlant(int x, int y):boolean
         +countUnpoweredResidentila(): int
+        +distributeEnergy():void
         +calculateRawStats() : Stats
+        +removeCell(int x,int y):Cell
         +setCell(Cell cell,int x,int y): boolean
+        +getBlackoutQueue():Queue~Cell~
         +getGriglia():Cell[][]
         +setGriglia(Cell[][] griglia):void
         
@@ -121,15 +138,15 @@ classDiagram
         -int energy
         +add(Stats other) :void
         +multiply(double factor):Stats
-        +getPollution() int
+        +getPollution() :int
         +setPollution(int pollution):void
-        +getMoney() int
+        +getMoney() :int
         +setMoney(int money):void
-        +getHappiness() int
+        +getHappiness(): int
         +setHappiness(int happiness):void
-        +getPopulation() int
+        +getPopulation() :int
         +setPopulation(int population):void
-        +getEnergy() int
+        +getEnergy(): int
         +setEnergy(int energy):void
         
    }
