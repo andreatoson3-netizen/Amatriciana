@@ -573,39 +573,52 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         saveGameButton.addActionListener(e -> {
 
-            JFileChooser fileChooser =
-                    new JFileChooser();
+    JFileChooser fileChooser =
+            new JFileChooser();
 
-            fileChooser.setDialogTitle(
-                    "Save Game"
-            );
+    fileChooser.setDialogTitle(
+            "Save Game"
+    );
 
-            int result =
-                    fileChooser.showSaveDialog(this);
+    int result =
+            fileChooser.showSaveDialog(this);
 
-            if (result != JFileChooser.APPROVE_OPTION) {
-                return;
-            }
+    if (result != JFileChooser.APPROVE_OPTION) {
+        return;
+    }
 
-            File file =
-                    fileChooser.getSelectedFile();
+    File file =
+            fileChooser.getSelectedFile();
 
-            String path =
-                    file.getAbsolutePath();
+    String path =
+            file.getAbsolutePath();
 
-            if (!path.toLowerCase().endsWith(".json")) {
-                path += ".json";
-            }
+    if (!path.toLowerCase().endsWith(".json")) {
+        path += ".json";
+    }
 
+    boolean saved =
             controller.saveGame(path);
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Game saved successfully.",
-                    "Save Game",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        });
+    if (saved) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Game saved successfully.",
+                "Save Game",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+    } else {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Unable to save the game.",
+                "Save Game",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+});
 
         // =====================================================
         // LOAD GAME
@@ -613,62 +626,67 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         loadGameButton.addActionListener(e -> {
 
-            JFileChooser fileChooser =
-                    new JFileChooser();
+    JFileChooser fileChooser =
+            new JFileChooser();
 
-            fileChooser.setDialogTitle(
-                    "Load Game"
-            );
+    fileChooser.setDialogTitle(
+            "Load Game"
+    );
 
-            int result =
-                    fileChooser.showOpenDialog(this);
+    int result =
+            fileChooser.showOpenDialog(this);
 
-            if (result != JFileChooser.APPROVE_OPTION) {
-                return;
-            }
+    if (result != JFileChooser.APPROVE_OPTION) {
+        return;
+    }
 
-            File file =
-                    fileChooser.getSelectedFile();
+    File file =
+            fileChooser.getSelectedFile();
 
+    // Prova a caricare la partita
+    boolean loaded =
             controller.loadGame(
                     file.getAbsolutePath()
             );
 
-            if (controller.getCity() == null) {
+    // Se il caricamento fallisce,
+    // la città precedente rimane invariata
+    if (!loaded) {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Unable to load the selected game.",
-                        "Load Game",
-                        JOptionPane.ERROR_MESSAGE
-                );
+        JOptionPane.showMessageDialog(
+                this,
+                "Unable to load the selected game.",
+                "Load Game",
+                JOptionPane.ERROR_MESSAGE
+        );
 
-                return;
-            }
+        return;
+    }
 
+    // La nuova città caricata diventa osservata dalla GUI
+    controller.getCity()
+            .getCityState()
+            .addObserver(this);
+
+    selectedBuilding = null;
+
+    refreshGrid();
+
+    refreshStats(
             controller.getCity()
                     .getCityState()
-                    .addObserver(this);
+                    .getCityStats()
+    );
 
-            selectedBuilding = null;
+    updatePolicyButtons();
 
-            refreshGrid();
-
-            refreshStats(
-                    controller.getCity()
-                            .getCityState()
-                            .getCityStats()
-            );
-
-            updatePolicyButtons();
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Game loaded successfully.",
-                    "Load Game",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        });
+    JOptionPane.showMessageDialog(
+            this,
+            "Game loaded successfully.",
+            "Load Game",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+});
 
         // Add game buttons
 
@@ -874,7 +892,7 @@ public class CityDashboard extends JFrame implements CityObserver {
                         cell instanceof Commercial
                 ) {
 
-                    button.setText("C");
+                    button.setText("S");
 
                 } else if (
                         cell instanceof Park
