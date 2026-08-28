@@ -124,10 +124,13 @@ Verifica: Si è testato il posizionamento di un Park su una cella vuota per veri
 Esito: OK.
 L'esame della classe Park e del suo impatto associato dimostra che, una volta posizionata con successo l'infrastruttura verde, la metrica della felicità della città (Happiness) aumenta in modo coerente secondo il valore definito nelle statistiche o nel comportamento specifico del parco.
 
+
 Scenario 3: Factory Effects
 Verifica: Si è testato il posizionamento di una Factory su una cella vuota per verificarne l'impatto economico e ambientale.
 Esito: OK. 
 L'analisi dell'implementazione della classe Factory conferma che la sua corretta costruzione genera un incremento delle entrate o del denaro della città (Money) e, contestualmente, un aumento dei livelli di inquinamento (Pollution), rispettando esattamente gli effetti predefiniti per questa tipologia di edificio industriale.
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-06 - Advance the simulation
 
@@ -144,10 +147,10 @@ Esito: OK.
 L'analisi del metodo GameController.advanceTime() conferma che la chiamata incrementa il contatore temporale della simulazione di una unità e avvia il ciclo di ricalcolo del CityState in base alle regole di simulazione registrate (verificando ad esempio la presenza di centrali elettriche per l'attivazione delle zone residenziali e applicando i delta statistici previsti).
 
 Scenario 2: Repeated Time Progression
-
 Verifica: Si è testata la stabilità e la coerenza del sistema a fronte di multiple chiamate consecutive di tick temporali.
 Esito: OK.
-L'esecuzione ripetuta del metodo di avanzamento temporale dimostra che il tempo scala linearmente di un'unità per ciascun tick attivato, e che lo stato globale della città viene ricalcolato e aggiornato iterativamente dopo ogni singolo intervallo, preservando la correttezza della simulazione nel lungo periodo e attivando correttamente le notifiche agli observer associati.
+L'esecuzione ripetuta del metodo di avanzamento temporale dimostra che il tempo scala linearmente di un'unità per ciascun tick attivato, e che lo stato globale della città viene ricalcolato e aggiornato iterativamente dopo ogni singolo intervallo, preservando la correttezza della simulazione nel lungo periodo e attivando correttamente le notifiche agli observer associati
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-07 - Enforce simulation rules
 
@@ -192,6 +195,7 @@ Scenario 3: Switching Between Policies
 Verifica: Si è testato il comportamento del sistema nel passaggio da una politica attiva a una nuova politica differente.
 Esito: OK.
 L'implementazione del pattern Strategy consente il cambio dinamico del comportamento in esecuzione: selezionando e attivando una nuova politica, la precedente viene sovrascritta e disattivata, garantendo che risulti attiva unicamente la strategia appena selezionata.
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-09 - Apply City Policy effects
 
@@ -206,11 +210,11 @@ Scenario 1: Application of the Selected Policy
 Verifica: Si è testato il calcolo delle metriche della città in presenza di una politica attiva per verificarne l'impatto reale.
 Esito: OK.
 L'analisi del flusso di simulazione conferma che, durante il ricalcolo dello stato, il sistema applica dinamicamente le regole della strategia corrente (es. modificatori legati a EnvironmentalTax o IndustrialExpansion), alterando coerentemente le metriche globali (come denaro, inquinamento o felicità) in base ai parametri specifici della policy.
-
 Scenario 2: Change of Active Policy
 Verifica: Si è testata la variazione dei calcoli statistici successivi in seguito al cambio di politica attiva.
 Esito: OK.
 Sfruttando la flessibilità del pattern Strategy, la selezione di una nuova politica aggiorna immediatamente il riferimento nel CityState; di conseguenza, tutti i calcoli e gli aggiornamenti delle metriche eseguiti nei tick successivi recepiscono e applicano rigorosamente le regole della nuova strategia subentrata.
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-10 - Save the City
 
