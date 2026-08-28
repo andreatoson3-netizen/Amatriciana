@@ -20,7 +20,7 @@ public class PowerPlant extends Infrastructure {
     public Stats returnStat(){
         //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
         //Ad esempio:inquinamento alto, costo economico negativo(spesa), energia molto positiva
-        return new Stats(30,-100,-5,0,100);
+        return new Stats(20,-60,-5,0,120);
 
     }
 }
