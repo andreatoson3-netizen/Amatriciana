@@ -136,5 +136,27 @@ class GridTest {
         Stats total = grid.calculateRawStats();
         assertTrue(total.getMoney() > 0, "Le fabbriche accese devono generare denaro");
     }
+    @Test
+    void testCountUnpoweredResidential() {
+        // Arrange
+        // Piazziamo 1 centrale e 2 case lontane (isolate), pi  1 casa vicina (alimentata)
+        PowerPlant power = new PowerPlant();
+        grid.setCell(power, 0, 0); // Centrale in 0,0 (raggio di copertura: coordinate la cui somma  <= 8)
+
+        Residential vicina = new Residential();
+        grid.setCell(vicina, 2, 2); // Distanza 4 (Alimentata)
+
+        Residential lontana1 = new Residential();
+        grid.setCell(lontana1, 15, 15); // Distanza 30 (Isolata)
+
+        Residential lontana2 = new Residential();
+        grid.setCell(lontana2, 19, 0); // Distanza 19 (Isolata)
+
+        // Act
+        int unpoweredCount = grid.countUnpoweredResidential();
+
+        // Assert
+        assertEquals(2, unpoweredCount, "Il contatore deve rilevare esattamente 2 zone residenziali fuori raggio");
+    }
 
 }

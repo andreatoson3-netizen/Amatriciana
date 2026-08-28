@@ -423,6 +423,8 @@ public class CityDashboard extends JFrame implements CityObserver {
         noPolicyButton.setEnabled(enabled);
         environmentalButton.setEnabled(enabled);
         industrialButton.setEnabled(enabled);
+        demolishButton.setEnabled(enabled);
+
         for (int x = 0; x < 20; x++) {
             for (int y = 0; y < 20; y++) {
                 gridButtons[x][y].setEnabled(enabled);
