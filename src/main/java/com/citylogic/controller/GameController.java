@@ -97,19 +97,26 @@ public class GameController {
 
     //carica una partita salvata da file delegando il lavoro al PersistenceManager
     //sostituendo la città corrente con quella caricata
-    public void loadGame(String filePath){
-        City loadedCity=persistenceManager.loadCity(filePath);
-        if(loadedCity != null){
-            this.city =loadedCity;
-        }
+    public boolean loadGame(String filePath) {
+
+    City loadedCity = persistenceManager.loadCity(filePath);
+
+    if (loadedCity != null) {
+        this.city = loadedCity;
+        return true;
+    }
+
+    return false;
     }
 
 
     //salva lo stato corrente della città su file tramite PersistenceManager
-    public void saveGame(String filePath){
-        if(city!= null){
-            persistenceManager.saveCity(city,filePath);
-        }
+    public boolean saveGame(String filePath){
+    if(city != null){
+        return persistenceManager.saveCity(city, filePath);
+    }
+
+    return false;
     }
 
     //restituisce l'oggetto City(utile ad esempio per la view
