@@ -6,11 +6,23 @@ classDiagram
     %% 1. DEFINIZIONE CLASSI E INTERFACCE
     %% ==========================================
 
+   class BuildResult {
+        <<enumeration>>
+        SUCCESS
+        NO_FUNDS
+        INVALID_POSITION
+        UNKNOWN_TYPE
+    }
+
+    %% Questa linea indica che l'enum è annidato / appartiene a GameController
+    GameController *-- BuildResult : +BuildResult
+
+
     class GameController {
         -City city
         -CityPersistenceManager persistenceManager
         -CellFactory cellFactory
-        +enum BuildResult
+        +buildBuilding(String type) : BuildResult
         +startNewGame() : void
         +placeBuilding(String buildingType,int x,int y):BuildResult
         +demolishBuilding(int x,int y):boolean
