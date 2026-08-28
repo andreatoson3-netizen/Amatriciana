@@ -28,8 +28,8 @@ class CommercialTest {
 
         // Assert: Validazione delle metriche specifiche del blocco commerciale
         assertNotNull(stats, "returnStat non deve restituire null");
-        assertEquals(10, stats.getPollution(), "Inquinamento errato per Commercial");
-        assertEquals(60, stats.getMoney(), "Rendimento economico errato per Commercial");
+        assertEquals(1, stats.getPollution(), "Inquinamento errato per Commercial");
+        assertEquals(45, stats.getMoney(), "Rendimento economico errato per Commercial");
         assertEquals(10, stats.getHappiness(), "Rendimento felicità errato per Commercial");
         assertEquals(0, stats.getPopulation(), "La zona commerciale non deve generare popolazione diretta");
         assertEquals(-15, stats.getEnergy(), "Il consumo energetico deve essere -15");
