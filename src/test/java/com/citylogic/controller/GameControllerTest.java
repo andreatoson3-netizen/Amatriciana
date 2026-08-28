@@ -1,5 +1,5 @@
 
-    package com.citylogic.controller;
+package com.citylogic.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
