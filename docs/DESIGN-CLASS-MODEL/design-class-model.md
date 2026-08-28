@@ -7,14 +7,14 @@ classDiagram
     %% ==========================================
 
     class GameController {
-        -city : City
-        -persistencemanage : CityPersistenceManager
+        -City city
+        -CityPersistenceManager persistenceManager
         +startNewGame() : void
         +setCell(Cell cell) : boolean
         +activatePolicy(CityPolicyStrategy policy): void
         +advanceTime() : void
-        +loadGame(String filePath) : void
-        +saveGame(String filePath): void
+        +loadGame(String filePath) : boolean
+        +saveGame(String filePath): boolean
         +getCity() : City
     }
 
@@ -23,8 +23,8 @@ classDiagram
     }
 
     class CityPersistenceManager {
-        -objectMapper : ObjectMapper
-        +saveCity(City city, String filePath): void
+        -ObjectMapper objectMapper
+        +saveCity(City city, String filePath): boolean
         +loadCity(String filePath) :City
     }
 
@@ -38,31 +38,33 @@ classDiagram
     }
 
     class City {
-        -cityState : CityState 
+        -CityState cityState
         +initCity() void
+        +initNewGameBudget(): void
         +getCityState():CityState
-        +processTick() void
+        +processTick(): void
     }
     
     class CityState {
-        -currentPolicy: CityPolicyStrategy
-        -currTick:int
-        -cityStats:Stats
-        -grid : Grid
+        -CityPolicyStrategy currentPolicy
+        -int currTick
+        -Stats cityStats
+        -Grid grid
         -List~CityObserver~ observers
         +updateStats(Stats newStats): void
         +processTick(): void
         +addObserver(CityObserver observer): void
+        +removeObserver(CityObserver observer):void
          +notifyObservers(): void
         +getCityStats() Stats
         +setCityStats(Stats cityStats):void
         +getGrid() :Grid
         +setGrid(Grid grid):Grid
-        +setPolicy(CityPolicyStrategy p): void
         +getCurrTick() :int
         +setCurrTick(): int
         +getCurrentPolicyStrategy():CityPolicyStrategy
-        +setCurrentPolicyStrategy(CityPolicyStrategy currentPolicy):void
+         +setPolicy(CityPolicyStrategy p): void
+        
        
     }
 
@@ -80,10 +82,13 @@ classDiagram
     }
 
     class Grid {
-        -Cell[][] Griglia
+        -Cell[][] griglia
         +getCell(int x, int y) : Cell
         +hasPowerPlant : boolean
+        +hasNearbyPowerPlant(int x, int y):boolean
+        +countUnpoweredResidentila(): int
         +calculateRawStats() : Stats
+        +setCell(Cell cell,int x,int y): boolean
         +getGriglia():Cell[][]
         +setGriglia(Cell[][] griglia):void
         
@@ -118,7 +123,7 @@ classDiagram
         -int population
         -int energy
         +add(Stats other) :void
-        +multiply(double factor):void
+        +multiply(double factor):Stats
         +getPollution() int
         +setPollution(int pollution):void
         +getMoney() int
@@ -134,36 +139,36 @@ classDiagram
 
     class Infrastructure {
         <<abstract>>
-        +returnStat() : Stat
+        +returnStat() : Stats
     }
     
     class Building {
         <<abstract>>
-      +returnStat():Stat
+      +returnStat():Stats
     }
 
     class PowerPlant {
-        +returnStat() : Stat
+        +returnStat() : Stats
     }
     
     class Road {
-        +returnStat(): Stat
+        +returnStat(): Stats
     }
     
     class Park {
-        +returnStat(): Stat
+        +returnStat(): Stats
     }
 
     class Residential {
-        +returnStat(): Stat
+        +returnStat(): Stats
     }
     
     class Factory {
-        +returnStat() Stat
+        +returnStat() Stats
     }
     
     class Commercial {
-        +returnStat() Stat
+        +returnStat() Stats
     }
 
     %% ==========================================
