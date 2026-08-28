@@ -222,8 +222,10 @@ public class CityDashboard extends JFrame implements CityObserver {
                 JButton button = new JButton();
 
                 button.setMargin(
-                        new Insets(0, 0, 0, 0)
+                        new Insets(6, 0, 0, 0)
                 );
+
+                button.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 24)); // dimensione font
 
                 button.addActionListener(e ->
                         buildOnCell(
@@ -355,29 +357,50 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         // Building actions
 
-        houseButton.addActionListener(e ->
-                selectedBuilding = "residential"
-        );
+        // gestione della permanenza della selezione con relativo eveidenziatura
 
-        factoryButton.addActionListener(e ->
-                selectedBuilding = "factory"
-        );
+        java.awt.event.ActionListener selettoreStrumento = e -> {
+            JButton bottoneCliccato = (JButton) e.getSource();
+            String strumentoScelto = e.getActionCommand();
 
-        commercialButton.addActionListener(e ->
-                selectedBuilding = "commercial"
-        );
+            // Logica Toggle: se clicchi lo strumento già attivo, lo disarmi (null)
+            if (strumentoScelto.equals(selectedBuilding)) {
+                selectedBuilding = null;
+            } else {
+                selectedBuilding = strumentoScelto;
+            }
 
-        parkButton.addActionListener(e ->
-                selectedBuilding = "park"
-        );
+            // 1. Resetta il colore di sfondo di TUTTI i bottoni (torna al default)
+            houseButton.setBackground(null);
+            factoryButton.setBackground(null);
+            commercialButton.setBackground(null);
+            parkButton.setBackground(null);
+            roadButton.setBackground(null);
+            powerPlantButton.setBackground(null);
 
-        roadButton.addActionListener(e ->
-                selectedBuilding = "road"
-        );
+            // 2. Se uno strumento è attivo, evidenzia solo il bottone cliccato
+            if (selectedBuilding != null) {
+                bottoneCliccato.setBackground(Color.LIGHT_GRAY);
+            }
+        };
 
-        powerPlantButton.addActionListener(e ->
-                selectedBuilding = "powerplant"
-        );
+// Assegniamo le "etichette invisibili" (ActionCommand) ai bottoni
+        houseButton.setActionCommand("residential");
+        factoryButton.setActionCommand("factory");
+        commercialButton.setActionCommand("commercial");
+        parkButton.setActionCommand("park");
+        roadButton.setActionCommand("road");
+        powerPlantButton.setActionCommand("powerplant");
+
+// Colleghiamo i bottoni al nostro selettore centralizzato
+        houseButton.addActionListener(selettoreStrumento);
+        factoryButton.addActionListener(selettoreStrumento);
+        commercialButton.addActionListener(selettoreStrumento);
+        parkButton.addActionListener(selettoreStrumento);
+        roadButton.addActionListener(selettoreStrumento);
+        powerPlantButton.addActionListener(selettoreStrumento);
+
+
 
         buildPanel.add(houseButton);
 
@@ -848,7 +871,7 @@ public class CityDashboard extends JFrame implements CityObserver {
 
         refreshGrid();
 
-        selectedBuilding = null;
+       // selectedBuilding = null;
     }
 
     // =========================================================
@@ -873,44 +896,19 @@ public class CityDashboard extends JFrame implements CityObserver {
                         gridButtons[x][y];
 
                 if (cell == null) {
-
                     button.setText("");
-
-                } else if (
-                        cell instanceof Residential
-                ) {
-
-                    button.setText("H");
-
-                } else if (
-                        cell instanceof Factory
-                ) {
-
-                    button.setText("F");
-
-                } else if (
-                        cell instanceof Commercial
-                ) {
-
-                    button.setText("S");
-
-                } else if (
-                        cell instanceof Park
-                ) {
-
-                    button.setText("P");
-
-                } else if (
-                        cell instanceof Road
-                ) {
-
-                    button.setText("R");
-
-                } else if (
-                        cell instanceof PowerPlant
-                ) {
-
-                    button.setText("PP");
+                } else if (cell instanceof Residential) {
+                    button.setText("🏠");
+                } else if (cell instanceof Factory) {
+                    button.setText("🏭");
+                } else if (cell instanceof Commercial) {
+                    button.setText("🏪");
+                } else if (cell instanceof Park) {
+                    button.setText("🌲");
+                } else if (cell instanceof Road) {
+                    button.setText("\uD83D\uDE97");
+                } else if (cell instanceof PowerPlant) {
+                    button.setText("⚡");
                 }
             }
         }
