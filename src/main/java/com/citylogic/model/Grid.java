@@ -43,7 +43,7 @@ public class Grid {
                 int distanceX = Math.abs(i - x);
                 int distanceY = Math.abs(j - y);
 
-                if (distanceX + distanceY <= 3) {
+                if (distanceX + distanceY <= 8) {
                     return true;
                 }
             }
