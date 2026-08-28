@@ -23,9 +23,9 @@ public class Grid {
     }
     //metodo di supporto booleano per verificare la presenza di un PowerPlant
     public boolean hasPowerPlant(){
-        for(int x=0;x<griglia.length;x++){
-            for(int y=0;y<griglia[x].length;y++){
-                if(griglia[x][y] instanceof PowerPlant){
+        for (Cell[] cells : griglia) {
+            for (Cell cell : cells) {
+                if (cell instanceof PowerPlant) {
                     return true;
                 }
             }

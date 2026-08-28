@@ -1,6 +1,8 @@
 package com.citylogic.strategy;
 
 import com.citylogic.model.Stats;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 //Interfaccia per il pattern Strategy, utilizzata per applicare
 //diverse politiche di gestione alla città (es. tasse ambientali o espansione industriale).

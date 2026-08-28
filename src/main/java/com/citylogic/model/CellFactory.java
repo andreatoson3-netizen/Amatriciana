@@ -1,8 +1,6 @@
 package com.citylogic.model;
 
-/**
- * Factory class per la creazione centralizzata delle celle (edifici e infrastrutture).
- */
+//factory class per la creazione centralizzata delle celle (edifici e infrastrutture).
 public class CellFactory {
 
     //crea e restituisce un'istanza concreta di Cell in base al tipo specificato
@@ -16,21 +14,14 @@ public class CellFactory {
 
         // Utilizziamo un blocco switch per restituire la classe concreta corrispondente
         //metodo trim serve ad eliminare gli spazi vuoti accidentali mentre scriviamo la stringa
-        switch (cellType.toLowerCase().trim()){
-            case "residential":
-                return new Residential();
-            case "factory":
-                return new Factory();
-            case "commercial":
-                return new Commercial();
-            case "powerplant":
-                return new PowerPlant();
-            case "road":
-                return new Road();
-            case "park":
-                return new Park();
-            default:
-                throw new IllegalArgumentException("Tipo di cella sconosciuto: " + cellType);
-        }
+        return switch (cellType.toLowerCase().trim()) {
+            case "residential" -> new Residential();
+            case "factory" -> new Factory();
+            case "commercial" -> new Commercial();
+            case "powerplant" -> new PowerPlant();
+            case "road" -> new Road();
+            case "park" -> new Park();
+            default -> throw new IllegalArgumentException("Tipo di cella sconosciuto: " + cellType);
+        };
     }
 }

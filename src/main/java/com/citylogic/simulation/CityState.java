@@ -20,7 +20,7 @@ public class CityState {
 
     //pattern observer(ignorato da Jackson durante il salvataggio JSON per evitare conflitti)
     @JsonIgnore
-    private List<CityObserver> observers;
+    private final List<CityObserver> observers;
 
     //costruttore di default. Inizializza i tick a zero e crea oggetto Stats vuoto
     public CityState(){
@@ -91,12 +91,8 @@ public class CityState {
     }
 
     public void notifyObservers(){
-        //controllo per evitare NullPointerException se la lista non è inizializzata
-        if(this.observers != null) {
-
-            for (CityObserver observer : this.observers) {
-                observer.update(this.cityStats);
-            }
+        for (CityObserver observer : this.observers) {
+            observer.update(this.cityStats);
         }
     }
 
@@ -125,11 +121,6 @@ public class CityState {
         this.currTick=currTick;
     }
 
-    public CityPolicyStrategy getPolicy(){
-    return currentPolicy;
-    }
-    
-    @JsonIgnore
     public CityPolicyStrategy getCurrentPolicyStrategy(){
         return currentPolicy;
     }

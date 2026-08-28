@@ -1,7 +1,7 @@
 package com.citylogic.simulation;
 
 import com.citylogic.model.Stats;
-import com.citylogic.simulation.CityObserver;
+
 
 public class DashboardView implements CityObserver {
     @Override

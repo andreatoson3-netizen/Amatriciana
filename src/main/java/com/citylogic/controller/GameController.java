@@ -12,7 +12,7 @@ import com.citylogic.persistence.CityPersistenceManager;
 public class GameController {
 
     private City city;//lo stato attuale della città gestita dal controller
-    private CityPersistenceManager persistenceManager;//gestore per salvataggio e caricamento dei file
+    private final CityPersistenceManager persistenceManager;//gestore per salvataggio e caricamento dei file
 
 
     public GameController() {
