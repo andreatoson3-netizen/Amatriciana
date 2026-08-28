@@ -18,7 +18,7 @@ public class Park extends Infrastructure {
      @Override
      public Stats returnStat() {
           // Parametri di esempio: (inquinamento, denaro, felicità, popolazione, energia)
-         // Ad esempio: assorbe inquinamento (-8), costo di manutenzione (-8), grande bonus di felicità (+25).
-         return new Stats(-8, -8, 15, 0, 0);
+         // Ad esempio: assorbe inquinamento (-10), costo di manutenzione (-8), grande bonus di felicità (+25).
+         return new Stats(-10, -8, 15, 0, 0);
     }
 }
