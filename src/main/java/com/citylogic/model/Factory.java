@@ -16,6 +16,6 @@ public class Factory extends Building {
     public Stats returnStat(){
         //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         //ad esempio: molta produzione economica ma forte inquinamento e consumo di energia
-        return new Stats(40,200,-10,0,-20);
+        return new Stats(40,100,-10,0,-20);
     }
 }

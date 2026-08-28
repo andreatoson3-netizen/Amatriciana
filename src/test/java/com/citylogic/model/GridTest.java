@@ -90,7 +90,7 @@ class GridTest {
 
         PowerPlant power = new PowerPlant();
         power.setFree(false);
-        grid.setCell(power, 5, 5);
+        grid.setCell(power, 9, 8);
 
         // Act
         Stats totalStats = grid.calculateRawStats();
