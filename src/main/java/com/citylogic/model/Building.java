@@ -2,7 +2,7 @@ package com.citylogic.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 //classe astratta che rappresenta un edificio generico all'interno della città
-//estende Block ed è specializzata in edifici residenziali, industriali e commerciali
+//estende Cell ed è specializzata in edifici residenziali, industriali e commerciali
 
 //scritture per Jackson
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY,property="@class")
