@@ -103,6 +103,7 @@ Scenario 4: Insufficient Budget
 Verifica: Si è testato il blocco dell'operazione di costruzione in condizioni di fondi non sufficienti nel bilancio comunale.
 Esito: OK. 
 Il controllo preliminare all'interno di GameController.setCell() intercetta quando il denaro disponibile è inferiore al costo dell'edificio (currentMoney < buildingCost), bloccando immediatamente l'azione, impedendo il posizionamento sulla griglia e lasciando inalterato il budget della città
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 US-05 - Impact of City objects
 
