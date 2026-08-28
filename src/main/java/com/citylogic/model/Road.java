@@ -18,7 +18,7 @@ public class Road  extends Infrastructure{
     public Stats returnStat(){
         //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
         //ad esempio: leggero inquinamento,piccolo costo manutenzione, bonus all'operatività
-        return new Stats(2,-5,2,0,0);
+        return new Stats(1,-3,2,0,0);
 
     }
 }
