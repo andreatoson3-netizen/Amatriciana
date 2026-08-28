@@ -104,7 +104,7 @@ Ogni città possiede un unico stato corrente che rappresenta la situazione della
 
 Lo stato della città è associato a una griglia che rappresenta la disposizione spaziale degli edifici e delle infrastrutture.
 
-### Grid (1) ---- contiene ----> (0..400) Cell
+### Grid (1) ---- contiene ----> (1..400) Cell
 
 La griglia è composta da celle che rappresentano le posizioni disponibili nel territorio urbano. Essendo la griglia 20×20, può contenere fino a 400 celle.
 
