@@ -1,6 +1,6 @@
 # Welcome to CityLogic
 
-##1)
+## 1. Project Description
 
 ### CityLogic is a Java-based city simulation system developed as part of the Software Engineering course during the academic year 2025/2026. In the system, the user plays the role of the City Mayor and manages the development of a virtual city.
 
