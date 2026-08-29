@@ -39,7 +39,6 @@ classDiagram
         +addObserver(CityObserver observer):void
         +saveGame(String filePath):boolean
         +isBankrupt():boolean
-        +isRevolt():boolean
         +getUnpoweredCount():int
         +getBlackoutCount():int
     }
