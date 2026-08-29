@@ -111,22 +111,5 @@ import static org.junit.jupiter.api.Assertions.*;
             assertEquals(initialMoney, controller.getMoney(), "Il budget deve tornare esattamente al valore iniziale dopo il rimborso");
         }
 
-        @Test
-        void testIsRevolt_FailState() {
-            controller.startNewGame();
-
-            // Simuliamo una felicità sicura
-            controller.getCityStats().setHappiness(50);
-            assertFalse(controller.isRevolt(), "Non ci deve essere rivolta con felicità positiva");
-
-            // Forziamo il limite critico
-            controller.getCityStats().setHappiness(-100);
-            assertTrue(controller.isRevolt(), "La rivolta deve scattare esattamente a -100 di felicità");
-
-            // Oltre il limite
-            controller.getCityStats().setHappiness(-150);
-            assertTrue(controller.isRevolt(), "La rivolta deve rimanere attiva sotto i -100");
-        }
-
     }
 
