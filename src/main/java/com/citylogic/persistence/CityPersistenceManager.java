@@ -7,7 +7,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
 
-//gestisce la persistenza dei dati (I/O) della città sui file JSON usando libreria Jackson
+// Gestisce la persistenza della città tramite operazioni di lettura e scrittura
+// su file JSON utilizzando la libreria Jackson
 
 public class CityPersistenceManager {
 
@@ -15,14 +16,16 @@ public class CityPersistenceManager {
 
     public CityPersistenceManager(){
         this.objectMapper= new ObjectMapper();
-        //abilita la formattazione indentata(ovvero organizzazione del testo con mandate a capo,spazi e rientri)
-        // del JSON per renderlo leggibile su file
+        // Abilita la formattazione indentata del JSON
+        // per rendere il file salvato più leggibile
         this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    //salva lo stato corrente della città su un file JSON
-    //@param city come oggetto City da salvare
-    //@param filePath come percorso del file di destinazione
+    // Salva lo stato corrente della città in un file JSON.
+    // @param city oggetto City da salvare.
+    // @param filePath percorso del file di destinazione.
+    // @return true se il salvataggio è avvenuto correttamente,
+    //         false in caso di errore o parametri non validi
     public boolean saveCity(City city, String filePath){
     if(city == null || filePath == null){
         return false;
@@ -38,9 +41,10 @@ public class CityPersistenceManager {
     }
     }
 
-    //carica lo stato della città da un file JSON esistente
-    //@param filePath percorso del file da cui caricare i dati
-    //@return un'istanza di City ricostruita, oppure null in caso di errore
+    // Carica lo stato della città da un file JSON esistente.
+    // @param filePath percorso del file da cui caricare i dati.
+    // @return un'istanza di City ricostruita da Jackson,
+    //         oppure null in caso di errore o file inesistente
     public City loadCity(String filePath){
         if(filePath==null){
             return null;
@@ -50,8 +54,12 @@ public class CityPersistenceManager {
             if (!file.exists()) {
                 return null;
             }
-            //Jackson legge il file JSON E lo riconverte nell'oggetto City,grazie a @JsonTypeInfo
+            
+            // Jackson legge il file JSON e ricostruisce l'oggetto City.
+            // Le annotazioni @JsonTypeInfo permettono di riconoscere
+            // correttamente le diverse sottoclassi di Cell
             return objectMapper.readValue(file, City.class);
+            
         }catch (IOException e){
             e.printStackTrace();
             return null;
