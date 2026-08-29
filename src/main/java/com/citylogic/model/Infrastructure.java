@@ -2,22 +2,23 @@ package com.citylogic.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-//classe astratta che rappresenta un'infrastruttura generica all'interno della città
-//estende Block e fa da base per PowerPlant,Park e Road
+// Classe astratta che rappresenta un'infrastruttura generica all'interno della città.
+// Estende Cell e costituisce la classe base per PowerPlant, Park e Road
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY,property="@class")
 
 public abstract  class Infrastructure extends Cell {
 
-    //costruttore vuoto di default necessario per Jackson(persistenza JSON)
+    // Costruttore vuoto necessario per Jackson durante la persistenza JSON
     public Infrastructure() {
         super();
-        this.free = false;//un'infrastruttura occupa un blocco, che quindi è occupato
+        this.free = false; // L'infrastruttura occupa la cella della griglia
     }
 
 
-    //metodo astratta ereditato da Block che ciascuna infrastruttura
-    // (PowerPlant,Road,Park) dovrà implementare per restituire le proprie metriche
+    // Metodo astratto che ogni infrastruttura concreta
+    // (PowerPlant, Road, Park) deve implementare
+    // per restituire le proprie statistiche.
     @Override
     public abstract Stats returnStat();
 }
