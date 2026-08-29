@@ -12,15 +12,15 @@ import com.citylogic.strategy.EnvironmentalTax;
 import com.citylogic.strategy.IndustrialExpansion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//gestisce la logica di business e fa da tramite tra i comandi dell'utente e il mototre di gioco
-//protegge lo stato interno della città evitando accessi non controllati
+// Gestisce la logica di business e fa da tramite tra i comandi dell'utente e il motore di gioco.
+// Protegge lo stato interno della città evitando accessi non controllati
 public class GameController {
 
-    private City city; //lo stato attuale della città gestita dal controller
-    private final CityPersistenceManager persistenceManager; //gestore per salvataggio e caricamento dei file
+    private City city; //Lo stato attuale della città gestita dal controller
+    private final CityPersistenceManager persistenceManager; //Gestore per salvataggio e caricamento dei file
 
-    // La fabbrica appartiene al Controller, non alla View
-    // Viene utilizzata per creare gli edifici richiesti dalla View
+    // La CellFactory appartiene al Controller, non alla View
+    // Viene utilizzata per creare le entità richieste dalla View
     // evitando che sia la View a occuparsi direttamente della loro istanziazione
     private final CellFactory cellFactory;
 
@@ -36,11 +36,11 @@ public class GameController {
         startNewGame();
     }
 
-    //inizializza una nuova partita azzerando/creando una nuova città
+    // Inizializza una nuova partita creando una nuova città
     public void startNewGame(){
         this.city = new City();
         this.city.initCity();
-        this.city.initNewGameBudget();//metodo della classe City che serve ad inizializzare il budget a 5000
+        this.city.initNewGameBudget(); // Inizializza il budget iniziale della nuova città a 5000
     }
 
     // Gestisce l'intera transazione edilizia e finanziaria, isolando la GUI dalla logica
@@ -77,7 +77,7 @@ public class GameController {
             // Se il posizionamento è avvenuto correttamente, scala dal budget il costo dell'edificio
             city.getCityState().getCityStats().setMoney(currentMoney - cell.getCost());
 
-            // Notifica gli Observer che lo stato della città è cambiato,
+            // Notifica gli Observer che lo stato della città è cambiato
             city.getCityState().notifyObservers();
             return BuildResult.SUCCESS;
         }
@@ -86,7 +86,7 @@ public class GameController {
     }
 
 
-    // Gestisce la demolizione e il rimborso delle risorse
+    // Gestisce la demolizione di un'entità e il rimborso del relativo costo
     public boolean demolishBuilding(int x, int y) {
         if (city == null || city.getCityState() == null) return false;
 
@@ -106,7 +106,7 @@ public class GameController {
         return false; // Casella già vuota o coordinate non valide
     }
 
-    //attiva una politica cittadina(Strategy pattern) modificando lo stato della città
+    // Attiva una politica cittadina utilizzando il Strategy Pattern
     public void activatePolicy(String policyName) {
         // Controlla che esistano una città e il relativo stato prima di modificare la policy attiva
         if (city == null || city.getCityState() == null) {
@@ -122,15 +122,15 @@ public class GameController {
         }
     }
 
-    //fa avanzare il tempo di gioco di un tick(esempio un turno o un intervallo temporale)
-    //delegando l'aggiornamento logico direttamente alla classe City
+    // Fa avanzare la simulazione di un Tick,
+    // delegando l'aggiornamento dello stato alla classe City
     public void advanceTime(){
         if(city != null) {
             city.processTick();
         }
     }
 
-    //carica una partita salvata da file delegando il lavoro al PersistenceManager
+    //Carica una partita salvata da file delegando il lavoro al PersistenceManager
     //sostituendo la città corrente con quella caricata
     public boolean loadGame(String filePath) {
         City loadedCity = persistenceManager.loadCity(filePath);
@@ -141,33 +141,33 @@ public class GameController {
         return false;
     }
 
-    //restituisce le statistiche globali della città
+    //Restituisce le statistiche globali della città
     public Stats getCityStats() {
         return city.getCityState().getCityStats();
     }
 
-    //restituisce la griglia del gioco attuale
+    //Restituisce la griglia del gioco attuale
     public Grid getGrid() {
         return city.getCityState().getGrid();
     }
 
-    //restituisce il numero di tick corrente della simulazione
+    //Restituisce il numero di tick corrente della simulazione
     public int getCurrentTick() {
         return city.getCityState().getCurrTick();
     }
 
-    //restituisce  il budget disponibile
+    //Restituisce il budget disponibile
     public int getMoney() {
         return city.getCityState().getCityStats().getMoney();
     }
     
-    // permette al Controller di modificare il budget della città
-    // senza esporre direttamente CityState alla View o ad altre classi esterne
+    //Permette al Controller di modificare il budget della città
+    //senza esporre direttamente CityState alla View o ad altre classi esterne
     public void setMoney(int money) {
         city.getCityState().getCityStats().setMoney(money);
     }
 
-    //restituisce la strategia di politica cittadina attualmente attiva
+    //Restituisce la strategia di politica cittadina attualmente attiva
     public CityPolicyStrategy getCurrentPolicy() {
         return city.getCityState().getCurrentPolicyStrategy();
     }
@@ -191,7 +191,7 @@ public class GameController {
         city.getCityState().addObserver(observer);
     }
 
-    //salva lo stato corrente della città su file tramite PersistenceManager
+    //Salva lo stato corrente della città su file tramite PersistenceManager
     public boolean saveGame(String filePath){
         if(city != null){
             return persistenceManager.saveCity(city, filePath);
@@ -199,21 +199,21 @@ public class GameController {
         return false;
     }
 
-    // innesca un game over se si va in bancarotta
+    //Innesca un game over se si va in bancarotta
     public boolean isBankrupt() {
         return city != null && city.getCityState().isBankrupt();
     }
 
-    // innesca un game over se la felicità dei cittadini è troppo bassa
+    //Innesca un game over se la felicità dei cittadini è troppo bassa
     public boolean isRevolt() {
         if (city != null && city.getCityState() != null && city.getCityState().getCityStats() != null) {
-            // Game Over se la felicità scende a -100 o peggio
+            //Game Over se la felicità scende a -100 o peggio
             return city.getCityState().getCityStats().getHappiness() <= -100;
         }
         return false;
     }
 
-    // Espone il numero di case senza energia alla View
+    //Espone alla View il numero di edifici residenziali senza energia.
     public int getUnpoweredCount() {
         return city != null ? city.getCityState().getUnpoweredCount() : 0;
     }
