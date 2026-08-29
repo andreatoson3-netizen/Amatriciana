@@ -6,11 +6,7 @@ sequenceDiagram
     Mayor->>System: activatePolicy(policy)
     activate System
 
-    alt No policy currently active
-        System-->>Mayor: Policy activated
-    else Another policy is already active
-        System-->>Mayor: Policy changed
-    end
+    System-->>Mayor: Policy activated
 
     deactivate System
 ```
