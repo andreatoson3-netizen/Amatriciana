@@ -2,8 +2,9 @@ package com.citylogic.strategy;
 
 import com.citylogic.model.Stats;
 
-//politica di tassa ambientale:riduce l'inquinamento ed aumenta la felicità
-//riducendo però leggermente i guadagni economici
+// Implementa la politica di tassa ambientale.
+// Riduce l'inquinamento e aumenta la felicità,
+// introducendo però una leggera riduzione dei guadagni economici
 
 public class EnvironmentalTax implements CityPolicyStrategy {
 
@@ -13,19 +14,22 @@ public class EnvironmentalTax implements CityPolicyStrategy {
             return new Stats();
         }
 
-        //applichiamo i fattori percentuali usando il metodo multiply della classe Stats
-        //riduce l'inquinamento del 20%(fattore 0.80)
-        //riduce i soldi del 5%(fattore 0.95)
-        //aumenta la felicità del 10%(fattore 1.10)
-
-        //poichè le politiche possono avere impatti diversi per ogni variabile statistica
-        //costruiamo il nuovo oggetto combinando i vari calcoli mirati
+        /*
+         * Applica i fattori percentuali alle diverse statistiche:
+         * - inquinamento ridotto del 20% (fattore 0.80)
+         * - denaro ridotto del 5% (fattore 0.95)
+         * - felicità aumentata del 10% (fattore 1.10)
+         * - popolazione ed energia rimangono invariate.
+         *
+         * Le statistiche vengono calcolate separatamente perché
+         * la policy ha un effetto diverso su ciascuna variabile.
+         */
         return new Stats(
-                (int) (rawStats.getPollution() * 0.80),//inquinamento ridotto
-                (int) (rawStats.getMoney() * 0.95),     //soldi ridotti
-                (int) (rawStats.getHappiness() * 1.10), //felicità aumentata
-                rawStats.getPopulation(),            //popolazione invariata
-                rawStats.getEnergy()                 //energia invariata
+                (int) (rawStats.getPollution() * 0.80), // Inquinamento ridotto
+                (int) (rawStats.getMoney() * 0.95),     // Denaro ridotto
+                (int) (rawStats.getHappiness() * 1.10), // Felicità aumentata
+                rawStats.getPopulation(),               // Popolazione invariata
+                rawStats.getEnergy()                    // Energia invariata
         );
 
     }
