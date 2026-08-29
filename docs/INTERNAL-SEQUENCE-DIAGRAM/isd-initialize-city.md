@@ -2,19 +2,50 @@
 sequenceDiagram
     autonumber
     actor Mayor as City Mayor
+    participant Dashboard as CityDashboard
     participant Controller as GameController
-    participant CityObj as City
+    participant City as City
     participant State as CityState
-    participant TheGrid as Grid
+    participant Grid as Grid
 
-    
-    Mayor->>Controller: startNewGame()
-    Controller->>CityObj:  new City & initCity()
-    CityObj->>State: new CityState()
-    Note over State:Inizializza CityState(currTick=0,stats,etc)
-    State->>TheGrid: new Grid() (20x20 matrix) & getGrid()
-    TheGrid-->>State: return Grid
-    State-->>CityObj: return CityState
-    CityObj-->>Controller: return City initialized
-    Controller-->>Mayor: New city initialized & Display city grid and stats
+    Mayor->>Dashboard: Start new game
+    activate Dashboard
+
+    Dashboard->>Controller: startNewGame()
+    activate Controller
+
+    Controller->>City: new City()
+    Controller->>City: initCity()
+    activate City
+
+    City->>State: new CityState()
+    activate State
+
+    Note over State: Initialize currTick, stats and grid
+
+    State->>Grid: new Grid()
+    activate Grid
+
+    Note over Grid: Initialize 20x20 grid
+
+    Grid-->>State: Grid initialized
+    deactivate Grid
+
+    State-->>City: CityState initialized
+    deactivate State
+
+    City-->>Controller: City initialized
+    deactivate City
+
+    Controller-->>Dashboard: New city initialized
+    deactivate Controller
+
+    Dashboard->>Controller: getGrid()
+    Controller-->>Dashboard: Grid
+
+    Dashboard->>Controller: getCityStats()
+    Controller-->>Dashboard: Stats
+
+    Dashboard-->>Mayor: Display city grid and stats
+    deactivate Dashboard
 ```
