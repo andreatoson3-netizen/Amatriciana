@@ -62,6 +62,7 @@ mvn exec:java
 ```
 The command starts the application and opens the CityLogic graphical dashboard.
 
+---
 
 ### 3. Execution Environment and Constraints
 
@@ -77,6 +78,7 @@ To verify that Java and Maven are correctly installed, run:
 java -version
 mvn -version
 ```
+---
 
 ### 4. Main Functions Reused from Existing Libraries
 
@@ -91,6 +93,7 @@ The project also uses **JUnit 5** for automated unit testing. It provides the te
 
 No other significant non-standard library functions are directly reused.
 
+---
 
 ### 5. Main External APIs Used
 
@@ -100,6 +103,7 @@ It is used by the persistence component to manage the conversion between Java ob
 
 No external web APIs, database APIs, or cloud services are used by the project.
 
+---
 
 ### 6. AI Tools Used
 
