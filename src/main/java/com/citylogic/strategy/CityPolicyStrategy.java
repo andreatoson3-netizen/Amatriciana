@@ -4,8 +4,8 @@ import com.citylogic.model.Stats;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-//Interfaccia per il pattern Strategy, utilizzata per applicare
-//diverse politiche di gestione alla città (es. tasse ambientali o espansione industriale).
+// Interfaccia per il pattern Strategy, utilizzata per applicare
+// diverse politiche di gestione alla città (es. tasse ambientali o espansione industriale).
 @JsonTypeInfo(
             use = JsonTypeInfo.Id.CLASS,
             include = JsonTypeInfo.As.PROPERTY,
@@ -19,8 +19,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     
 public interface CityPolicyStrategy {
 
-    // Calcola e modifica le statistiche grezze in base alla politica attiva.
-    //@param rawStats le statistiche di partenza (grezzo)
-    //@return le nuove statistiche modificate dalla policy
+    // Calcola le nuove statistiche della città applicando
+    // le regole definite dalla politica attualmente attiva.
+    // @param rawStats statistiche grezze calcolate dalla griglia
+    // @return statistiche modificate dalla policy
     Stats calculateStats(Stats rawStats);
 }
