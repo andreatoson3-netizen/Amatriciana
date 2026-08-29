@@ -88,17 +88,17 @@ Ogni città possiede un unico stato corrente che rappresenta la situazione della
 
 Lo stato della città è associato a una griglia che rappresenta la disposizione spaziale degli edifici e delle infrastrutture.
 
-### Grid (1) ---- contiene ----> (1..400) Cell
+### Grid (1) ---- contiene ----> (400) Cell
 
-La griglia è composta da celle che rappresentano le posizioni disponibili nel territorio urbano. Essendo la griglia 20×20, può contenere fino a 400 celle.
+La griglia è composta da 400 celle che rappresentano le posizioni disponibili nel territorio urbano. La città utilizza una griglia 20×20.
 
 ### Cell ---- Building
 
-Gli edifici sono una specializzazione delle celle e comprendono **Residential, Factory e Commercial**.
+Una cella può contenere al massimo un edificio. Gli edifici comprendono **Residential, Factory e Commercial**, ciascuno caratterizzato da specifici effetti sulle metriche della città.
 
 ### Cell ---- Infrastructure
 
-Le infrastrutture sono una specializzazione delle celle e comprendono **Park, Power Plant e Road**.
+Una cella può contenere al massimo un'infrastruttura. Le infrastrutture comprendono **Park, Power Plant e Road**, che contribuiscono in modo diverso allo stato e alle metriche della città.
 
 ### CityState (1) ---- mantiene/aggiorna ----> (1) Stats
 
