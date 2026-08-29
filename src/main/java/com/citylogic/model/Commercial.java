@@ -1,21 +1,21 @@
 package com.citylogic.model;
 
-//rappresenta un edificio commerciale all'interno della città
-//estende la classe astratta Building ed implementa il calcolo delle statistiche
+// Rappresenta un edificio commerciale all'interno della città.
+// Estende la classe astratta Building e definisce il proprio impatto sulle metriche
 public class Commercial extends Building {
-    //costruttore vuoto di default necessario per Jackson(persistenza JSON)
+    
+    // Costruttore vuoto necessario a Jackson per la persistenza JSON
     public Commercial() {
         super();
-        this.setCost(800);//costo di costruzione Commercial
+        this.setCost(800); // Imposta il costo di costruzione dell'edificio commerciale
     }
 
-    //restituisce le statistiche specifiche prodotte da un edificio commerciale
-    //genera una buona quantità di denaro e felicità con impatto su inquinamento e consumo energetico
-    //@return un oggetto Stats con i valori propri dell'edificio
+    // Restituisce le variazioni delle metriche associate all'edificio commerciale
+    // @return un oggetto Stats contenente i valori relativi all'edificio
     @Override
     public Stats returnStat(){
-        //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
-        //Ad esempio:buon guadagno economico e felicità, consumo energetico moderato
+        // Parametri nell'ordine: inquinamento, denaro, felicità, popolazione, energia
+        //Ad esempio: buon guadagno economico e felicità, consumo energetico moderato
         return new Stats(1,45,10,0,-15);
 
     }
