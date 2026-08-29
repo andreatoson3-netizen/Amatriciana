@@ -1,24 +1,23 @@
 package com.citylogic.model;
 
 //Rappresenta un parco pubblico all'interno della città.
-//Estende la classe astratta Infrastructure e implementa il calcolo delle statistiche.
+//Estende la classe astratta Infrastructure e implementa il calcolo delle statistiche
 
 public class Park extends Infrastructure {
 
-    //Costruttore vuoto di default necessario per Jackson (persistenza JSON).
+    // Costruttore vuoto necessario per Jackson durante la persistenza JSON
      public Park() {
 
          super();
-         this.setCost(200);//costo costruzione parchi
+         this.setCost(200); // Costo di costruzione del parco
     }
 
      //Restituisce le statistiche specifiche prodotte da un parco.
-     //Riduce l'inquinamento (valore negativo), aumenta notevolmente la felicità e richiede un piccolo costo di manutenzione.
-     //@return un oggetto Stats con i valori propri di questa infrastruttura
+     //Riduce l'inquinamento, aumenta la felicità e comporta un costo di manutenzione.
+     //@return un oggetto Stats contenente le metriche del parco
      @Override
      public Stats returnStat() {
-          // Parametri di esempio: (inquinamento, denaro, felicità, popolazione, energia)
-         // Ad esempio: assorbe inquinamento (-10), costo di manutenzione (-8), grande bonus di felicità (+25).
+         // Parametri: (inquinamento, denaro, felicità, popolazione, energia)
          return new Stats(-3, -10, 25, 0, 0);
     }
 }
