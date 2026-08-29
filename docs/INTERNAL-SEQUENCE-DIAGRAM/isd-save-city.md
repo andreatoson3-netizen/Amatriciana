@@ -6,21 +6,24 @@ sequenceDiagram
     participant Persistence as CityPersistenceManager
 
     Mayor->>Controller: saveGame(filePath)
-    
+    activate Controller
+
     alt city != null
         Controller->>Persistence: saveCity(city, filePath)
-        
-        alt Scrittura riuscita (Try block)
-            Persistence->>Persistence: objectMapper.writeValue(new File(filePath), city)
-            Persistence-->>Controller: Success
+        activate Persistence
+
+        alt Save successful
+            Persistence-->>Controller: true
             Controller-->>Mayor: City saved successfully
-        else Errore di I/O (Catch IOException)
-            Persistence->>Persistence: e.printStackTrace()
-            Persistence-->>Controller: Exception / Fail
+        else Save failed
+            Persistence-->>Controller: false
             Controller-->>Mayor: Save failed
         end
-        
+
+        deactivate Persistence
     else city == null
-        Controller-->>Mayor: Save failed (No active city)
+        Controller-->>Mayor: Save failed
     end
+
+    deactivate Controller
 ```
