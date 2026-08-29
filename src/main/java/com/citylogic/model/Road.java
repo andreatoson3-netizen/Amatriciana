@@ -1,23 +1,23 @@
 package com.citylogic.model;
 
-//rappresenta una strada all'interno della città
-//estende la classe astratta Infrastructure e implementa il calcolo delle statistiche
+// Rappresenta una strada all'interno della città.
+// Estende la classe astratta Infrastructure e implementa il calcolo delle statistiche
 
 public class Road  extends Infrastructure{
 
-    //costruttore vuoto di default necessario per Jackson(persistenza JSON)
+    // Costruttore vuoto necessario per Jackson durante la persistenza JSON
     public Road(){
         super();
-        this.setCost(50);//costo costruzione strade
+        this.setCost(50); // Costo di costruzione della strada
     }
 
-    //restituisce le statistiche specifiche prodotte da una strada
-    //aiuta operatività e connessione,generando costo di manutenzione e leggero inquinamento
-    //@return un oggetto Stats con i valori propri dell'infrastruttura
+    // Restituisce le statistiche specifiche prodotte da una strada.
+    // Contribuisce all'operatività e alla connessione della città,
+    // generando un piccolo costo di manutenzione e un leggero inquinamento.
+    // @return un oggetto Stats contenente le metriche della strada
     @Override
     public Stats returnStat(){
-        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
-        //ad esempio: leggero inquinamento,piccolo costo manutenzione, bonus all'operatività
+        // Parametri: (inquinamento, denaro, felicità, popolazione, energia)
         return new Stats(1,-5,2,0,0);
 
     }
