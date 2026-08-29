@@ -1,25 +1,24 @@
 package com.citylogic.model;
 
-//rappresenta una centrale elettrica all'interno della città
-//estende la classe astratta Infrastructure e implementa il calcolo delle statistiche
+// Rappresenta una centrale elettrica all'interno della città.
+// Estende la classe astratta Infrastructure e implementa il calcolo delle statistiche
 
 public class PowerPlant extends Infrastructure {
 
-    //costruttore vuoto di default necessario per Jackson(persistenza JSON)
+    // Costruttore vuoto necessario per Jackson durante la persistenza JSON
     public PowerPlant(){
         super();
-        this.setCost(1000);//assegna il costo di costruzione della centrale
-        this.setOperative(true);
+        this.setCost(1000); // Costo di costruzione della centrale
+        this.setOperative(true); // La centrale è operativa fin dalla costruzione
 
     }
 
-    //restituisce le statistiche specifiche prodotte da una centrale elettrica
-    //produce molta energia, ma genera anche inquinamento,ed  ha costo di gestione
-    // @return un oggetto Stats con i valori propri della Infrastruttura
+    // Restituisce le statistiche specifiche prodotte da una centrale elettrica.
+    // Produce energia, ma genera anche inquinamento e comporta un costo di gestione.
+    // @return un oggetto Stats contenente le metriche della centrale
     @Override
     public Stats returnStat(){
-        //parametri di esempio:(inquinamento,denaro,felicità,popolazione,energia)
-        //Ad esempio:inquinamento alto, costo economico negativo(spesa), energia molto positiva
+        // Parametri: (inquinamento, denaro, felicità, popolazione, energia)
         return new Stats(5,-100,-5,0,100);
 
     }
