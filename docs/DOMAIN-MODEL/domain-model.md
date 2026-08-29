@@ -7,33 +7,19 @@ classDiagram
     %% =========================
 
     class City
-
     class CityState
-
     class Grid
-
     class Cell
-
     class Building
-
     class Infrastructure
-
     class Residential
-
     class Factory
-
     class Commercial
-
     class Park
-
     class PowerPlant
-
     class Road
-
     class Stats
-
     class CityPolicy
-
 
     %% =========================
     %% RELATIONSHIPS
@@ -42,15 +28,13 @@ classDiagram
     City "1" *-- "1" CityState : possiede
 
     CityState "1" *-- "1" Grid : gestisce
-
     CityState "1" *-- "1" Stats : mantiene/aggiorna
-
     CityState "1" --> "0..1" CityPolicy : applica
 
-    Grid "1" *-- "1..400" Cell : contiene
+    Grid "1" *-- "400" Cell : contiene
 
-    Cell <|-- Building
-    Cell <|-- Infrastructure
+    Cell "1" o-- "0..1" Building : contiene
+    Cell "1" o-- "0..1" Infrastructure : contiene
 
     Building <|-- Residential
     Building <|-- Factory
