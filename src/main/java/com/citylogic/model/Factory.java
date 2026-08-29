@@ -1,21 +1,21 @@
 package com.citylogic.model;
 
-//rappresenta un edificio industriale(fabbrica) all'interno della città
-//estende la classe astratta Building e implementa il calcolo delle statistiche
+// Rappresenta un edificio industriale (fabbrica) all'interno della città
+// Estende la classe astratta Building e definisce il proprio impatto sulle metriche
 public class Factory extends Building {
-    //costruttore vuoto di default necessario per Jackson(persistenza JSON)
+    
+    // Costruttore vuoto necessario a Jackson per la persistenza JSON
     public Factory(){
         super();
-        this.setCost(1500);//costo costruzione di edificio tipo Factory
+        this.setCost(1500); // Imposta il costo di costruzione della fabbrica
     }
 
-    //restituisce le statistiche specifiche prodotte da una fabbrica
-    //genera molto denaro e operatività ma alza inquinamento e abbassa felicità
-    //@return un oggetto Stats con i valori propri dell'edificio
+     // Restituisce le variazioni delle metriche associate alla fabbrica
+    // @return un oggetto Stats contenente i valori relativi all'edificio
     @Override
     public Stats returnStat(){
-        //parametri di esempio(inquinamento,denaro,felicità,popolazione,energia)
-        //ad esempio: molta produzione economica ma forte inquinamento e consumo di energia
+        // Parametri nell'ordine: inquinamento, denaro, felicità, popolazione, energia
+        // Ad esempio: molta produzione economica, ma forte inquinamento e consumo di energia
         return new Stats(8,40,-8,0,-25);
     }
 }
