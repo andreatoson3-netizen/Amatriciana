@@ -2,34 +2,38 @@ package com.citylogic.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-//annotazioni di Jackson per gestire correttamente la serializzazione JSON delle sottoclassi
+// Classe astratta che rappresenta una cella della griglia.
+// Viene estesa da Building e Infrastructure
+
+// Annotazione di Jackson necessaria per mantenere il tipo concreto
+// delle sottoclassi durante la serializzazione e deserializzazione JSON
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS,include=JsonTypeInfo.As.PROPERTY,property="@class")
 
 public abstract class Cell {
-    boolean free;//indica se la cella della griglia è libera oppure occupata da una struttura
-    int x; //prima coordinata del blocco all'interno della griglia della città
-    int y; //seconda coordinata del blocco all'interno della griglia della città
-    private boolean isOperative = true;//indica se la struttura presente nella cella è attiva e funzionante(true)
-                                // o spenta/guasta(false)
-    private int cost;          //il costo di costruzione di un Building/Infrastructure
+    boolean free; //Indica se la cella della griglia è libera oppure occupata da una struttura
+    int x; //Coordinata x della cella nella griglia
+    int y; //Coordinata y della cella nella griglia
+    private boolean isOperative = true; //Indica se la struttura presente nella cella è attiva e funzionante(true)
+                                        // o spenta/guasta(false)
+    private int cost;          // Costo di costruzione della struttura
 
-    //restituisce lo stato del blocco
-    //@return true se il blocco è vuoto/disponibile, false se è occupato
+    // Restituisce lo stato della cella
+    // @return true se la cella è libera, false se è occupata
     public boolean isFree(){
        return this.free;
     }
 
-    //metodo astratto che restituisce l'impatto avuto dal blocco.
-    // Viene implementato dalle classi figlie Building o Infrastructure
-    //@return un oggetto Stats contenente le metriche(denaro,inquinamento,felicità,ecc..)
+    // Restituisce l'impatto della struttura sulle metriche della città.
+    // Viene implementato dalle classi concrete Building e Infrastructure.
+    // @return un oggetto Stats contenente le variazioni delle metriche (denaro,inquinamento,felicità,ecc..)
     public abstract Stats returnStat();
 
-    //costruttore vuoto per Jackson
+    // Costruttore vuoto necessario a Jackson per la deserializzazione JSON.
     public Cell(){
         this.cost=0;
     }
 
-    //Getter e setter per Jackson
+    // Getter e setter utilizzati anche da Jackson per accedere agli attributi.
     public boolean getFree(){
         return free;
     }
