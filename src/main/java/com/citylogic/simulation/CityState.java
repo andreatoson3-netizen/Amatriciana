@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//Gestisce lo stato corrente della città,inclusi i tick temporali
-//le statistiche aggregate e la policy strategica attiva
+// Gestisce lo stato corrente della città, inclusi il tick temporale,
+// le statistiche aggregate, la griglia e la policy strategica attiva
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CityState {
     private CityPolicyStrategy currentPolicy;
@@ -18,11 +18,13 @@ public class CityState {
     private Grid grid;
 
 
-    //pattern observer(ignorato da Jackson durante il salvataggio JSON per evitare conflitti)
+    // Lista degli Observer che devono essere notificati quando lo stato cambia.
+    // Viene ignorata da Jackson perché gli Observer non fanno parte dello stato persistente della città
     @JsonIgnore
     private final List<CityObserver> observers;
 
-    //costruttore di default. Inizializza i tick a zero e crea oggetto Stats vuoto
+    // Costruttore di default.
+    // Inizializza il tick a zero, le statistiche a valori nulli, nessuna policy attiva e una nuova griglia
     public CityState(){
         this.currTick=0;
         this.cityStats= new Stats(0,0,0,0,0);
@@ -32,18 +34,19 @@ public class CityState {
 
     }
 
-   
+    // Aggiorna le statistiche della città a partire dai valori calcolati dalla griglia.
+    // Se è presente una policy, questa viene applicata prima di aggiornare lo stato
     public void updateStats(Stats newStats) {
     if (newStats != null) {
 
         Stats statsToApply = newStats;
 
-        // Se c'è una policy attiva, applica la strategia
+        // Applica la policy attualmente attiva, se presente
         if (this.currentPolicy != null) {
             statsToApply = this.currentPolicy.calculateStats(newStats);
         }
 
-        // Recuperiamo le statistiche precedenti
+        // Recupera le statistiche precedenti necessarie per aggiornare i valori cumulativi
         int currentMoney = 0;
         int currentPollution = 0;
 
@@ -71,46 +74,50 @@ public class CityState {
 
         this.cityStats = updatedStats;
 
-        // Notifica gli observer, quindi la Dashboard aggiorna
-        // automaticamente i valori visualizzati.
+        // Notifica gli Observer del nuovo stato della città
         notifyObservers();
         }
     }
 
 
-    //avanza il contatore dei tick temporali della simulazione e processa gli eventi periodici
+    // Avanza di un tick la simulazione e aggiorna le statistiche della città
     public void processTick(){
         this.currTick++;
+        
         //1)ottiene le statistiche grezze interrogando la griglia(se la griglia è inizializzata)
         if( this.grid != null){
 
-            // 1) AZIONE: Distribuisce le risorse e iberna chi resta senza energia
+            // 1) AZIONE: Distribuisce l'energia disponibile e determina quali strutture
+            // possono rimanere operative
             this.grid.distributeEnergy();
-
+            
+            // Calcola le statistiche complessive delle strutture operative
             Stats rawStats=this.grid.calculateRawStats();
-        //2)aggiorna le statistiche applicando la policy e notificando gli observer(fatto dal metodo upDate)
+            
+            //2) Aggiorna le statistiche applicando anche l'eventuale policy e notifica gli Observer
             updateStats(rawStats);
         }
         else{
-        //se la griglia non è presente allora notifica gli osservatori del tick
+        // Se la griglia non è disponibile, notifica comunque gli Observer dell'avanzamento del tick
         notifyObservers();
         }
     }
 
+    // Registra un nuovo Observer, evitando duplicati
     public void addObserver(CityObserver observer){
         if(observer !=null && !this.observers.contains(observer)){
             this.observers.add(observer);
         }
     }
 
-    //rimuove osservatore dalla lista degli elementi in ascolto,
-    // in modo che smetta di ricevere notifiche quando lo stato della città cambia(tramite notifyObserver)
+    // Rimuove un Observer dalla lista degli elementi da notificare
     public void removeObserver(CityObserver observer){
         if(observer != null){
             this.observers.remove(observer);
         }
     }
-
+    
+    // Notifica tutti gli Observer inviando loro le statistiche aggiornate
     public void notifyObservers(){
         for (CityObserver observer : this.observers) {
             observer.update(this.cityStats);
@@ -118,10 +125,11 @@ public class CityState {
     }
 
 
-    //Getter e Setter per Jackson
+    // Getter e setter utilizzati anche da Jackson per la serializzazione JSON
     public Stats getCityStats(){
         return this.cityStats;
     }
+    
     public void setCityStats(Stats cityStats){
         this.cityStats=cityStats;
         notifyObservers();
@@ -130,14 +138,15 @@ public class CityState {
     public Grid getGrid(){
         return this.grid;
     }
+    
     public void setGrid(Grid grid){
         this.grid=grid;
     }
 
-
     public int getCurrTick() {
         return currTick;
     }
+    
     public void setCurrTick(int currTick){
         this.currTick=currTick;
     }
@@ -145,27 +154,29 @@ public class CityState {
     public CityPolicyStrategy getCurrentPolicyStrategy(){
         return currentPolicy;
     }
-
+    
+    // Imposta la policy attiva e notifica gli Observer del cambiamento
     public void setPolicy(CityPolicyStrategy p){
         this.currentPolicy=p;
         notifyObservers();
     }
 
-    //verifica se la città è andata in bancarotta a causa di un bilancio negativo
-    //@return true se i fondi attuali sono minori di zero, false altrimenti
-    // Verifica se la città è andata in bancarotta (Regola di Business)
+    // Verifica se la città è in bancarotta a causa di un bilancio negativo.
+    // @return true se il denaro disponibile è minore di zero
     public boolean isBankrupt() {
         return this.cityStats != null && this.cityStats.getMoney() < 0;
     }
 
-   // Interroga la griglia per contare i blackout (Regola di Business)
+    // Conta le abitazioni che non hanno una fonte di energia nelle vicinanze.
+    // @return numero di abitazioni non alimentate
     public int getUnpoweredCount() {
         if (this.grid != null) {
             return this.grid.countUnpoweredResidential();
         }
         return 0;
     }
-
+    
+    // Restituisce il numero di strutture attualmente in blackout
     public int getBlackoutCount() {
         if (this.grid != null) {
             return this.grid.getBlackoutCount();
