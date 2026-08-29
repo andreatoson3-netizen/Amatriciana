@@ -21,7 +21,9 @@ The project requires:
 
 - **JDK 18+**
 - **Apache Maven**
-- A Java IDE such as IntelliJ, Eclipse or Visual Studio Code can be used to open and run the project (**Git**).
+- **Git**, to clone the repository
+
+A Java IDE such as IntelliJ, Eclipse or Visual Studio Code can be used to open and run the project (**Git**).
 
 The project does not require a database or an external server.
 
@@ -60,3 +62,57 @@ mvn exec:java
 ```
 The command starts the application and opens the CityLogic graphical dashboard.
 
+
+### 3. Execution Environment and Constraints
+
+The project is built and managed using **Apache Maven**. The required Java dependencies are specified in the `pom.xml` file and are automatically downloaded by Maven during the build process.
+
+The application is a Java desktop application based on **Swing** and does not require an external application server.
+
+Maven commands must be executed from the project root directory, where the `pom.xml` file is located.
+
+To verify that Java and Maven are correctly installed, run:
+
+```bash
+java -version
+mvn -version
+```
+
+### 4. Main Functions Reused from Existing Libraries
+
+The project uses the **Jackson Databind** library for JSON serialization and deserialization.
+
+In particular, the `ObjectMapper` class is used to:
+
+- serialize the `City` object and save the current city state to a JSON file using `writeValue()`;
+- deserialize a JSON file and reconstruct a `City` object using `readValue()`.
+
+The project also uses **JUnit 5** for automated unit testing. It provides the testing framework and assertion methods used to verify the behaviour of the main components.
+
+No other significant non-standard library functions are directly reused.
+
+
+### 5. Main External APIs Used
+
+The main external API used by the project is the **Jackson Databind API**, included as a Maven dependency.
+
+It is used by the persistence component to manage the conversion between Java objects and JSON data during game saving and loading.
+
+No external web APIs, database APIs, or cloud services are used by the project.
+
+
+### 6. AI Tools Used
+
+AI tools were used throughout the development of the project as support during the different phases of the Software Engineering process. The main AI tools used were **ChatGPT**, **Google Gemini**, and **Google NotebookLM**.
+
+In particular, AI was used to:
+
+- understand the project requirements and obtain a general overview of the system;
+- support the definition and refinement of User Stories and Acceptance Criteria;
+- assist in the preparation and review of design documentation, including the Design Class Model and other design documents;
+- understand and analyse existing code and identify the main components and their responsibilities;
+- support the implementation and debugging of Java code;
+- assist in the definition and review of System Tests and other testing activities;
+- support the preparation and review of project documentation, including the user manual.
+
+AI was used as a support and learning tool. The generated suggestions and code were reviewed, adapted and integrated by the project team according to the project requirements and design decisions.
