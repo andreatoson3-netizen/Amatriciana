@@ -168,7 +168,7 @@ public class CityDashboard extends JFrame implements CityObserver {
             controller.advanceTime();
 
             // Report di fine turno: mostra i blackout solo se la città NON è in Game Over
-            if (!controller.isBankrupt() && !controller.isRevolt()) {
+            if (!controller.isBankrupt()) {
                 int unpowered = controller.getUnpoweredCount();
                 if (unpowered > 0) {
                     JOptionPane.showMessageDialog(this,
@@ -537,16 +537,7 @@ public class CityDashboard extends JFrame implements CityObserver {
                                 "Inizia una nuova partita o carica un salvataggio.",
                         "Bancarotta", JOptionPane.ERROR_MESSAGE);
 
-            } else if (controller.isRevolt()) {
-
-                // Sigilla l'interfaccia per Rivolta Cittadina
-                setGameControlsEnabled(false);
-                JOptionPane.showMessageDialog(this,
-                        "GAME OVER - RIVOLTA CITTADINA!\n\n" +
-                                "La felicità è precipitata a " + currentStats.getHappiness() + ".\n" +
-                                "I cittadini infuriati hanno preso d'assalto il municipio e ti hanno deposto.\n" +
-                                "Inizia una nuova partita o carica un salvataggio.",
-                        "Rivolta", JOptionPane.ERROR_MESSAGE);
+            }
             }
         });
     }
