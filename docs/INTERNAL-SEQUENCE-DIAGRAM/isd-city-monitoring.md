@@ -2,30 +2,53 @@
 sequenceDiagram
     autonumber
     actor Mayor as City Mayor
+    participant Dashboard as CityDashboard
     participant Controller as GameController
-    participant CityObj as City
+    participant City as City
     participant State as CityState
-    participant TheGrid as Grid
+    participant Grid as Grid
 
-    Note over Mayor, TheGrid: Prima parte: viewCityState()
-    Mayor->>Controller: getCity()
-    Controller-->>Mayor: return City
-    Mayor->>CityObj: getCityState()
-    CityObj-->>Mayor: return CityState
-    Mayor->>State: getCityStats() & getGrid()
-    State-->>Mayor: return Stats & Grid
-    Mayor->>TheGrid: getGriglia()
-    TheGrid-->>Mayor: return Cell[][] (Matrix)
-    Note over Mayor: Display city grid and city metrics
+    Note over Mayor,Grid: viewCityState()
 
-    Note over Mayor, TheGrid: Seconda parte: selectBlock(x, y)
-    Mayor->>Controller: getCity()
-    Controller-->>Mayor: return City
-    Mayor->>CityObj: getCityState()
-    CityObj-->>Mayor: return CityState
-    Mayor->>State: getGrid()
-    State-->>Mayor: return Grid
-    Mayor->>TheGrid: getCell(x, y)
-    TheGrid-->>Mayor: return Cell (Block state)
-    Note over Mayor: Display selected block state
+    Mayor->>Dashboard: Access simulation
+    activate Dashboard
+
+    Dashboard->>Controller: getCityStats()
+    Controller->>City: getCityState()
+    City-->>Controller: CityState
+    Controller->>State: getCityStats()
+    State-->>Controller: Stats
+    Controller-->>Dashboard: Stats
+
+    Dashboard->>Controller: getGrid()
+    Controller->>City: getCityState()
+    City-->>Controller: CityState
+    Controller->>State: getGrid()
+    State-->>Controller: Grid
+    Controller-->>Dashboard: Grid
+
+    Dashboard->>Grid: getGriglia()
+    Grid-->>Dashboard: Cell[][]
+
+    Dashboard-->>Mayor: Display city grid and city metrics
+    deactivate Dashboard
+
+
+    Note over Mayor,Grid: selectBlock(x, y)
+
+    Mayor->>Dashboard: Select cell (x, y)
+    activate Dashboard
+
+    Dashboard->>Controller: getGrid()
+    Controller->>City: getCityState()
+    City-->>Controller: CityState
+    Controller->>State: getGrid()
+    State-->>Controller: Grid
+    Controller-->>Dashboard: Grid
+
+    Dashboard->>Grid: getCell(x, y)
+    Grid-->>Dashboard: Cell
+
+    Dashboard-->>Mayor: Display selected block state
+    deactivate Dashboard
 ```
