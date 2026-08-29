@@ -538,7 +538,6 @@ public class CityDashboard extends JFrame implements CityObserver {
                         "Bancarotta", JOptionPane.ERROR_MESSAGE);
 
             }
-            }
         });
     }
 }
