@@ -1,5 +1,5 @@
 # System test
-## User story 1
+## User story 1 - Initialize a City
 
 ### As a City Mayor, I want to initialize a block grid, so that I have a spatial canvas to develop my city and query the state of each block.
 
@@ -31,7 +31,7 @@
   - Date: 28.08.2026
  
 
-## User story 2
+## User story 2 - City monitoring and interaction
 
 ### As a City Mayor, I want to monitor the global city metrics and grid state as the simulation progresses, so that I can keep track of the simulation's progress and the impact of my choices.
 
@@ -63,7 +63,7 @@
   - Date: 28.08.2026
 
  
-## User story 3
+## User story 3 - Load a saved City
 
 ### As a City Mayor, I want to load a previously saved city so that I can continue a previous simulation.
 
@@ -100,7 +100,7 @@
   - Date: 28.08.2026
  
 
-## User story 4
+## User story 4 - Build buildings and infrastructure
 
 ### As a City Mayor, I want to select and place different types of buildings and infrastructure on the urban grid, so that I can develop my city's layout.
 
@@ -157,7 +157,7 @@
   - Date: 28.08.2026
  
 
-## User story 5
+## User story 5 - Impact of City objects
 
 ### As a City Mayor, I want each object built in the city to affect the City State so that each entity has an impact on the simulation.
 
@@ -239,7 +239,7 @@
   - Date: 28.08.2026
 
  
-## User story 6
+## User story 6 - Advance the simulation
 
 ### As a City Mayor, I want to progress the city simulation over time so that I can observe how my city evolves.
 
@@ -267,7 +267,7 @@
  
 
 
-## User story 7
+## User story 7 - Enforce simulation rules
 
 ### As a City Mayor, I want the entities in the city to follow the rules defined by the simulation, so that the city's behavior remains consistent with the established rules.
 
@@ -284,7 +284,7 @@
   - Date: 28.08.2026
  
 
-## User story 8
+## User story 8 - Activate City Policies
 
 ### As a City Mayor, I want to activate and manage different City Policies, so that I can choose how to manage my city.
 
@@ -316,7 +316,7 @@
   - Date: 28.08.2026
 
  
-## User story 9
+## User story 9 - Apply City Policy effects
 
 ### As a City Mayor, I want to see the effects of the selected City Policy on my city's metrics, so that I can understand how my policy choices affect the city.
 
@@ -338,7 +338,7 @@
   - Date: 28.08.2026
  
 
-## User story 10
+## User story 10 - Save the City
 
 ### As a City Mayor, I want to save my current city so that I can continue the simulation in the future.
 
@@ -380,7 +380,7 @@
   - Date: 28.08.2026
  
 
-## User story 11
+## User story 11 - Bankruptcy and Game Over (Additional feature)
 
 ### As a City Mayor, I want the simulation to detect when my city becomes bankrupt, so that I know when I can no longer continue the current game.
 
@@ -412,7 +412,7 @@
   - Date: 28.08.2026
  
 
-## User story 12
+## User story 12 - Building and infrastructure demolition (Additional feature)
 
 ### As a City Mayor, I want to demolish a building or infrastructure from the city grid, so that I can modify my city's layout.
 
