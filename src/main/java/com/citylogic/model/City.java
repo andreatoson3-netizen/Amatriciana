@@ -1,19 +1,22 @@
 package com.citylogic.model;
 
 import com.citylogic.simulation.CityState;
-//rappresenta la città all'interno della simulazione.
-//funge da tramite(delegatore) tra il GameController e la classe CityState
-// incapsulando la logica strutturale e temporale della partita
+
+// Rappresenta la città all'interno della simulazione.
+// Funziona da tramite tra GameController e CityState,
+// delegando a CityState la gestione dello stato della simulazione
 public class City {
+    
+    // Gestisce lo stato interno, le statistiche e il tick corrente della città
+    private CityState cityState; 
 
-    private CityState cityState;//gestisce lo stato interno,le statistiche e i tick della città
-
-    //inizializza una nuova città creando una nuova istanza di CityState
+    // Inizializza una nuova città creando una nuova istanza di CityState
     public void initCity() {
 
         this.cityState = new CityState();
     }
-    //metodo che serve ad inizilizzare il budget
+    
+    // Inizializza il budget di una nuova partita.
     public void initNewGameBudget(){
         if(this.cityState != null && this.cityState.getCityStats()!= null){
             this.cityState.getCityStats().setMoney(5000);
@@ -21,14 +24,13 @@ public class City {
         }
     }
 
-
-    //restituisce lo stato corrente della città(usato dal gamecontroller
-    // per gestire la policy,i salvataggi e gli osservatori)
+    // Restituisce lo stato corrente della città.
+    // Viene utilizzato dal GameController per accedere allo stato della simulazione
         public CityState getCityState() {
         return this.cityState;
     }
 
-    //delega l'avanzamento del tempo(tramite tick) a llo stato della città
+    // Delega l'avanzamento del tempo, tramite un tick, a CityState.
     public void processTick() {
         if (this.cityState != null) {
             this.cityState.processTick();
