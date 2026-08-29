@@ -25,11 +25,38 @@ The project requires:
 
 The project does not require a database or an external server.
 
-### 2.2 Clone the Repository
+### 2.2 Installation
 
-Clone the project repository using Git:
+The project is available in the GitHub repository.
+
+# First, clone the repository:
 
 ```bash
 git clone <repository-url>
+```
 
+# Then, move into the project directory:
+
+```bash
+cd <project-folder>
+```
+
+### 2.3 Build and Test
+
+To compile the project and run the automated tests, execute:
+
+```bash
+mvn clean package
+```
+
+If the build is completed successfully, Maven displays: BUILD SUCCESS
+
+### 2.4 Execution
+
+To launch the CityLogic application, execute:
+
+```bash
+mvn exec:java
+```
+The command starts the application and opens the CityLogic graphical dashboard.
 
