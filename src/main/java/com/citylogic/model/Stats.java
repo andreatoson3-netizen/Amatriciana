@@ -1,6 +1,6 @@
 package com.citylogic.model;
-//Rappresenta l'insieme delle metriche globali e loali della simulazione
 
+// Rappresenta l'insieme delle metriche globali della simulazione
 public class Stats {
     private int pollution;
     private int money;
@@ -8,18 +8,18 @@ public class Stats {
     private int population;
     private int energy;
 
-    //costruttore di valori di default, fondamentale per Jackson
-    // perchè permette di ricostruire l'oggetto durante il caricamento del file JSON
+    // Costruttore senza parametri necessario per Jackson.
+    // Permette di ricostruire l'oggetto durante il caricamento del file JSON
     public Stats(){
         this.pollution=0;
-        this.money=0;//budget iniziale di default per nuova partita
+        this.money=0; //Budget iniziale di default per nuova partita
         this.happiness=0;
         this.population=0;
         this.energy=0;
 
     }
 
-    //costruttore con parametri per inizializzare tutte le metriche
+    // Costruttore con parametri per inizializzare tutte le metriche
     public Stats(int pollution,int money,int happiness,int population,int energy){
         this.pollution=pollution;
         this.money=money;
@@ -28,9 +28,9 @@ public class Stats {
         this.energy=energy;
     }
 
-    //somma i valori di un altro oggetto Stats a quelli correnti.
-    // Utile per accumulare le statstiche di tutti i blocchi presenti sulla griglia
-    //@param other L'oggetto Stats da sommare
+    // Somma i valori di un altro oggetto Stats a quelli correnti.
+    // Viene utilizzato per aggregare le statistiche dei blocchi presenti nella griglia.
+    // @param other oggetto Stats da sommare
     public void add(Stats other){
         if(other!= null){
             this.pollution += other.pollution;
@@ -41,9 +41,11 @@ public class Stats {
         }
     }
 
-    //moltiplica tutte le metriche per un fattore scalare (es. per calcoli percentuali delle policy)
-    //restituisce un nuovo oggetto Stats modificato(avviene cast ad int nelle moltiplicazioni)
-
+    // Moltiplica tutte le metriche per un fattore scalare.
+    // Viene utilizzato, ad esempio, per applicare modificatori alle statistiche previsti dalle policy.
+    // I risultati vengono convertiti in interi.
+    // @param factor fattore di moltiplicazione.
+    // @return un nuovo oggetto Stats contenente i valori modificati
     public Stats multiply(double factor){
         return new Stats(
                 (int) (this.pollution*factor),
@@ -54,7 +56,8 @@ public class Stats {
         );
     }
 
-    //getter e setter necessae per l'accesso ai campi e alla serializzazione JSON
+    // Getter e setter necessari per accedere alle metriche
+    // e per la serializzazione/deserializzazione JSON tramite Jackson
 
     public int getPollution() { return pollution; }
     public void setPollution(int pollution) { this.pollution = pollution; }
