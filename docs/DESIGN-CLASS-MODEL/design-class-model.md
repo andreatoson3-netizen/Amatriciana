@@ -35,12 +35,13 @@ classDiagram
         +getMoney():int
         +setMoney(int money):void
         +getCurrentPolicy():CityPolicyStrategy
-        +getCurrentPolicyName:String
+        +getCurrentPolicyName():String
         +addObserver(CityObserver observer):void
         +saveGame(String filePath):boolean
         +isBankrupt():boolean
         +isRevolt():boolean
         +getUnpoweredCount():int
+        +getBlackoutCount():int
     }
 
     class CellFactory {
@@ -130,9 +131,9 @@ classDiagram
          +notifyObservers(): void
         +getCityStats() :Stats
         +getGrid() :Grid
-        +setGrid(Grid grid):Grid
+        +setGrid(Grid grid):void
         +getCurrTick() :int
-        +setCurrTick(): void
+        +setCurrTick(int currTick): void
         +getCurrentPolicyStrategy():CityPolicyStrategy
          +setPolicy(CityPolicyStrategy p): void
         +isBankrupt():boolean
@@ -157,9 +158,9 @@ classDiagram
         -Cell[][] griglia
         --Queue~Cell~ blackoutQueue
         +getCell(int x, int y) : Cell
-        +hasPowerPlant : boolean
-        +hasNearbyPowerPlant(int x, int y):boolean
-        +countUnpoweredResidentila(): int
+        +hasPowerPlant() :boolean
+        -hasNearbyPowerPlant(int x, int y):boolean
+        +countUnpoweredResidential(): int
         +distributeEnergy():void
         +calculateRawStats() : Stats
         +removeCell(int x,int y):Cell
@@ -167,6 +168,7 @@ classDiagram
         +getBlackoutQueue():Queue~Cell~
         +getGriglia():Cell[][]
         +setGriglia(Cell[][] griglia):void
+        +getBlackoutCount():int
         
     }
 
@@ -259,7 +261,7 @@ classDiagram
     CellFactory ..> Cell : istanzia
 
     City --> CityState : possiede
-    City --> Grid : 1 rappresentata da
+    CityState --> Grid : gestisce
     Grid --> Cell : composta da
     
     %% Observer Pattern
@@ -276,7 +278,7 @@ classDiagram
     %% Cell crea le statistiche per il calcolo del delta
     Cell ..> Stats : crea / restituisce
 
-    CityState o-- CityPolicyStrategy : utilizza
+    CityState "1" --> "0..1" CityPolicyStrategy : utilizza
     CityPolicyStrategy <|.. EnvironmentalTax : realizza
     CityPolicyStrategy <|.. IndustrialExpansion : realizza
 
@@ -300,7 +302,7 @@ City & CityState: City è la classe base che avvia il simulatore. Per evitare ch
 
 Grid & Cell: La mappa spaziale è gestita da Grid. Invece di avere matrici separate per ogni tipo di edificio, la griglia usa la classe astratta Cell. Questo permette alla mappa di iterare su tutti gli edifici in modo polimorfico, chiamando il metodo generico returnStat() senza dover sapere esattamente quale edificio sta elaborando.
 
-Stats: Funziona come un Data Transfer Object (DTO). Incapsula tutte le variabili (soldi, inquinamento, energia) rendendole private, ed espone metodi getter sicuri e metodi matematici interni (add, multiply) per impedire che altre classi alterino i dati in modo imprevisto.
+Stats: incapsula le principali metriche della città e fornisce operazioni per modificarle e combinarle. Incapsula tutte le variabili (soldi, inquinamento, energia) rendendole private, ed espone metodi getter sicuri e metodi matematici interni (add, multiply) per impedire che altre classi alterino i dati in modo imprevisto.
 
 Design Pattern Implementati
 
