@@ -29,13 +29,13 @@ The project does not require a database or an external server.
 
 The project is available in the GitHub repository.
 
-# First, clone the repository:
+First, clone the repository:
 
 ```bash
 git clone <repository-url>
 ```
 
-# Then, move into the project directory:
+Then, move into the project directory:
 
 ```bash
 cd <project-folder>
