@@ -2,7 +2,7 @@
 ```mermaid
 sequenceDiagram
     autonumber
-    actor System as Simulation / Timer
+    actor System as Simulation
     participant Controller as GameController
     participant CityObj as City
     participant State as CityState
@@ -12,23 +12,26 @@ sequenceDiagram
     System->>Controller: advanceTime()
     Controller->>CityObj: processTick()
     CityObj->>State: processTick()
-    
-    Note over State: Incrementa currTick++ e avvia calcolo stats
+
+    Note over State: Incrementa currTick e avvia il calcolo delle statistiche
+
     State->>TheGrid: calculateRawStats()
-    
-    TheGrid->>TheGrid: hasPowerPlant()
-    
-    alt Scenario 1: Nessuna PowerPlant presente (Residential non cresce)
-        Note over TheGrid: Salta Residential (continue) e somma solo altre stats
-        TheGrid-->>State: return totalStats (senza crescita residenziale)
-    else Scenario 2: PowerPlant presente (Residential cresce regolarmente)
-        Note over TheGrid: Aggiunge anche le stats di Residential
-        TheGrid-->>State: return totalStats (complete)
+
+    TheGrid->>TheGrid: calculate statistics for grid entities
+
+    alt Residential without nearby Power Plant
+        Note over TheGrid: Residential non contribuisce alle metriche
+        TheGrid-->>State: return totalStats
+    else Residential with nearby Power Plant
+        Note over TheGrid: Residential contribuisce alle metriche secondo i suoi effetti
+        TheGrid-->>State: return totalStats
     end
-    
+
     State->>State: updateStats(rawStats)
     State->>Observer: notifyObservers()
     Observer->>Observer: update(cityStats)
-    State-->>Controller: Tick completato
-    Controller-->>System: Simulazione aggiornata
+
+    State-->>CityObj: Tick completed
+    CityObj-->>Controller: Tick completed
+    Controller-->>System: Simulation advanced
 ```
