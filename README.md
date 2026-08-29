@@ -29,16 +29,16 @@ The project does not require a database or an external server.
 
 The project is available in the GitHub repository.
 
-First, clone the repository:
+First, open a terminal and clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/andreatoson3-netizen/Amatriciana.git
 ```
 
-Then, move into the project directory:
+Then, navigate to the newly created project folder:
 
 ```bash
-cd <project-folder>
+cd Amatriciana
 ```
 
 ### 2.3 Build and Test
