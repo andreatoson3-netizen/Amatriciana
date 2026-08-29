@@ -204,15 +204,6 @@ public class GameController {
         return city != null && city.getCityState().isBankrupt();
     }
 
-    //Innesca un game over se la felicità dei cittadini è troppo bassa
-    public boolean isRevolt() {
-        if (city != null && city.getCityState() != null && city.getCityState().getCityStats() != null) {
-            //Game Over se la felicità scende a -100 o peggio
-            return city.getCityState().getCityStats().getHappiness() <= -100;
-        }
-        return false;
-    }
-
     //Espone alla View il numero di edifici residenziali senza energia.
     public int getUnpoweredCount() {
         return city != null ? city.getCityState().getUnpoweredCount() : 0;
