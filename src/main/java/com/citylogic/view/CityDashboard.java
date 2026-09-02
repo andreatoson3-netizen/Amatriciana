@@ -7,7 +7,6 @@ import com.citylogic.simulation.CityObserver;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.io.File;
 
 /**
  * Finestra principale del gioco (View nel pattern MVC).
@@ -527,9 +526,11 @@ public class CityDashboard extends JFrame implements CityObserver {
                 // Sigilla l'interfaccia per Bancarotta
                 setGameControlsEnabled(false);
                 JOptionPane.showMessageDialog(this,
-                        "GAME OVER - BANKRUPTCY!\n\n" +
-                                "You don't have enough funds to sustain the city's expenses.\n" +
-                                "Start a new game or load a save.",
+                        """
+                    GAME OVER - BANKRUPTCY!
+
+                    You don't have enough funds to sustain the city's expenses.
+                    Start a new game or load a save.""",
                         "Bankruptcy", JOptionPane.ERROR_MESSAGE);
 
             }
