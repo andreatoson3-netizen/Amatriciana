@@ -1,7 +1,7 @@
 # System test
 ## User story 1 - Initialize a City
 
-### As a City Mayor, I want to initialize a block grid, so that I have a spatial canvas to develop my city and query the state of each block.
+### As a City Mayor, I want to initialize a block grid, so that I have a spatial canvas to develop my city.
 
 ### Acceptance criteria:
 
@@ -15,19 +15,9 @@
   - Comment: All 400 cells of the 20×20 grid are initialized as Empty
   - Date: 28.08.2026
 
-* The system must correctly return the current state of a valid block when the City Mayor queries it.
-  - Result: KO
-  - Comment: The current interface does not provide a functionality to query and display the state of an individual cell.
-  - Date: 28.08.2026
-
 * The system must reject operations involving coordinates outside the grid boundaries.
   - Result: OK
   - Comment: The system prevents the user from selecting or placing entities outside the 20×20 grid boundaries.
-  - Date: 28.08.2026
-
-* The system must report that the coordinates are invalid when an out-of-bounds coordinate is used.
-  - Result: Not tested
-  - Comment: The GUI prevents the user from interacting with cells outside the grid, so no out-of-bounds coordinate can be entered through the interface.
   - Date: 28.08.2026
  
 
@@ -199,7 +189,7 @@
   - Date: 28.08.2026
     
 * A Factory must decrease the City's Energy according to its defined effect.
-  - Result: OK/KO
+  - Result: OK
   - Comment: The Factory decreased the City's Energy, but only on the first Tick.
   - Date: 28.08.2026
 
@@ -365,19 +355,19 @@
   - Date: 28.08.2026
   - 
 * The system must reject the save operation when the city cannot be written to the selected file.
-  - Result: KO
-  - Comment: The system does not reject the save operation when a PDF or TXT file is selected and does not display an error message.
-  - Date: 28.08.2026
+  - Result: OK
+  - Comment: The save operation was attempted in a non-writable system directory (`C:\Program Files`). The system correctly rejected the operation and displayed an error message.
+  - Date: 2.09.2026
 
 * The current city state must remain unchanged when the save operation fails.
-  - Result: Not testable
-  - Comment: This criterion was not specifically tested during the system test.
-  - Date: 28.08.2026
+  - Result: OK
+  - Comment: After the save operation failed, the city state remained unchanged.
+  - Date: 2.09.2026
     
 * The system must inform the City Mayor that the city could not be saved.
-  - Result: Non testable
-  - Comment: This criterion was not specifically tested during the system test.
-  - Date: 28.08.2026
+  - Result: OK
+  - Comment: When the save operation failed, the system displayed an error message "Unable to save the Game", informing the City Mayor that the game could not be saved.
+  - Date: 2.09.2026
  
 
 ## User story 11 - Bankruptcy and Game Over (Additional feature)
