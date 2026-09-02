@@ -28,11 +28,11 @@ The main objective is to manage the available resources and develop the city whi
 
 The project requires:
 
-- **JDK 18+**
+- **JDK 18 or later**
 - **Apache Maven**
 - **Git**, to clone the repository
 
-A Java IDE such as IntelliJ, Eclipse or Visual Studio Code can be used to open and run the project (**Git**).
+A Java IDE such as IntelliJ, Eclipse or Visual Studio Code can be used to open and run the project.
 
 The project does not require a database or an external server.
 
