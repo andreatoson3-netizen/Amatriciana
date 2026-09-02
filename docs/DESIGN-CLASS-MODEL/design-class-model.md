@@ -128,6 +128,7 @@ classDiagram
         +removeObserver(CityObserver observer):void
         +notifyObservers(): void
         +getCityStats() :Stats
+        +setCityStats(Stats cityStats):void
         +getGrid() :Grid
         +setGrid(Grid grid):void
         +getCurrTick() :int
@@ -136,6 +137,7 @@ classDiagram
         +setPolicy(CityPolicyStrategy p): void
         +isBankrupt():boolean
         +getUnpoweredCount():int
+        +getBlackoutCount(): int
        
     }
 
@@ -159,6 +161,7 @@ classDiagram
         +hasPowerPlant() :boolean
         -hasNearbyPowerPlant(int x, int y):boolean
         +countUnpoweredResidential(): int
+        +getBlackoutCount():int
         +distributeEnergy():void
         +calculateRawStats() : Stats
         +removeCell(int x,int y):Cell
@@ -166,7 +169,7 @@ classDiagram
         +getBlackoutQueue():Queue~Cell~
         +getGriglia():Cell[][]
         +setGriglia(Cell[][] griglia):void
-        +getBlackoutCount():int
+        
         
     }
 
