@@ -322,29 +322,26 @@ public class CityDashboard extends JFrame implements CityObserver {
             return;
         }
 
-        // 1. Intercetta lo strumento demolizione e blocca l'esecuzione
-        if (selectedBuilding.equals("demolish")) {
-            boolean success = controller.demolishBuilding(x, y);
-            if (!success) {
-                System.out.println("No building to demolish here");
-            }
-            return; // Esce dal metodo senza proseguire
-        }
 
-        // 2. La View delega totalmente la logica di controllo e posizionamento al GameController
+        // La View delega totalmente la logica di controllo e posizionamento al GameController
         GameController.BuildResult result = controller.placeBuilding(selectedBuilding, x, y);
 
         switch (result) {
             case NO_FUNDS:
                 JOptionPane.showMessageDialog(this,
-                        "Fondi non sufficienti per completare la costruzione.",
-                        "Transazione Negata", JOptionPane.WARNING_MESSAGE);
+                        "Not enough funds to complete the construction.",
+                        "Transaction Denied", JOptionPane.WARNING_MESSAGE);
                 break;
             case INVALID_POSITION:
-                JOptionPane.showMessageDialog(this, "Cannot build here.\nPossible reasons:\n- cell already occupied\n- out of bounds");
+                JOptionPane.showMessageDialog(this,
+                        "Cannot build here.\nPossible reasons:\n- cell already occupied\n- out of bounds");
                 break;
             case UNKNOWN_TYPE:
-                JOptionPane.showMessageDialog(this, "Tipo di edificio sconosciuto.");
+                JOptionPane.showMessageDialog(this, "Unknown building type.");
+                break;
+            case NOTHING_TO_DEMOLISH:
+                // Sostituito il println con un popup GUI in inglese
+                JOptionPane.showMessageDialog(this, "No building to demolish here.", "Demolition", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case SUCCESS:
                 // La griglia si aggiorna da sola grazie all'Observer
@@ -530,10 +527,10 @@ public class CityDashboard extends JFrame implements CityObserver {
                 // Sigilla l'interfaccia per Bancarotta
                 setGameControlsEnabled(false);
                 JOptionPane.showMessageDialog(this,
-                        "GAME OVER - BANCAROTTA!\n\n" +
-                                "Non hai abbastanza fondi per sostenere i costi di gestione.\n" +
-                                "Inizia una nuova partita o carica un salvataggio.",
-                        "Bancarotta", JOptionPane.ERROR_MESSAGE);
+                        "GAME OVER - BANKRUPTCY!\n\n" +
+                                "You don't have enough funds to sustain the city's expenses.\n" +
+                                "Start a new game or load a save.",
+                        "Bankruptcy", JOptionPane.ERROR_MESSAGE);
 
             }
         });

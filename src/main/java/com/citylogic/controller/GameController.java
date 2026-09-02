@@ -27,7 +27,7 @@ public class GameController {
     // Protocollo di risposta per la GUI
     // Rappresenta i possibili risultati di una richiesta di costruzione
     // e permette alla View di mostrare il messaggio appropriato
-    public enum BuildResult { SUCCESS, NO_FUNDS, INVALID_POSITION, UNKNOWN_TYPE }
+    public enum BuildResult { SUCCESS, NO_FUNDS, INVALID_POSITION, UNKNOWN_TYPE ,NOTHING_TO_DEMOLISH }
 
     public GameController() {
         this.persistenceManager = new CityPersistenceManager();
@@ -48,6 +48,11 @@ public class GameController {
 
         if (city == null || city.getCityState() == null) { // Controlla che esistano una città e il relativo stato prima
             return BuildResult.INVALID_POSITION;           // di procedere con la costruzione
+        }
+
+        if ("demolish".equals(buildingType)) {
+            boolean success = demolishBuilding(x, y);
+            return success ? BuildResult.SUCCESS : BuildResult.NOTHING_TO_DEMOLISH;
         }
 
         Cell cell;
@@ -87,7 +92,7 @@ public class GameController {
 
 
     // Gestisce la demolizione di un'entità e il rimborso del relativo costo
-    public boolean demolishBuilding(int x, int y) {
+    private boolean demolishBuilding(int x, int y) {
         if (city == null || city.getCityState() == null) return false;
 
         // Tenta di estrarre la cella dalla griglia
