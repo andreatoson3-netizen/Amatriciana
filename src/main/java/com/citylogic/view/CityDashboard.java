@@ -379,9 +379,7 @@ public class CityDashboard extends JFrame implements CityObserver {
         fileChooser.setDialogTitle("Save Game");
         if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) return;
 
-        File file = fileChooser.getSelectedFile();
-        String path = file.getAbsolutePath();
-        if (!path.toLowerCase().endsWith(".json")) path += ".json";
+        String path = fileChooser.getSelectedFile().getAbsolutePath();
 
         if (controller.saveGame(path)) {
             JOptionPane.showMessageDialog(this, "Game saved successfully.", "Save Game", JOptionPane.INFORMATION_MESSAGE);

@@ -192,9 +192,15 @@ public class GameController {
     }
 
     //Salva lo stato corrente della città su file tramite PersistenceManager
+    // Salva lo stato corrente della città su file tramite PersistenceManager
     public boolean saveGame(String filePath){
-        if(city != null){
-            return persistenceManager.saveCity(city, filePath);
+        if (city != null && filePath != null) {
+
+            String finalPath = filePath;
+            if (!finalPath.toLowerCase().endsWith(".json")) {
+                finalPath += ".json";
+            }
+            return persistenceManager.saveCity(city, finalPath);
         }
         return false;
     }
