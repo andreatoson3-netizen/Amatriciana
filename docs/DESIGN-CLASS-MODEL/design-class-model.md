@@ -22,7 +22,6 @@ classDiagram
         -City city
         -CityPersistenceManager persistenceManager
         -CellFactory cellFactory
-        +buildBuilding(String type) : BuildResult
         +startNewGame() : void
         +placeBuilding(String buildingType,int x,int y):BuildResult
         +demolishBuilding(int x,int y):boolean
@@ -245,7 +244,7 @@ classDiagram
     }
     
     class Commercial {
-        +returnStat() Stats
+        +returnStat(): Stats
     }
 
     %% ==========================================
@@ -292,6 +291,7 @@ classDiagram
     Building <|-- Factory
     Building <|-- Commercial
 ```
+---
 
 L'architettura del sistema è stata progettata per mantenere i componenti separati, facili da testare e pronti per future espansioni, applicando i principi GRASP (Alta Coesione, Basso Accoppiamento) e i design pattern della Gang of Four (GoF).
 
