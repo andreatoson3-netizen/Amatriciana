@@ -1,8 +1,4 @@
 target/
-!target/
-target/*
-!target/surefire-reports/
-!target/surefire-reports/**
 
 !.mvn/wrapper/maven-wrapper.jar 
 !**/src/main/**/target/ 
