@@ -296,24 +296,25 @@ classDiagram
 ```
 ---
 
-L'architettura del sistema è stata progettata per mantenere i componenti separati, facili da testare e pronti per future espansioni, applicando i principi GRASP (Alta Coesione, Basso Accoppiamento) e i design pattern della Gang of Four (GoF).
+The system architecture has been designed to keep components separate, easy to test, and ready for future expansions, applying GRASP principles (High Cohesion, Low Coupling) and Gang of Four (GoF) design patterns.
 
-Core Engine e Modello di Dominio
+Core Engine and Domain Model
 
-City & CityState: City rappresenta la città e coordina l'avvio e l'elaborazione della simulazione. Per evitare che diventi troppo complessa ("God Object"), delega la gestione dello stato della simulazione alla classe CityState
+City & CityState: City represents the city and coordinates the startup and processing of the simulation. To prevent it from becoming too complex ("God Object"), it delegates simulation state management to the CityState class.
 
-Grid & Cell: La mappa spaziale è gestita da Grid. Invece di avere matrici separate per ogni tipo di edificio, la griglia usa la classe astratta Cell. Questo permette alla mappa di iterare su tutti gli edifici in modo polimorfico, chiamando il metodo generico returnStat() senza dover sapere esattamente quale edificio sta elaborando.
+Grid & Cell: The spatial map is managed by Grid. Instead of having separate arrays for each type of building, the grid uses the abstract Cell class. This allows the map to iterate over all buildings polymorphically by calling the generic returnStat() method without needing to know the exact building it is processing.
 
-Stats: incapsula le principali metriche della città (Money, Population, Happiness, Pollution ed Energy), mantenendo i relativi attributi privati e fornendo getter, setter e operazioni per combinare e modificare i valori.
+Stats: Encapsulates the main city metrics (Money, Population, Happiness, Pollution, and Energy), keeping the related attributes private and providing getters, setters, and operations to combine and modify the values.
 
-Design Pattern Implementati
+Implemented Design Patterns
 
-Model-View-Controller (GameController): Il sistema isola la logica di business dall'interfaccia grafica. Il GameController gestisce gli input dell'utente (es. piazzare un edificio, attivare una politica) e li traduce in comandi per il motore di gioco, proteggendo lo stato interno di City.
+Model-View-Controller (GameController): The system isolates business logic from the graphical interface. The GameController handles user input (e.g., placing a building, activating a policy) and translates it into commands for the game engine, protecting City's internal state.
 
-Factory Pattern (CellFactory): Il compito di istanziare gli edifici fisici è delegato a una fabbrica dedicata. Quando il Controller deve piazzare un edificio, non chiama il costruttore concreto (es. new Park()), ma chiede alla CellFactory di restituirgli una generica Cell. Questo rende il codice flessibile: aggiungere nuovi edifici in futuro richiederà modifiche solo alla Factory.
+Factory Pattern (CellFactory): The task of instantiating physical buildings is delegated to a dedicated factory. When the Controller needs to place a building, it does not call the concrete constructor (e.g., new Park()), but asks CellFactory to return a generic Cell. This makes the code flexible: adding new buildings in the future will require modifications only to the Factory.
 
-Observer Pattern (CityObserver): Garantisce il flusso dei dati verso lo schermo senza bloccare il motore. A ogni fine turno, CityState (il Soggetto) notifica gli osservatori registrati inviando l'oggetto Stats aggiornato. In questo modo il motore non dipende dalla specifica tecnologia grafica usata (Swing, Web, ecc.).
+Observer Pattern (CityObserver): Guarantees data flow to the screen without blocking the engine. At the end of each turn, CityState (the Subject) notifies registered observers by sending the updated Stats object. This way, the engine does not depend on the specific graphical technology used (Swing, Web, etc.).
 
-Strategy Pattern (CityPolicyStrategy): Le normative cittadine (es. Tasse, Espansione Industriale) alterano il calcolo dei punteggi. Invece di riempire il motore con blocchi if/else, ogni politica è una classe separata che implementa la stessa interfaccia. Le regole possono così essere scambiate a runtime in modo trasparente.
+Strategy Pattern (CityPolicyStrategy): City regulations (e.g., Taxes, Industrial Expansion) alter score calculations. Instead of cluttering the engine with if/else blocks, each policy is a separate class implementing the same interface. Rules can thus be swapped transparently at runtime.
 
-Pure Fabrication (CityPersistenceManager): Per mantenere l'Alta Coesione e rispettare il principio di Singola Responsabilità (SRP), la logica di I/O (lettura e scrittura dei file JSON per i salvataggi) è stata completamente rimossa da City e isolata in un gestore dedicato.
+Pure Fabrication (CityPersistenceManager): To maintain High Cohesion and respect the Single Responsibility Principle (SRP), I/O logic (reading and writing JSON save files) has been completely removed from City and isolated in a dedicated manager
+
