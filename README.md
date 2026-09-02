@@ -59,6 +59,7 @@ To compile the project and run the automated tests, execute:
 ```bash
 mvn clean package
 ```
+(The `clean` phase removes previously generated build files, while `package` compiles the project, runs the automated tests and packages the application.)
 
 If the build is completed successfully, Maven displays: BUILD SUCCESS
 
