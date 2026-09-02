@@ -44,6 +44,8 @@ classDiagram
     Infrastructure <|-- PowerPlant
     Infrastructure <|-- Road
 ```
+---
+
 ## Main Conceptual Entities
 
 ### City
