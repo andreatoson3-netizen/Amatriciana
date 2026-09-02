@@ -25,16 +25,16 @@ classDiagram
     %% RELATIONSHIPS
     %% =========================
 
-    City "1" *-- "1" CityState : possiede
+    City "1" *-- "1" CityState : owns
 
-    CityState "1" *-- "1" Grid : gestisce
-    CityState "1" *-- "1" Stats : mantiene/aggiorna
-    CityState "1" --> "0..1" CityPolicy : applica
+    CityState "1" *-- "1" Grid : manages
+    CityState "1" *-- "1" Stats : maintains/updates
+    CityState "1" --> "0..1" CityPolicy : applies
 
-    Grid "1" *-- "400" Cell : contiene
+    Grid "1" *-- "400" Cell : contains
 
-    Cell "1" o-- "0..1" Building : contiene
-    Cell "1" o-- "0..1" Infrastructure : contiene
+    Cell "1" o-- "0..1" Building : contains
+    Cell "1" o-- "0..1" Infrastructure : contains
 
     Building <|-- Residential
     Building <|-- Factory
@@ -44,66 +44,66 @@ classDiagram
     Infrastructure <|-- PowerPlant
     Infrastructure <|-- Road
 ```
-## Entità Concettuali Principali
+## Main Conceptual Entities
 
-### City (Città)
+### City
 
-L'entità principale che rappresenta la città oggetto della simulazione. È associata allo stato corrente della città, che ne descrive l'evoluzione nel tempo e la situazione attuale.
+The main entity representing the city being simulated. It is associated with the current state of the city, which describes its evolution over time and its current situation.
 
-### CityState (Stato della Città)
+### CityState
 
-Rappresenta lo stato dinamico della città durante la simulazione. Mantiene le informazioni relative all'evoluzione temporale, alla configurazione della città, alle metriche globali e all'eventuale politica attiva.
+Represents the dynamic state of the city during the simulation. It maintains information related to the evolution over time, the city configuration, the global metrics and the currently active policy, if any.
 
-### Grid (Griglia / Mappa Urbana)
+### Grid (Urban Map)
 
-Rappresenta la struttura spaziale della città attraverso una griglia. Contiene le celle che costituiscono il territorio urbano e ne determina la disposizione spaziale.
+Represents the spatial structure of the city through a grid. It contains the cells that make up the urban territory and determines their spatial arrangement.
 
-### Cell (Cella / Entità Territoriale)
+### Cell (Territorial Entity)
 
-Rappresenta un'unità della griglia urbana. Una cella può contenere un edificio o un'infrastruttura, come **Residential, Factory, Commercial, Park, Power Plant o Road**, e contribuisce allo stato complessivo della città.
+Represents a unit of the urban grid. A cell can contain a building or an infrastructure, such as **Residential, Factory, Commercial, Park, Power Plant or Road**, and contributes to the overall state of the city.
 
-### Building (Edificio)
+### Building
 
-Rappresenta la categoria concettuale degli edifici presenti nella città. Comprende edifici **Residential, Factory e Commercial**, ciascuno caratterizzato da specifici effetti sulle metriche della città.
+Represents the conceptual category of buildings present in the city. It includes **Residential, Factory and Commercial**, each characterized by specific effects on the city's metrics.
 
-### Infrastructure (Infrastruttura)
+### Infrastructure
 
-Rappresenta la categoria concettuale delle infrastrutture presenti nella città. Comprende **Park, Power Plant e Road**, che contribuiscono in modo diverso allo stato e alle metriche della città.
+Represents the conceptual category of infrastructure present in the city. It includes **Park, Power Plant e Road**, which contribute differently to the city's state and metrics.
 
-### Stats (Statistiche / Metriche Globali)
+### Stats (Global Metrics)
 
-Rappresenta l'insieme delle metriche che descrivono lo stato della città, tra cui **Money, Population, Happiness, Pollution ed Energy**. I loro valori dipendono dagli elementi presenti nella città e dalle regole o politiche applicate alla simulazione.
+Represents the set of metrics describing the state of the city, including **Money, Population, Happiness, Pollution and Energy**. Their values depend on the elements present in the city and on the rules or policies applied to the simulation.
 
-### CityPolicy (Politica Cittadina)
+### CityPolicy
 
-Rappresenta una politica che può essere attivata dal City Mayor per modificare il modo in cui determinate metriche della città vengono calcolate. Tra le politiche disponibili sono presenti, ad esempio, **Environmental Tax** e **Industrial Expansion**.
+Represents a policy that can be activated by the City Mayor to modify how certain city metrics are calculated. Available policies include, for example, **Environmental Tax** and **Industrial Expansion**.
 
-## Relazioni Chiave del Dominio
+## Key Domain Relationships
 
-### City (1) ---- possiede ----> (1) CityState
+### City (1) ---- owns ----> (1) CityState
 
-Ogni città possiede un unico stato corrente che rappresenta la situazione della città durante la simulazione.
+Each city owns a single current state representing the situation of the city during the simulation.
 
-### CityState (1) ---- gestisce ----> (1) Grid
+### CityState (1) ---- manages ----> (1) Grid
 
-Lo stato della città è associato a una griglia che rappresenta la disposizione spaziale degli edifici e delle infrastrutture.
+The city state is associated with a grid representing the spatial arrangement of buildings and infrastructures.
 
-### Grid (1) ---- contiene ----> (400) Cell
+### Grid (1) ---- contains ----> (400) Cell
 
-La griglia è composta da 400 celle che rappresentano le posizioni disponibili nel territorio urbano. La città utilizza una griglia 20×20.
+The grid consists of 400 cells representing the available positions in the urban territory. The city uses a 20×20 grid.
 
 ### Cell ---- Building
 
-Una cella può contenere al massimo un edificio. Gli edifici comprendono **Residential, Factory e Commercial**, ciascuno caratterizzato da specifici effetti sulle metriche della città.
+A cell can contain at most one building. Buildings include **Residential, Factory and Commercial**, each characterized by specific effects on the city's metrics.
 
 ### Cell ---- Infrastructure
 
-Una cella può contenere al massimo un'infrastruttura. Le infrastrutture comprendono **Park, Power Plant e Road**, che contribuiscono in modo diverso allo stato e alle metriche della città.
+A cell can contain at most one infrastructure. Infrastructures include **Park, Power Plant and Road**, which contribute differently to the city's state and metrics.
 
-### CityState (1) ---- mantiene/aggiorna ----> (1) Stats
+### CityState (1) ---- maintains/updates ----> (1) Stats
 
-Lo stato della città mantiene le metriche globali che descrivono la situazione corrente della città.
+The city state maintains the global metrics describing the current situation of the city.
 
-### CityState (1) ---- applica ----> (0..1) CityPolicy
+### CityState (1) ---- applies ----> (0..1) CityPolicy
 
-Una città può avere zero oppure una politica attiva. Quando presente, la politica influenza il calcolo delle metriche secondo le proprie regole.
+A city can have zero or one active policy. When present, the policy influences the calculation of the metrics according to its own rules.
