@@ -78,7 +78,7 @@ Represents the set of metrics describing the state of the city, including **Mone
 
 ### CityPolicy
 
-Represents a policy that can be activated by the City Mayor to modify how certain city metrics are calculated. Available policies include, for example, **Environmental Tax** and **Industrial Expansion**.
+Represents a policy that can be activated by the City Mayor to modify how certain city metrics are calculated. In the software design, this concept is implemented through the `CityPolicyStrategy` interface. Available policies include, for example, **Environmental Tax** and **Industrial Expansion**.
 
 ## Key Domain Relationships
 
