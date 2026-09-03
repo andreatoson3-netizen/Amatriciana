@@ -54,6 +54,9 @@ public class CityState {
             currentMoney = this.cityStats.getMoney();
             currentPollution = this.cityStats.getPollution();
         }
+        // Calcolo cumulativo dell'inquinamento con blocco al limite inferiore di 0
+        int calculatedPollution = currentPollution + statsToApply.getPollution();
+        int safePollution = Math.max(0, calculatedPollution);
 
         // Population e Happiness sono valori di stato:
         // vengono sostituiti con quelli calcolati per il tick corrente.
@@ -65,7 +68,7 @@ public class CityState {
         // Energy viene ricalcolata per il tick corrente.
 
         Stats updatedStats = new Stats(
-                currentPollution + statsToApply.getPollution(),
+                safePollution,
                 currentMoney + statsToApply.getMoney(),
                 statsToApply.getHappiness(),
                 statsToApply.getPopulation(),
