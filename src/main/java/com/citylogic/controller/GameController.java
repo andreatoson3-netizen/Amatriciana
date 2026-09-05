@@ -90,7 +90,7 @@ public class GameController {
 
 
     // Gestisce la demolizione di un'entità e il rimborso del relativo costo
-    private boolean demolishBuilding(int x, int y) {
+    public boolean demolishBuilding(int x, int y) {
         if (city == null || city.getCityState() == null) return false;
 
         // Tenta di estrarre la cella dalla griglia
