@@ -5,20 +5,11 @@
 
 ### Acceptance criteria:
 
-* The system must create a 20×20 grid containing a total of 400 blocks when the game is started or a new game is created.
-  - Result: OK
-  - Comment: The system correctly initializes a 20×20 grid, consisting of 400 blocks.
-  - Date: 28.08.2026
-
-* All 400 blocks must have the default state "Empty".
-  - Result: OK
-  - Comment: All 400 cells of the 20×20 grid are initialized as Empty
-  - Date: 28.08.2026
-
-* The system must reject operations involving coordinates outside the grid boundaries.
-  - Result: OK
-  - Comment: The system prevents the user from selecting or placing entities outside the 20×20 grid boundaries.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must create a 20×20 grid containing a total of 400 blocks when the game is started or a new game is created. | OK | The system correctly initializes a 20×20 grid, consisting of 400 blocks. | 28.08.2026 |
+| All 400 blocks must have the default state "Empty". | OK | All 400 cells of the 20×20 grid are initialized as Empty. | 28.08.2026 |
+| The system must reject operations involving coordinates outside the grid boundaries. | OK | The system prevents the user from selecting or placing entities outside the 20×20 grid boundaries. | 28.08.2026 |
  
 
 ## User story 2 - City monitoring and interaction
