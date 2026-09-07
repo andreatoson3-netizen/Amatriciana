@@ -15,6 +15,20 @@ sequenceDiagram
 
     Note over State: Incrementa currTick e avvia il calcolo delle statistiche
 
+    State->>TheGrid: distributeEnergy()
+    activate TheGrid
+
+    alt Residential without nearby Power Plant
+        TheGrid->>TheGrid: setOperative(false)
+        Note over TheGrid: Residential remains without power
+    else Residential with nearby Power Plant
+        TheGrid->>TheGrid: setOperative(true)
+        Note over TheGrid: Residential can contribute to metrics
+    end
+
+    TheGrid-->>State: Energy distributed
+    deactivate TheGrid
+
     State->>TheGrid: calculateRawStats()
 
     TheGrid->>TheGrid: calculate statistics for grid entities
