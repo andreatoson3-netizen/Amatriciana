@@ -40,7 +40,7 @@ class CityDashboardTest {
     void testUpdate_DoesNotCrashUI() {
         if (GraphicsEnvironment.isHeadless()) return;
 
-        // Arrange: Creiamo statistiche sicure (no bancarotta, no rivolta) per evitare popup bloccanti
+        // Arrange: Creiamo statistiche sicure per evitare popup bloccanti
         Stats safeStats = new Stats(10, 5000, 50, 100, 50);
 
         // Act & Assert
