@@ -19,3 +19,4 @@ sequenceDiagram
         System-->>Mayor: Saved game loaded
         deactivate System
     end
+```
