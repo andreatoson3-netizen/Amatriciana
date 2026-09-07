@@ -165,7 +165,7 @@
 
 * A Park must decrease the City's Pollution according to its defined effect.
   - Result: OK
-  - Comment: The Park decreased Pollution by 3. With the Factory and Power Plant already present, the expected total increase was 26, while the Park resulted in the expected Pollution effect and the final value was 23.
+  - Comment: After two Ticks, the Factory and Power Plant had produced a cumulative Pollution increase of 26. The Park then reduced Pollution by 3, resulting in 23.
   - Date: 28.08.2026
 
 * A Park must decrease the City's Money according to its defined effect.
@@ -210,7 +210,7 @@
 
 * A Power Plant must increase the City's Energy according to its defined effect.
   - Result: OK
-  - Comment:  The Power Plant increased the City's Energy by 100.
+  - Comment: The Power Plant increased the City's Energy by 100.
   - Date: 28.08.2026
 
 * A Power Plant must increase the City's Pollution according to its defined effect.
