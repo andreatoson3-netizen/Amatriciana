@@ -10,7 +10,7 @@
 | The system must create a 20×20 grid containing a total of 400 blocks when the game is started or a new game is created. | OK | The system correctly initializes a 20×20 grid, consisting of 400 blocks. | 28.08.2026 |
 | All 400 blocks must have the default state "Empty". | OK | All 400 cells of the 20×20 grid are initialized as Empty. | 28.08.2026 |
 | The system must reject operations involving coordinates outside the grid boundaries. | OK | The system prevents the user from selecting or placing entities outside the 20×20 grid boundaries. | 28.08.2026 |
- 
+
 
 ## User story 2 - City monitoring and interaction
 
@@ -18,68 +18,30 @@
 
 ### Acceptance criteria:
 
-* The system must display the city grid when the City Mayor accesses the simulation.
-  - Result: OK
-  - Comment: The city grid is correctly displayed when the simulation is accessed.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must display the city grid when the City Mayor accesses the simulation. | OK | The city grid is correctly displayed when the simulation is accessed. | 28.08.2026 |
+| The system must display the main City State metrics, including Money, Population, Happiness, Pollution and Energy. | OK | The main City State metrics are correctly displayed on the dashboard. | 28.08.2026 |
+| The system must display the current layout of the city when the grid contains buildings or infrastructure. | OK | The grid correctly displays the current city layout and the buildings and infrastructure placed on it. | 28.08.2026 |
+| Each occupied cell must show the entity placed on it. | OK | Each occupied cell correctly displays the corresponding entity placed on it. | 28.08.2026 |
+| The displayed metrics must be updated when the City State changes. | OK | The displayed metrics are correctly updated to reflect changes in the City State. | 28.08.2026 |
 
-* The system must display the main City State metrics, including Money, Population, Happiness, Pollution and Energy.
-  - Result: OK
-  - Comment: The main City State metrics are correctly displayed on the dashboard.
-  - Date: 28.08.2026
 
-* The system must display the current layout of the city when the grid contains buildings or infrastructure.
-  - Result: OK
-  - Comment: The grid correctly displays the current city layout and the buildings and infrastructure placed on it.
-  - Date: 28.08.2026
-
-* Each occupied cell must show the entity placed on it.
-  - Result: OK
-  - Comment: Each occupied cell correctly displays the corresponding entity placed on it.
-  - Date: 28.08.2026
-
-* The displayed metrics must be updated when the City State changes.
-  - Result: OK
-  - Comment: The displayed metrics are correctly updated to reflect changes in the City State.
-  - Date: 28.08.2026
-
- 
 ## User story 3 - Load a saved City
 
 ### As a City Mayor, I want to load a previously saved city so that I can continue a previous simulation.
 
 ### Acceptance criteria:
 
-* The system must restore the city's grid from a valid saved file.
-  - Result: OK
-  - Comment: The city grid was correctly restored after loading the valid JSON save file "Nuovo gioco".
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must restore the city's grid from a valid saved file. | OK | The city grid was correctly restored after loading the valid JSON save file "Nuovo gioco". | 28.08.2026 |
+| The system must restore the buildings and infrastructure stored in the save file. | OK | The buildings and infrastructure stored in the JSON save file were correctly restored. | 28.08.2026 |
+| The system must restore the city's global metrics, including Money, Population, Pollution, Energy and Happiness. | OK | The city's global metrics were correctly restored from the JSON save file. | 28.08.2026 |
+| The City Mayor must be able to continue the simulation from the restored state. | OK | After loading the saved city, the simulation could be continued from the restored state. | 28.08.2026 |
+| The system must reject an invalid or unreadable save file. | OK | The system correctly rejected a PDF file when an invalid save file was selected. | 28.08.2026 |
+| The current city state must remain unchanged if the selected save file cannot be loaded. | OK | After the invalid PDF file was rejected, the current city state remained unchanged. | 28.08.2026 |
 
-* The system must restore the buildings and infrastructure stored in the save file.
-  - Result: OK
-  - Comment: The buildings and infrastructure stored in the JSON save file were correctly restored.
-  - Date: 28.08.2026
-
-* The system must restore the city's global metrics, including Money, Population, Pollution, Energy and Happiness.
-  - Result: OK
-  - Comment: The city's global metrics were correctly restored from the JSON save file.
-  - Date: 28.08.2026
-
-* The City Mayor must be able to continue the simulation from the restored state.
-  - Result: OK
-  - Comment: After loading the saved city, the simulation could be continued from the restored state.
-  - Date: 28.08.2026
-    
-* The system must reject an invalid or unreadable save file.
-  - Result: OK
-  - Comment: The system correctly rejected a PDF file when an invalid save file was selected.
-  - Date: 28.08.2026
- 
-* The current city state must remain unchanged if the selected save file cannot be loaded.
-  - Result: OK
-  - Comment: After the invalid PDF file was rejected, the current city state remained unchanged.
-  - Date: 28.08.2026
- 
 
 ## User story 4 - Build buildings and infrastructure
 
@@ -87,56 +49,19 @@
 
 ### Acceptance criteria:
 
-* The system must provide the available building and infrastructure types defined by the simulation.
-  - Result: OK
-  - Comment: The available building and infrastructure types are displayed and can be selected by the City Mayor.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must provide the available building and infrastructure types defined by the simulation. | OK | The available building and infrastructure types are displayed and can be selected by the City Mayor. | 28.08.2026 |
+| The City Mayor must be able to select a building or infrastructure type to place on the grid. | OK | The City Mayor can select an entity before choosing the cell where it will be placed. | 28.08.2026 |
+| When sufficient budget is available and an empty cell is selected, the selected entity must be placed on that cell. | OK | When sufficient funds are available, the selected entity is successfully placed on an empty cell. | 28.08.2026 |
+| The construction cost of the selected entity must be deducted from the city's budget. | OK | The construction cost is deducted from the city's budget after a successful placement. | 28.08.2026 |
+| The system must reject an attempt to place an entity on an already occupied cell. | OK | Attempting to place an entity on an occupied cell is rejected and an error message indicates that the cell is already occupied. | 28.08.2026 |
+| The existing entity must remain unchanged when an occupied cell is selected. | OK | The existing entity remains in the selected cell when an attempt to place another entity is rejected. | 28.08.2026 |
+| The construction cost must not be deducted when the placement is rejected. | OK | No construction cost is deducted when the placement is rejected because the selected cell is occupied. | 28.08.2026 |
+| The system must reject an attempt to place an entity when the City Mayor has insufficient budget. | OK | When the available budget is insufficient, the construction attempt is rejected and an error message informs the City Mayor that the funds are not sufficient. | 28.08.2026 |
+| The entity must not be placed when the budget is insufficient. | OK | The selected entity is not placed on the grid when the available budget is insufficient. | 28.08.2026 |
+| The city's budget must remain unchanged when the placement is rejected because of insufficient funds. | OK | The city's budget remains unchanged when the construction attempt is rejected due to insufficient funds. | 28.08.2026 |
 
-* The City Mayor must be able to select a building or infrastructure type to place on the grid.
-  - Result: OK
-  - Comment: The City Mayor can select an entity before choosing the cell where it will be placed.
-  - Date: 28.08.2026
-
-* When sufficient budget is available and an empty cell is selected, the selected entity must be placed on that cell.
-  - Result: OK
-  - Comment: When sufficient funds are available, the selected entity is successfully placed on an empty cell.
-  - Date: 28.08.2026
-    
-* The construction cost of the selected entity must be deducted from the city's budget.
-  - Result: OK
-  - Comment: The construction cost is deducted from the city's budget after a successful placement.
-  - Date: 28.08.2026
-
-* The system must reject an attempt to place an entity on an already occupied cell.
-  - Result: OK
-  - Comment: Attempting to place an entity on an occupied cell is rejected and an error message is displayed indicating that the cell is already occupied or outside the grid boundaries.
-  - Date: 28.08.2026
-
-* The existing entity must remain unchanged when an occupied cell is selected.
-  - Result: OK
-  - Comment: The existing entity remains in the selected cell when an attempt to place another entity is rejected.
-  - Date: 28.08.2026
-
-* The construction cost must not be deducted when the placement is rejected.
-  - Result: OK
-  - Comment: No construction cost is deducted when the placement is rejected because the selected cell is occupied.
-  - Date: 28.08.2026
-    
-* The system must reject an attempt to place an entity when the City Mayor has insufficient budget.
-  - Result: OK
-  - Comment: When the available budget is insufficient, the construction attempt is rejected and an error message informs the City Mayor that the funds are not sufficient.
-  - Date: 28.08.2026
-
-* The entity must not be placed when the budget is insufficient.
-  - Result: OK
-  - Comment: The selected entity is not placed on the grid when the available budget is insufficient.
-  - Date: 28.08.2026
-
-* The city's budget must remain unchanged when the placement is rejected because of insufficient funds.
-  - Result: OK
-  - Comment: The city's budget remains unchanged when the construction attempt is rejected due to insufficient funds.
-  - Date: 28.08.2026
- 
 
 ## User story 5 - Impact of City objects
 
