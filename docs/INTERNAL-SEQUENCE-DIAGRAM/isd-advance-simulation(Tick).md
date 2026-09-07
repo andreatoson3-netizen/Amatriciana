@@ -21,6 +21,9 @@ sequenceDiagram
 
     Note over CS: Increment currTick
 
+    CS->>Grid: distributeEnergy()
+    Grid-->>CS: Energy distributed
+
     CS->>Grid: calculateRawStats()
     activate Grid
     Grid-->>CS: rawStats
