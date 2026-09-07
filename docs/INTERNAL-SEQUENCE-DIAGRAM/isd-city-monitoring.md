@@ -30,25 +30,4 @@ sequenceDiagram
     Dashboard->>Grid: getGriglia()
     Grid-->>Dashboard: Cell[][]
 
-    Dashboard-->>Mayor: Display city grid and city metrics
-    deactivate Dashboard
-
-
-    Note over Mayor,Grid: selectBlock(x, y)
-
-    Mayor->>Dashboard: Select cell (x, y)
-    activate Dashboard
-
-    Dashboard->>Controller: getGrid()
-    Controller->>City: getCityState()
-    City-->>Controller: CityState
-    Controller->>State: getGrid()
-    State-->>Controller: Grid
-    Controller-->>Dashboard: Grid
-
-    Dashboard->>Grid: getCell(x, y)
-    Grid-->>Dashboard: Cell
-
-    Dashboard-->>Mayor: Display selected block state
-    deactivate Dashboard
 ```
