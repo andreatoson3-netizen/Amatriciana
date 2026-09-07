@@ -15,7 +15,8 @@ sequenceDiagram
     activate Dashboard
 
     Mayor->>Dashboard: Select cell (x, y)
-    Dashboard->>Controller: demolishBuilding(x, y)
+    Dashboard->>Controller: placeBuilding("demolish", x, y)
+    Controller -> Controller: demolishBuilding(x, y)
     activate Controller
 
     Controller->>City: getCityState()
