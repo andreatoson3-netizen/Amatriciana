@@ -156,7 +156,7 @@ classDiagram
 
     class Grid {
         -Cell[][] griglia
-        --Queue~Cell~ blackoutQueue
+        -Queue~Cell~ blackoutQueue
         +getCell(int x, int y) : Cell
         +hasPowerPlant() :boolean
         -hasNearbyPowerPlant(int x, int y):boolean
@@ -175,10 +175,10 @@ classDiagram
 
     class Cell {
         <<abstract>>
-        -boolean free
+        ~boolean free
         -boolean isOperative
-        -int x
-        -int y
+        ~int x
+        ~int y
         -int cost
         +isFree(): boolean
         +returnStat(): Stats
