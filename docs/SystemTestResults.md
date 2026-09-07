@@ -195,12 +195,12 @@
 
 * A Residential building must update the City's Population, Happiness, Money, Pollution and Energy according to its defined effects.
   - Result: OK
-  - Comment: When a house and a PowerPlant were placed, all metrics updated (e.g., Population: 50, ecc...).
+  - Comment: When a house and a PowerPlant were placed, all metrics updated correctly (e.g., Population: 50).
   - Date: 28.08.2026
     
 * A Commercial building must update the City's Money, Happiness, Pollution and Energy according to its defined effects.
   - Result: OK
-  - Comment: When a shop and a Power Plant were placed, all metrics related to it updated (e.g., Pollution: 1 (5 PP + 1 S), ecc...).
+  - Comment: When a shop and a Power Plant were placed, all metrics related to it updated correctly (e.g., Pollution: 1, resulting from 5 for the Power Plant and 1 for the shop).
   - Date: 28.08.2026
 
 * A Road must update the City's Money, Happiness and Pollution according to its defined effects.
@@ -245,9 +245,9 @@
   - Comment: The City State metrics are updated after each Tick according to the simulation rules.
   - Date: 28.08.2026
 
-* When multiple consecutive Ticks are triggered, the simulation time must advance by one unit for each Tick.
+* When multiple consecutive Ticks are triggered, the simulation time must advance by exactly one Tick for each trigger.
   - Result: OK
-  - Comment: Each consecutive press of the "Next Tick" button increases the simulation time by exactly one Tick.
+  - Comment: Each consecutive press of the "Next Tick" button advances the simulation time by exactly one Tick.
   - Date: 28.08.2026
 
 * The City State must be updated after each Tick according to the simulation rules.
@@ -410,12 +410,12 @@
 
 * When the City Mayor selects an occupied cell for demolition, the entity must be removed from the selected cell.
   - Result: OK
-  - Comment: When an occupied cell is selected and the "Demolish" option is used, the building is successfully removed from the grid.
+  - Comment: When an occupied cell is selected and the "Demolish" option is used, the entity is successfully removed from the grid.
   - Date: 28.08.2026
 
 * The selected cell must become empty after a successful demolition.
   - Result: OK
-  - Comment: After the building is demolished, the selected cell becomes empty and the construction cost is refunded.
+  - Comment: After the entity is demolished, the selected cell becomes empty and the construction cost is refunded.
   - Date: 28.08.2026
 
 * When the City Mayor attempts to demolish an empty cell, no demolition operation must be performed.
