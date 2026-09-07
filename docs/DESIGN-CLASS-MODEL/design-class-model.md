@@ -12,6 +12,7 @@ classDiagram
         NO_FUNDS
         INVALID_POSITION
         UNKNOWN_TYPE
+        NOTHING_TO_DEMOLISH
     }
 
     %% Questa linea indica che l'enum è annidato / appartiene a GameController
