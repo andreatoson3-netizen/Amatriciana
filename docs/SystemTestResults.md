@@ -11,6 +11,7 @@
 | All 400 blocks must have the default state "Empty". | OK | All 400 cells of the 20×20 grid are initialized as Empty. | 28.08.2026 |
 | The system must reject operations involving coordinates outside the grid boundaries. | OK | The system prevents the user from selecting or placing entities outside the 20×20 grid boundaries. | 28.08.2026 |
 
+---
 
 ## User story 2 - City monitoring and interaction
 
@@ -26,6 +27,7 @@
 | Each occupied cell must show the entity placed on it. | OK | Each occupied cell correctly displays the corresponding entity placed on it. | 28.08.2026 |
 | The displayed metrics must be updated when the City State changes. | OK | The displayed metrics are correctly updated to reflect changes in the City State. | 28.08.2026 |
 
+---
 
 ## User story 3 - Load a saved City
 
@@ -42,6 +44,7 @@
 | The system must reject an invalid or unreadable save file. | OK | The system correctly rejected a PDF file when an invalid save file was selected. | 28.08.2026 |
 | The current city state must remain unchanged if the selected save file cannot be loaded. | OK | After the invalid PDF file was rejected, the current city state remained unchanged. | 28.08.2026 |
 
+---
 
 ## User story 4 - Build buildings and infrastructure
 
@@ -62,6 +65,7 @@
 | The entity must not be placed when the budget is insufficient. | OK | The selected entity is not placed on the grid when the available budget is insufficient. | 28.08.2026 |
 | The city's budget must remain unchanged when the placement is rejected because of insufficient funds. | OK | The city's budget remains unchanged when the construction attempt is rejected due to insufficient funds. | 28.08.2026 |
 
+---
 
 ## User story 5 - Impact of City objects
 
