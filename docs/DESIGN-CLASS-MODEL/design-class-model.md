@@ -39,7 +39,6 @@ classDiagram
         +saveGame(String filePath):boolean
         +isBankrupt():boolean
         +getUnpoweredCount():int
-        +getBlackoutCount():int
     }
 
     class CellFactory {
