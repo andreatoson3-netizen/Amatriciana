@@ -7,12 +7,12 @@ sequenceDiagram
     participant State as CityState
     participant Observer as CityObserver (Dashboard)
 
-    Mayor->>Controller: activatePolicy(policy)
+    Mayor->>Controller: activatePolicy(policyName)
 
     Controller->>CityObj: getCityState()
     CityObj-->>Controller: return CityState
 
-    Controller->>State: setPolicy(policy)
+    Controller->>State: setPolicy(selectedStrategy)
     Note over State: Sets currentPolicy to the selected policy
 
     State->>Observer: notifyObservers()
