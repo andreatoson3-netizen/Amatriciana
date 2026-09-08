@@ -9,7 +9,7 @@ sequenceDiagram
     participant Grid as Grid
     participant Observer as CityObserver
 
-    Note over Mayor,Observer: demolishBuilding(x, y)
+    Note over Mayor,Observer: Demolition request
 
     Mayor->>Dashboard: Select demolition option
     activate Dashboard
