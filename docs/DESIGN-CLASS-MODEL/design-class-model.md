@@ -298,9 +298,9 @@ classDiagram
 
 The system architecture has been designed to keep components separate, easy to test, and ready for future expansions, applying GRASP principles (High Cohesion, Low Coupling) and Gang of Four (GoF) design patterns.
 
-##Core Engine and Domain Model
+Core Engine and Domain Model
 
-###City & CityState: City represents the city and coordinates the startup and processing of the simulation. To prevent it from becoming too complex ("God Object"), it delegates simulation state management to the CityState class.
+City & CityState: City represents the city and coordinates the startup and processing of the simulation. To prevent it from becoming too complex ("God Object"), it delegates simulation state management to the CityState class.
 
 Grid & Cell: The spatial map is managed by Grid. Instead of having separate arrays for each type of building, the grid uses the abstract Cell class. This allows the map to iterate over all buildings polymorphically by calling the generic returnStat() method without needing to know the exact building it is processing.
 
