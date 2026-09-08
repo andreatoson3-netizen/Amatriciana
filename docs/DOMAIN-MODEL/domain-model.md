@@ -19,7 +19,7 @@ classDiagram
     class PowerPlant
     class Road
     class Stats
-    class CityPolicy
+    CityPolicyStrategy
 
     %% =========================
     %% RELATIONSHIPS
@@ -29,7 +29,7 @@ classDiagram
 
     CityState "1" *-- "1" Grid : manages
     CityState "1" *-- "1" Stats : maintains/updates
-    CityState "1" --> "0..1" CityPolicy : applies
+    CityState "1" --> "0..1" CityPolicyStrategy : applies
 
     Grid "1" *-- "400" Cell : contains
 
@@ -76,9 +76,9 @@ Represents the conceptual category of infrastructure present in the city. It inc
 
 Represents the set of metrics describing the state of the city, including **Money, Population, Happiness, Pollution and Energy**. Their values depend on the elements present in the city and on the rules or policies applied to the simulation.
 
-### CityPolicy
+### CityPolicyStrategy
 
-Represents a policy that can be activated by the City Mayor to modify how certain city metrics are calculated. In the software design, this concept is implemented through the `CityPolicyStrategy` interface. Available policies include, for example, **Environmental Tax** and **Industrial Expansion**.
+Represents the concept of a city policy that can be activated by the City Mayor to modify how certain city metrics are calculated. represents the concept of a city policy. It is implemented through different strategies, such as **Environmental Tax** and **Industrial Expansion**.
 
 ## Key Domain Relationships
 
