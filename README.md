@@ -117,7 +117,7 @@ No external web APIs, database APIs, or cloud services are used by the project.
 
 ### 6. AI Tools Used
 
-AI tools were used throughout the development of the project as support during the different phases of the Software Engineering process. The main AI tools used were **ChatGPT**, **Google Gemini**, and **Google NotebookLM**.
+AI tools were used throughout the development of the project as support during the different phases of the Software Engineering process. The main AI tools used were **ChatGPT** and **Google Gemini**.
 
 In particular, AI was used to:
 
