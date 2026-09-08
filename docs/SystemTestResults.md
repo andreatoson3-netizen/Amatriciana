@@ -73,81 +73,25 @@
 
 ### Acceptance criteria:
 
-* The relevant City State metrics must be updated according to the effects associated with a placed object after the next simulation tick.
-  - Result: OK
-  - Comment: After the simulation tick, the City State metrics were updated according to the effects of the placed objects.
-  - Date: 28.08.2026
-    
-* A Park must increase the City's Happiness according to its defined effect.
-  - Result: OK
-  - Comment: The Park increased the City's Happiness by 25.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The relevant City State metrics must be updated according to the effects associated with a placed object after the next simulation tick. | OK | After the simulation tick, the City State metrics were updated according to the effects of the placed objects. | 28.08.2026 |
+| A Park must increase the City's Happiness according to its defined effect. | OK | The Park increased the City's Happiness by 25. | 28.08.2026 |
+| A Park must decrease the City's Pollution according to its defined effect. | OK | After two Ticks, the Factory and Power Plant had produced a cumulative Pollution increase of 26. The Park then reduced Pollution by 3, resulting in 23. | 28.08.2026 |
+| A Park must decrease the City's Money according to its defined effect. | OK | The Park decreased the City's Money by 10, as expected. | 28.08.2026 |
+| A Factory must increase the City's Money according to its defined effect. | OK | The Factory increased the City's Money by 40. | 28.08.2026 |
+| A Factory must increase the City's Pollution according to its defined effect. | OK | The Factory increased the City's Pollution by 8. Considering the presence of the factory and the power plant, the total increase was 13, 8 for the factory and 5 for the Power Plant. | 28.08.2026 |
+| A Factory must decrease the City's Happiness according to its defined effect. | OK | The Factory decreased the City's Happiness by 8 during the simulation. | 28.08.2026 |
+| A Factory must decrease the City's Energy according to its defined effect. | OK | The Factory decreased the City's Energy during the simulation. | 28.08.2026 |
+| A Residential building must update the City's Population, Happiness, Money, Pollution and Energy according to its defined effects. | OK | When a house and a PowerPlant were placed, all metrics updated correctly (e.g., Population: 50). | 28.08.2026 |
+| A Commercial building must update the City's Money, Happiness, Pollution and Energy according to its defined effects. | OK | When a shop and a Power Plant were placed, all metrics related to it updated correctly (e.g., Pollution: 1, resulting from 5 for the Power Plant and 1 for the shop). | 28.08.2026 |
+| A Road must update the City's Money, Happiness and Pollution according to its defined effects. | OK | When a road was placed, all metrics related to it updated (e.g., Pollution: 1, Happiness: 2, Money: -5). | 28.08.2026 |
+| A Power Plant must increase the City's Energy according to its defined effect. | OK | The Power Plant increased the City's Energy by 100. | 28.08.2026 |
+| A Power Plant must increase the City's Pollution according to its defined effect. | OK | The Power Plant increased the City's Pollution by 5. | 28.08.2026 |
+| A Power Plant must decrease the City's Happiness according to its defined effect. | OK | The Power Plant decreased the City's Happiness by 5. | 28.08.2026 |
+| A Power Plant must decrease the City's Money according to its defined effect. | OK | The Power Plant decreased the City's Money by 100, as expected. | 28.08.2026 |
 
-* A Park must decrease the City's Pollution according to its defined effect.
-  - Result: OK
-  - Comment: After two Ticks, the Factory and Power Plant had produced a cumulative Pollution increase of 26. The Park then reduced Pollution by 3, resulting in 23.
-  - Date: 28.08.2026
-
-* A Park must decrease the City's Money according to its defined effect.
-  - Result: OK
-  - Comment: The Park decreased the City's Money by 10, as expected.
-  - Date: 28.08.2026
-
-* A Factory must increase the City's Money according to its defined effect.
-  - Result: OK
-  - Comment: The Factory increased the City's Money by 40.
-  - Date: 28.08.2026
-
-* A Factory must increase the City's Pollution according to its defined effect.
-  - Result: OK
-  - Comment: The Factory increased the City's Pollution by 8. Considering the presence of the factory and the power plant, the total increase was 13, 8 for the factory and 5 for the Power Plant.
-  - Date: 28.08.2026
-
-* A Factory must decrease the City's Happiness according to its defined effect.
-  - Result: OK
-  - Comment: The Factory decreased the City's Happiness by 8, but only on the first Tick, as expected.
-  - Date: 28.08.2026
-    
-* A Factory must decrease the City's Energy according to its defined effect.
-  - Result: OK
-  - Comment: The Factory decreased the City's Energy, but only on the first Tick.
-  - Date: 28.08.2026
-
-* A Residential building must update the City's Population, Happiness, Money, Pollution and Energy according to its defined effects.
-  - Result: OK
-  - Comment: When a house and a PowerPlant were placed, all metrics updated correctly (e.g., Population: 50).
-  - Date: 28.08.2026
-    
-* A Commercial building must update the City's Money, Happiness, Pollution and Energy according to its defined effects.
-  - Result: OK
-  - Comment: When a shop and a Power Plant were placed, all metrics related to it updated correctly (e.g., Pollution: 1, resulting from 5 for the Power Plant and 1 for the shop).
-  - Date: 28.08.2026
-
-* A Road must update the City's Money, Happiness and Pollution according to its defined effects.
-  - Result: OK
-  - Comment: When a road was placed, all metrics related to it updated (e.g., Pollution: 1, Happiness: 2, Money: -5)
-  - Date: 28.08.2026
-
-* A Power Plant must increase the City's Energy according to its defined effect.
-  - Result: OK
-  - Comment: The Power Plant increased the City's Energy by 100.
-  - Date: 28.08.2026
-
-* A Power Plant must increase the City's Pollution according to its defined effect.
-  - Result: OK
-  - Comment: The Power Plant increased the City's Pollution by 5.
-  - Date: 28.08.2026
-
-* A Power Plant must decrease the City's Happiness according to its defined effect.
-  - Result: OK
-  - Comment: The Power Plant decreased the City's Happiness by 5.
-  - Date: 28.08.2026
-
-* A Power Plant must decrease the City's Money according to its defined effect.
-  - Result: OK
-  - Comment: The Power Plant decreased the City's Money by 100, as expected.
-  - Date: 28.08.2026
-
+---
  
 ## User story 6 - Advance the simulation
 
@@ -155,27 +99,14 @@
 
 ### Acceptance criteria:
 
-* When the City Mayor triggers a Tick, the simulation time must advance by one Tick.
-  - Result: OK
-  - Comment: The simulation time increases by one Tick each time the City Mayor presses the "Next Tick" button.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| When the City Mayor triggers a Tick, the simulation time must advance by one Tick. | OK | The simulation time increases by one Tick each time the City Mayor presses the "Next Tick" button. | 28.08.2026 |
+| The City State must be updated according to the simulation rules after a Tick. | OK | The City State metrics are updated after each Tick according to the simulation rules. | 28.08.2026 |
+| When multiple consecutive Ticks are triggered, the simulation time must advance by exactly one Tick for each trigger. | OK | Each consecutive press of the "Next Tick" button advances the simulation time by exactly one Tick. | 28.08.2026 |
+| The City State must be updated after each Tick according to the simulation rules. | OK | The City State metrics are updated after every Tick, reflecting the changes caused by the simulation. | 28.08.2026 |
 
-* The City State must be updated according to the simulation rules after a Tick.
-  - Result: OK
-  - Comment: The City State metrics are updated after each Tick according to the simulation rules.
-  - Date: 28.08.2026
-
-* When multiple consecutive Ticks are triggered, the simulation time must advance by exactly one Tick for each trigger.
-  - Result: OK
-  - Comment: Each consecutive press of the "Next Tick" button advances the simulation time by exactly one Tick.
-  - Date: 28.08.2026
-
-* The City State must be updated after each Tick according to the simulation rules.
-  - Result: OK
-  - Comment: The City State metrics are updated after every Tick, reflecting the changes caused by the simulation.
-  - Date: 28.08.2026
- 
-
+---
 
 ## User story 7 - Enforce simulation rules
 
@@ -183,16 +114,12 @@
 
 ### Acceptance criteria:
 
-* A residential zone without a Power Plant within the required range must not contribute to the city's metrics.
-  - Result: OK
-  - Comment: When a residential zone was placed without a Power Plant within the required range and the "Next Tick" button was pressed, the system displayed a warning stating that 1 building was currently without power, and the residential zone did not affect the city metrics.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| A residential zone without a Power Plant within the required range must not contribute to the city's metrics. | OK | When a residential zone was placed without a Power Plant within the required range and the "Next Tick" button was pressed, the system displayed a warning stating that 1 building was currently without power, and the residential zone did not affect the city metrics. | 28.08.2026 |
+| A residential zone with a Power Plant within the required range must contribute to the city's metrics according to its defined effects. | OK | When a Power Plant was placed within the required range of the residential zone, the residential zone became powered and started affecting the city metrics after the simulation tick. | 28.08.2026 |
 
-* A residential zone with a Power Plant within the required range must contribute to the city's metrics according to its defined effects.
-  - Result: OK
-  - Comment: When a Power Plant was placed within the required range of the residential zone, the residential zone became powered and started affecting the city metrics after the simulation tick.
-  - Date: 28.08.2026
- 
+---
 
 ## User story 8 - Activate City Policies
 
@@ -200,53 +127,29 @@
 
 ### Acceptance criteria:
 
-* The system must register the selected City Policy as the active policy when the City Mayor activates it.
-  - Result: OK
-  - Comment: The system allows the City Mayor to select and activate one of the available policies, such as EnvironmentalTax or IndustrialExpansion.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must register the selected City Policy as the active policy when the City Mayor activates it. | OK | The system allows the City Mayor to select and activate one of the available policies, such as EnvironmentalTax or IndustrialExpansion. | 28.08.2026 |
+| The user interface must display the selected policy as active. | OK | When a policy is selected, its button displays the "ACTIVE" status. | 28.08.2026 |
+| The system must provide at least two different City Policies that can be activated. | OK | The system provides two different policies that can be activated: EnvironmentalTax and IndustrialExpansion. | 28.08.2026 |
+| When a different City Policy is activated, the previously active policy must no longer be active. | OK | When a different policy is selected, the previously active policy changes from "ACTIVE" to "INACTIVE". | 28.08.2026 |
+| The newly selected City Policy must become the active policy. | OK | When the other policy is selected, its status changes from "INACTIVE" to "ACTIVE", while the previously active policy becomes "INACTIVE". | 28.08.2026 |
 
-* The user interface must display the selected policy as active.
-  - Result: OK
-  - Comment: When a policy is selected, its button displays the "ACTIVE" status.
-  - Date: 28.08.2026
+---
 
-* The system must provide at least two different City Policies that can be activated.
-  - Result: OK
-  - Comment: The system provides two different policies that can be activated: EnvironmentalTax and IndustrialExpansion.
-  - Date: 28.08.2026
-
-* When a different City Policy is activated, the previously active policy must no longer be active.
-  - Result: OK
-  - Comment: When a different policy is selected, the previously active policy changes from "ACTIVE" to "INACTIVE".
-  - Date: 28.08.2026
-
-* The newly selected City Policy must become the active policy.
-  - Result: OK
-  - Comment: When the other policy is selected, its status changes from "INACTIVE" to "ACTIVE", while the previously active policy becomes "INACTIVE".
-  - Date: 28.08.2026
-
- 
 ## User story 9 - Apply City Policy effects
 
 ### As a City Mayor, I want to see the effects of the selected City Policy on my city's metrics, so that I can understand how my policy choices affect the city.
 
 ### Acceptance criteria:
 
-* The metrics affected by the active City Policy must be calculated according to that policy's rules.
-  - Result: OK
-  - Comment: When a City Policy is activated, the affected city metrics are calculated according to the rules defined by the selected policy.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The metrics affected by the active City Policy must be calculated according to that policy's rules. | OK | When a City Policy is activated, the affected city metrics are calculated according to the rules defined by the selected policy. | 28.08.2026 |
+| When the City Mayor selects a different City Policy, the newly selected policy must become active. | OK | When the City Mayor selects a different policy, the newly selected policy becomes active and replaces the previously active policy. | 28.08.2026 |
+| Subsequent calculations of the affected city metrics must follow the rules of the newly selected policy. | OK | After switching to a different policy, subsequent calculations of the city metrics reflect the rules and effects of the newly selected policy. | 28.08.2026 |
 
-* When the City Mayor selects a different City Policy, the newly selected policy must become active.
-  - Result: OK
-  - Comment: When the City Mayor selects a different policy, the newly selected policy becomes active and replaces the previously active policy.
-  - Date: 28.08.2026
-
-* Subsequent calculations of the affected city metrics must follow the rules of the newly selected policy.
-  - Result: OK
-  - Comment: After switching to a different policy, subsequent calculations of the city metrics reflect the rules and effects of the newly selected policy.
-  - Date: 28.08.2026
- 
+---
 
 ## User story 10 - Save the City
 
@@ -254,41 +157,17 @@
 
 ### Acceptance criteria:
 
-* The system must save the current grid state to a valid file.
-  - Result: OK
-  - Comment: The city was successfully saved to a JSON file.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| The system must save the current grid state to a valid file. | OK | The city was successfully saved to a JSON file. | 28.08.2026 |
+| The saved grid state must include building types and positions. | OK | The generated JSON file contains the buildings present in the city and their positions. | 28.08.2026 |
+| The system must save the current City Stats. | OK | The generated JSON file contains the current city metrics, including Money, Population, Pollution, Happiness and Energy. | 28.08.2026 |
+| The system must indicate that the save operation was successful. | OK | After a successful save, the system displays the message "GAME SAVED SUCCESSFULLY". | 28.08.2026 |
+| The system must reject the save operation when the city cannot be written to the selected file. | OK | The save operation was attempted in a non-writable system directory (`C:\Program Files`). The system correctly rejected the operation and displayed an error message. | 2.09.2026 |
+| The current city state must remain unchanged when the save operation fails. | OK | After the save operation failed, the city state remained unchanged. | 2.09.2026 |
+| The system must inform the City Mayor that the city could not be saved. | OK | When the save operation failed, the system displayed an error message "Unable to save the Game", informing the City Mayor that the game could not be saved. | 2.09.2026 |
 
-* The saved grid state must include building types and positions.
-  - Result: OK
-  - Comment: The generated JSON file contains the buildings present in the city and their positions.
-  - Date: 28.08.2026
-
-* The system must save the current City Stats.
-  - Result: OK
-  - Comment: The generated JSON file contains the current city metrics, including Money, Population, Pollution, Happiness and Energy.
-  - Date: 28.08.2026
-  - 
-* The system must indicate that the save operation was successful.
-  - Result: OK
-  - Comment: After a successful save, the system displays the message "GAME SAVED SUCCESSFULLY".
-  - Date: 28.08.2026
-  - 
-* The system must reject the save operation when the city cannot be written to the selected file.
-  - Result: OK
-  - Comment: The save operation was attempted in a non-writable system directory (`C:\Program Files`). The system correctly rejected the operation and displayed an error message.
-  - Date: 2.09.2026
-
-* The current city state must remain unchanged when the save operation fails.
-  - Result: OK
-  - Comment: After the save operation failed, the city state remained unchanged.
-  - Date: 2.09.2026
-    
-* The system must inform the City Mayor that the city could not be saved.
-  - Result: OK
-  - Comment: When the save operation failed, the system displayed an error message "Unable to save the Game", informing the City Mayor that the game could not be saved.
-  - Date: 2.09.2026
- 
+---
 
 ## User story 11 - Bankruptcy and Game Over (Additional feature)
 
@@ -296,31 +175,15 @@
 
 ### Acceptance criteria:
 
-* When the city does not have enough money to sustain its costs and a Tick is processed, the city must enter the bankrupt state.
-  - Result: OK
-  - Comment: After several Ticks, when the city's Money became negative, the system automatically entered the bankruptcy state.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| When the city does not have enough money to sustain its costs and a Tick is processed, the city must enter the bankrupt state. | OK | After several Ticks, when the city's Money became negative, the system automatically entered the bankruptcy state. | 28.08.2026 |
+| The system must notify the City Mayor that the game is over. | OK | When the city became bankrupt, the system displayed the message "GAME OVER-BANKRUPTCY!". | 28.08.2026 |
+| When the city is bankrupt, the simulation controls must be disabled. | OK | After bankruptcy, the simulation controls and the other game actions were disabled, while New Game, Save Game and Load Game remained available. | 28.08.2026 |
+| The City Mayor must be able to start a new game after bankruptcy. | OK | After the bankruptcy state was reached, the New Game option remained available and could be selected. | 28.08.2026 |
+| The City Mayor must be able to load a saved game after bankruptcy. | OK | After the bankruptcy state was reached, the Load Game option remained available and could be selected. | 28.08.2026 |
 
-* The system must notify the City Mayor that the game is over.
-  - Result: OK
-  - Comment: When the city became bankrupt, the system displayed the message "GAME OVER-BANCAROTTA!".
-  - Date: 28.08.2026
-
-* When the city is bankrupt, the simulation controls must be disabled.
-  - Result: OK
-  - Comment: After bankruptcy, the simulation controls and the other game actions were disabled, while New Game, Save Game and Load Game remained available.
-  - Date: 28.08.2026
-
-* The City Mayor must be able to start a new game after bankruptcy.
-  - Result: OK
-  - Comment: After the bankruptcy state was reached, the New Game option remained available and could be selected.
-  - Date: 28.08.2026
-
-* The City Mayor must be able to load a saved game after bankruptcy.
-  - Result: OK
-  - Comment: After the bankruptcy state was reached, the Load Game option remained available and could be selected.
-  - Date: 28.08.2026
- 
+---
 
 ## User story 12 - Building and infrastructure demolition (Additional feature)
 
@@ -328,22 +191,9 @@
 
 ### Acceptance criteria:
 
-* When the City Mayor selects an occupied cell for demolition, the entity must be removed from the selected cell.
-  - Result: OK
-  - Comment: When an occupied cell is selected and the "Demolish" option is used, the entity is successfully removed from the grid.
-  - Date: 28.08.2026
-
-* The selected cell must become empty after a successful demolition.
-  - Result: OK
-  - Comment: After the entity is demolished, the selected cell becomes empty and the construction cost is refunded.
-  - Date: 28.08.2026
-
-* When the City Mayor attempts to demolish an empty cell, no demolition operation must be performed.
-  - Result: OK
-  - Comment: When the "Demolish" option is used on an empty cell, no demolition operation is performed and the grid remains unchanged.
-  - Date: 28.08.2026
-
-* The city grid must remain unchanged when an empty cell is selected for demolition.
-  - Result: OK
-  - Comment: Demolishing an empty cell does not modify the city grid or the city metrics.
-  - Date: 28.08.2026
+| Acceptance Criterion | Result | Comment | Date |
+|---|---|---|---|
+| When the City Mayor selects an occupied cell for demolition, the entity must be removed from the selected cell. | OK | When an occupied cell is selected and the "Demolish" option is used, the entity is successfully removed from the grid. | 28.08.2026 |
+| The selected cell must become empty after a successful demolition. | OK | After the entity is demolished, the selected cell becomes empty and the construction cost is refunded. | 28.08.2026 |
+| When the City Mayor attempts to demolish an empty cell, no demolition operation must be performed. | OK | When the "Demolish" option is used on an empty cell, no demolition operation is performed and the grid remains unchanged. | 28.08.2026 |
+| The city grid must remain unchanged when an empty cell is selected for demolition. | OK | Demolishing an empty cell does not modify the city grid or the city metrics. | 28.08.2026 |
