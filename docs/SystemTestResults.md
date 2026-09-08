@@ -81,8 +81,8 @@
 | A Park must decrease the City's Money according to its defined effect. | OK | The Park decreased the City's Money by 10, as expected. | 28.08.2026 |
 | A Factory must increase the City's Money according to its defined effect. | OK | The Factory increased the City's Money by 40. | 28.08.2026 |
 | A Factory must increase the City's Pollution according to its defined effect. | OK | The Factory increased the City's Pollution by 8. Considering the presence of the factory and the power plant, the total increase was 13, 8 for the factory and 5 for the Power Plant. | 28.08.2026 |
-| A Factory must decrease the City's Happiness according to its defined effect. | OK | The Factory decreased the City's Happiness by 8 during the simulation. | 28.08.2026 |
-| A Factory must decrease the City's Energy according to its defined effect. | OK | The Factory decreased the City's Energy during the simulation. | 28.08.2026 |
+| A Factory must decrease the City's Happiness according to its defined effect. | OK | The Factory decreased the City's Happiness by 8 after each Tick, according to its defined effect. | 28.08.2026 |
+| A Factory must decrease the City's Energy according to its defined effect. | OK | The Factory decreased the City's Energy after each Tick, according to its defined effect. | 28.08.2026 |
 | A Residential building must update the City's Population, Happiness, Money, Pollution and Energy according to its defined effects. | OK | When a house and a PowerPlant were placed, all metrics updated correctly (e.g., Population: 50). | 28.08.2026 |
 | A Commercial building must update the City's Money, Happiness, Pollution and Energy according to its defined effects. | OK | When a shop and a Power Plant were placed, all metrics related to it updated correctly (e.g., Pollution: 1, resulting from 5 for the Power Plant and 1 for the shop). | 28.08.2026 |
 | A Road must update the City's Money, Happiness and Pollution according to its defined effects. | OK | When a road was placed, all metrics related to it updated (e.g., Pollution: 1, Happiness: 2, Money: -5). | 28.08.2026 |
