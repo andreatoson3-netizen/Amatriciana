@@ -38,7 +38,7 @@ sequenceDiagram
         Note over CS: Use rawStats
     end
 
-    CS->>CS: updateStats(updatedStats)
+    CS->>CS: updateStats(rawStats)
     CS->>CS: notifyObservers()
 
     CS->>Obs: update(cityStats)
