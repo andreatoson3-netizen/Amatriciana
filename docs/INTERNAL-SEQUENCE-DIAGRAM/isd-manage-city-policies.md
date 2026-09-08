@@ -12,6 +12,12 @@ sequenceDiagram
     Controller->>CityObj: getCityState()
     CityObj-->>Controller: return CityState
 
+    alt Environmental Tax
+        Controller->>Controller: create EnvironmentalTax
+    else Industrial Expansion
+        Controller->>Controller: create IndustrialExpansion
+    end
+    
     Controller->>State: setPolicy(selectedStrategy)
     Note over State: Sets currentPolicy to the selected policy
 
